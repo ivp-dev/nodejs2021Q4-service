@@ -1,24 +1,20 @@
-const express = require('express');
-const swaggerUI = require('swagger-ui-express');
-const path = require('path');
-const YAML = require('yamljs');
-const userRouter = require('./resources/users/user.router');
+const NODE_ENV = require('./common/config').NODE_ENV
 
-const app = express();
-const swaggerDocument = YAML.load(path.join(__dirname, '../doc/api.yaml'));
+// Require the framework and instantiate it
+const fastify = require('fastify')({ logger: NODE_ENV === 'development' })
 
-app.use(express.json());
-
-app.use('/doc', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
-
-app.use('/', (req, res, next) => {
-  if (req.originalUrl === '/') {
+// Declare a route
+fastify.get('/', async (_, res) => {
     res.send('Service is running!');
-    return;
-  }
-  next();
+})
+
+fastify.register(require('fastify-swagger'), {
+    mode: 'static',
+    routePrefix: '/doc',
+    specification: {
+        path: './doc/api.yaml'
+    },
+    exposeRoute: true
 });
 
-app.use('/users', userRouter);
-
-module.exports = app;
+module.exports = fastify;
