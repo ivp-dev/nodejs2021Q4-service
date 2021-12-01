@@ -1,14 +1,17 @@
-const NODE_ENV = require('./common/config').NODE_ENV
-
 // Require the framework and instantiate it
-const fastify = require('fastify')({ logger: NODE_ENV === 'development' })
+const fastify = require('fastify');
+const swagger = require('fastify-swagger');
+const { NODE_ENV } = require('./common/config');
+const userRouter = require('./resources/users/user.router');
+
+const app = fastify({ logger: NODE_ENV === 'development' });
 
 // Declare a route
-fastify.get('/', async (_, res) => {
+app.get('/', async (_, res) => {
     res.send('Service is running!');
 })
 
-fastify.register(require('fastify-swagger'), {
+app.register(swagger, {
     mode: 'static',
     routePrefix: '/doc',
     specification: {
@@ -17,4 +20,6 @@ fastify.register(require('fastify-swagger'), {
     exposeRoute: true
 });
 
-module.exports = fastify;
+app.register(userRouter);
+
+module.exports = app;
