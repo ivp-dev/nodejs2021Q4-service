@@ -19,3 +19,22 @@ Content-Type: {{contentType}}
 GET {{host}}/users HTTP/1.1
 Content-Type: {{contentType}}
 
+###
+
+@userId = {{postUser.response.body.id}}
+
+# @name getUserById
+GET {{host}}/users/{{userId}} HTTP/1.1
+Content-Type: {{contentType}}
+
+###
+
+# @name postUser
+POST {{host}}/users HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+  "name": "User",
+  "login": "User",
+  "password": "123"
+}

@@ -1,0 +1,54 @@
+{
+  "getUser": {
+    "schema": {
+      "response": {
+        "200": {
+          "$ref": "user_get"
+        }
+      },
+      "params": {
+        "userId": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "getUsers": {
+    "schema": {
+      "response": {
+        "200": {
+          "type": "array",
+          "items": {
+            "$ref": "user_get"
+          }
+        }
+      }
+    }
+  },
+  "postUser": {
+    "schema": {
+      "response": {
+        "201": {
+          "$ref": "user_get"
+        }
+      },
+      "body": {
+        "$ref": "user_post"
+      }
+    }
+  },
+  "putUser": {
+    "schema": {
+      "response": {
+        "200": {}
+      }
+    }
+  },
+  "deleteUser": {
+    "schema": {
+      "response": {
+        "400": {}
+      }
+    }
+  }
+}

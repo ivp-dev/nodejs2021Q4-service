@@ -1,23 +1,19 @@
-const User = require('./user.model');
-const usersService = require('./user.service');
+const { FastifyPluginCallback } = require('fastify')
+const { getUsers, putUser, postUser, deleteUser, getUser } = require('./user.controller');
+const opts = require('./user.opts.json');
 
 /**
- * Set user route
- * @param {import('fastify').FastifyInstance} fastify 
- * @param {object} options 
- * @param {*} done 
+ * @type {FastifyPluginCallback} 
  */
-function userRoutes(fastify, options, done) {
+function userRoutes(app, options, done) {
 
-  fastify.get('/users', async (req, res) => {
-    const users = await usersService.getAll();
-    // map user fields to exclude secret fields like "password"
-    res.send(users.map(User.toResponse));
-  });
+  app.get('/users', opts.getUsers, getUsers);
+  app.get('/users/:userId', opts.getUser, getUser);
+  app.put('/users', opts.putUser, putUser);
+  app.post('/users', opts.postUser, postUser);
+  app.delete('/users', opts.deleteUser, deleteUser)
 
-  
-
-  done()
+  done();
 }
 
 module.exports = userRoutes;
