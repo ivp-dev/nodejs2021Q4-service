@@ -1,6 +1,5 @@
 // Require the framework and instantiate it
 const fastify = require('fastify');
-const { FastifyInstance } = require('fastify');
 const swagger = require('fastify-swagger');
 const { NODE_ENV } = require('./common/config');
 
