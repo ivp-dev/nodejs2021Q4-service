@@ -15,7 +15,6 @@ async function getUsers(req, res) {
  */
 async function getUser(req, res) {
 	const { userId } = req.params;
-
 	const user = await usersService.getById(userId);
 
 	if (!user) {
@@ -31,9 +30,7 @@ async function getUser(req, res) {
  */
 async function postUser(req, res) {
 	const { body: user } = req;
-
-	const newUser = await usersService.postUser(user);
-	console.log(newUser)
+	const newUser = await usersService.addUser(user);
 	res.code(201).send(newUser);
 }
 
@@ -41,14 +38,31 @@ async function postUser(req, res) {
  * @type {RouteHandlerMethod}
  */
 async function putUser(req, res) {
-	const { body } = req;
+	const { body: user } = req;
+	const { userId } = req.params;
+	const updatedUser = await usersService.updateUser(userId, user)
+
+	if (!updatedUser) {
+		res.callNotFound();
+		return;
+	}
+
+	return updatedUser;
 }
 
 /**
  * @type {RouteHandlerMethod}
  */
 async function deleteUser(req, res) {
-	const { id } = req.params;
+	const { userId } = req.params;
+	const result = await usersService.deleteUser(userId);
+
+	if (result <= 0) {
+		res.callNotFound();
+		return;
+	}
+
+	res.code(204);
 }
 
 module.exports = {

@@ -13,8 +13,6 @@
     }
   },
   "required": [
-    "id",
-    "name",
-    "login"
+    "id"
   ]
 }

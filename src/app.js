@@ -13,15 +13,16 @@ const app = fastify({ logger: NODE_ENV === 'development' });
 
 // Set swagger docs
 app.register(swagger, {
-    mode: 'static',
-    routePrefix: '/doc',
-    specification: {
-        path: './doc/api.yaml'
-    },
-    exposeRoute: true
+  mode: 'static',
+  routePrefix: '/doc',
+  specification: {
+    path: './doc/api.yaml'
+  },
+  exposeRoute: true
 });
 
 // Add schemas
+app.addSchema(schemas.user)
 app.addSchema(schemas.userGet);
 app.addSchema(schemas.userPost);
 

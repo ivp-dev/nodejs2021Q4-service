@@ -3,7 +3,7 @@
   "type": "object",
   "properties": {
     "id": {
-      "type": "number"
+      "type": "string"
     },
     "name": {
       "type": "string"
@@ -16,9 +16,6 @@
     }
   },
   "required": [
-    "id",
-    "name",
-    "login",
-    "password"
+    "id"
   ]
 }

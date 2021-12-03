@@ -39,15 +39,30 @@
   },
   "putUser": {
     "schema": {
+      "body": {
+        "$ref": "user"
+      },
       "response": {
-        "200": {}
+        "200": {
+          "$ref": "user_get"
+        }
+      },
+      "params": {
+        "userId": {
+          "type": "string"
+        }
       }
     }
   },
   "deleteUser": {
     "schema": {
       "response": {
-        "400": {}
+        "204": {}
+      },
+      "params": {
+        "userId": {
+          "type": "string"
+        }
       }
     }
   }
