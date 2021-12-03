@@ -1,18 +1,12 @@
-const { RouteHandlerMethod } = require('fastify');
 const usersService = require('./user.service');
 
-/**
- * @type {RouteHandlerMethod}
- */
+
 async function getUsers(req, res) {
 	const users = await usersService.getAll();
 	// map user fields to exclude secret fields like "password"
 	res.code(200).send(users);
 }
 
-/**
- * @type {RouteHandlerMethod}
- */
 async function getUser(req, res) {
 	const { userId } = req.params;
 	const user = await usersService.getById(userId);
@@ -25,18 +19,12 @@ async function getUser(req, res) {
 	res.code(200).send(user);
 }
 
-/**
- * @type {RouteHandlerMethod}
- */
 async function postUser(req, res) {
 	const { body: user } = req;
 	const newUser = await usersService.addUser(user);
 	res.code(201).send(newUser);
 }
 
-/**
- * @type {RouteHandlerMethod}
- */
 async function putUser(req, res) {
 	const { body: user } = req;
 	const { userId } = req.params;
@@ -47,7 +35,7 @@ async function putUser(req, res) {
 		return;
 	}
 
-	return updatedUser;
+	res.code(200).send(updatedUser);
 }
 
 /**

@@ -4,11 +4,9 @@ const state = require('../../state');
 const getAll = async () => state.users
 
 const getById = async (id) => {
-  const user = state.users.find(user => user.id === id);
+  const user = state.users.find(u => u.id === id);
   return user;
 }
-
-const getIndexById = async (id) => state.users.findIndex((u => u.id === id));
 
 const createUser = async (data) => {
   const newUser = { ...data, id: uuidv4() }
@@ -23,11 +21,11 @@ const updateUserById = async (id, userData) => {
   const userIndex = state.users.findIndex(u => u.id === id);
 
   if (userIndex === -1) {
-    return;
+    return null;
   }
 
   const targetUser = state.users[userIndex];
-  const updatedUser = { ...targetUser, ...userData, id: targetUser.id }; //Id needed to avoid overriding with incoming id
+  const updatedUser = { ...targetUser, ...userData, id: targetUser.id };
   state.users.splice(userIndex, 1, updatedUser);
 
   return updatedUser;
@@ -36,13 +34,9 @@ const updateUserById = async (id, userData) => {
 const deleteUser = async (id) => {
   const userIndex = state.users.findIndex(u => u.id === id);
 
-  if(userIndex === -1) {
-    return userIndex;
+  if(userIndex !== -1) {
+    state.users.splice(userIndex, 1);
   }
-
-  state.users.splice(userIndex, 1);
-
-  return 1;
 }
 
 module.exports = {

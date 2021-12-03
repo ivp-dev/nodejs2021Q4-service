@@ -1,10 +1,6 @@
-const { FastifyPluginCallback } = require('fastify')
 const { getBoards, putBoard, postBoard, deleteBoard, getBoard } = require('./board.controller');
 const opts = require('./board.opts.json');
 
-/**
- * @type {FastifyPluginCallback} 
- */
 function boardRoutes(app, options, done) {
 
   app.get('/boards', opts.getBoards, getBoards);

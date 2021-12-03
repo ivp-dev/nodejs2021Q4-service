@@ -3,13 +3,13 @@
   "type": "object",
   "properties": {
     "userId": {
-      "type": "string"
+      "type": ["string", "null"]
     },
     "boardId": {
       "type": "string"
     },
     "columnId": {
-      "type": "string"
+      "type": ["string", "null"]
     },
     "title": {
       "type": "string"

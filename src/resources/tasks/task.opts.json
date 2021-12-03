@@ -7,6 +7,9 @@
         }
       },
       "params": {
+        "boardId": {
+          "type": "string"
+        },
         "taskId": {
           "type": "string"
         }
@@ -32,6 +35,11 @@
   },
   "postTask": {
     "schema": {
+      "params": {
+        "boardId": {
+          "type": "string"
+        }
+      },
       "response": {
         "201": {
           "$ref": "task"
@@ -53,6 +61,9 @@
         }
       },
       "params": {
+        "boardId": {
+          "type": "string"
+        },
         "taskId": {
           "type": "string"
         }
@@ -62,6 +73,9 @@
   "deleteTask": {
     "schema": {
       "params": {
+        "boardId": {
+          "type": "string"
+        },
         "taskId": {
           "type": "string"
         }

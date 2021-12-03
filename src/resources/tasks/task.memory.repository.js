@@ -5,14 +5,19 @@ const getAll = async (boardId) => {
   const result = state.tasks.filter(task => task.boardId === boardId);
   return result;
 }
-
+/**
+ * 
+ * @param {string} boardId 
+ * @param {string} taskId 
+ * @returns {Promise<object>}
+ */
 const getById = async (boardId, taskId) => {
-  const task = state.tasks.find(task => task.id === taskId && task.boardId === boardId);
+  const task = state.tasks.find(t => t.id === taskId && t.boardId === boardId);
   return task;
 }
 
-const createTask = async (data) => {
-  const newTask = { ...data, id: uuidv4() }
+const createTask = async (boardId, data) => {
+  const newTask = { ...data, id: uuidv4(), boardId }
   return newTask;
 }
 
@@ -20,15 +25,16 @@ const addTask = async (task) => {
   state.tasks.push(task);
 }
 
-const updateTaskById = async (boardId, taskId, taskData) => {
-  const taskIndex = state.tasks.findIndex(t => t.boardId === boardId && t.id == taskId);
+const updateTaskById = async (boardId, taskId, data) => {
+  const taskIndex = state.tasks.findIndex(t => t.boardId === boardId && t.id === taskId);
 
   if (taskIndex === -1) {
-    return;
+    return null;
   }
 
   const targetTask = state.tasks[taskIndex];
-  const updatedTask = { ...targetTask, ...taskData, id: targetTask.id }; //Id needed to avoid overriding with incoming id
+  const updatedTask = { ...targetTask, ...data, id: taskId, boardId }; 
+
   state.tasks.splice(taskIndex, 1, updatedTask);
 
   return updatedTask;
@@ -37,52 +43,38 @@ const updateTaskById = async (boardId, taskId, taskData) => {
 const deleteTask = async (boardId, taskId) => {
   const taskIndex = state.tasks.findIndex(t => t.id === taskId && t.boardId === boardId);
 
-  if (taskIndex === -1) {
-    return taskIndex;
+  if (taskIndex !== -1) {
+    state.tasks.splice(taskIndex, 1);
   }
-
-  state.tasks.splice(taskIndex, 1);
-
-  return 1;
 }
 
 const deleteBoardTasks = async (boardId) => {
-  const tasksIndecesToDelete = state.tasks.reduce((acc, task, idx) => {
-    if (task.boardId === boardId) {
-      acc.push(idx);
-    } return acc;
-  }, []);
-
-  if (tasksIndecesToDelete.length > 0) {
-    tasksIndecesToDelete.forEach(idx => {
-      state.tasks.splice(idx, 1)
-    });
+  let idx = state.tasks.length
+  while(idx) {
+    idx -= 1;
+    if(state.tasks[idx].boardId === boardId) {
+      state.tasks.splice(idx, 1);
+    }
   }
 }
 
 const deleteUserTasks = async (userId) => {
-  const tasksIndecesToDelete = state.tasks.reduce((acc, task, idx) => {
-    if (task.userId === userId) {
-      acc.push(idx)
-    } return acc;
-  }, []);
-
-  if (tasksIndecesToDelete.length > 0) {
-    tasksIndecesToDelete.forEach(idx => state.tasks.splice(idx, 1));
+  let idx = state.tasks.length
+  while(idx) {
+    idx -= 1;
+    if(state.tasks[idx].userId === userId) {
+      state.tasks.splice(idx, 1);
+    }
   }
 }
 
 const unassignUserTasks = async (userId) => {
-  const tasksIndecesToUnassign = state.tasks.reduce((acc, task, idx) => {
-    if (task.userId === userId) {
-      acc.push(idx)
-    } return acc;
-  }, []);
-
-  if (tasksIndecesToUnassign.length > 0) {
-    tasksIndecesToUnassign.forEach(idx => {
+  let idx = state.tasks.length
+  while(idx) {
+    idx -= 1;
+    if(state.tasks[idx].userId === userId) {
       state.tasks[idx].userId = null;
-    });
+    }
   }
 }
 

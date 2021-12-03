@@ -4,11 +4,9 @@ const state = require('../../state');
 const getAll = async () => state.boards
 
 const getById = async (id) => {
-  const board = state.boards.find(board => board.id === id);
+  const board = state.boards.find(b => b.id === id);
   return board;
 }
-
-const getIndexById = async (id) => state.boards.findIndex((u => u.id === id));
 
 const createBoard = async (data) => {
   const newBoard = {
@@ -28,11 +26,11 @@ const updateBoardById = async (id, boardData) => {
   const boardIndex = state.boards.findIndex(u => u.id === id);
 
   if (boardIndex === -1) {
-    return;
+    return null;
   }
 
   const targetBoard = state.boards[boardIndex];
-  const updatedBoard = { ...targetBoard, ...boardData, id: targetBoard.id }; //Id needed to avoid overriding with incoming id
+  const updatedBoard = { ...targetBoard, ...boardData, id: targetBoard.id };
   state.boards.splice(boardIndex, 1, updatedBoard);
 
   return updatedBoard;
@@ -41,13 +39,9 @@ const updateBoardById = async (id, boardData) => {
 const deleteBoard = async (id) => {
   const boardIndex = state.boards.findIndex(b => b.id === id);
 
-  if (boardIndex === -1) {
-    return boardIndex;
+  if (boardIndex !== -1) {
+    state.boards.splice(boardIndex, 1);
   }
-
-  state.boards.splice(boardIndex, 1);
-
-  return 1;
 }
 
 module.exports = {

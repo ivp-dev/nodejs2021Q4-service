@@ -1,9 +1,5 @@
-const { RouteHandlerMethod } = require('fastify');
 const tasksService = require('./task.service');
 
-/**
- * @type {RouteHandlerMethod}
- */
 async function getTasks(req, res) {
 	const { boardId } = req.params;
 	const tasks = await tasksService.getAll(boardId);
@@ -11,9 +7,6 @@ async function getTasks(req, res) {
 	res.code(200).send(tasks);
 }
 
-/**
- * @type {RouteHandlerMethod}
- */
 async function getTask(req, res) {
 	const { boardId, taskId } = req.params;
 	const task = await tasksService.getById(boardId, taskId);
@@ -26,30 +19,25 @@ async function getTask(req, res) {
 	res.code(200).send(task);
 }
 
-/**
- * @type {RouteHandlerMethod}
- */
 async function postTask(req, res) {
 	const { body: task } = req;
-	const newTask = await tasksService.addTask(task);
+	const { boardId } = req.params;
+	const newTask = await tasksService.addTask(boardId, task);
 
 	res.code(201).send(newTask);
 }
 
-/**
- * @type {RouteHandlerMethod}
- */
 async function putTask(req, res) {
 	const { body: task } = req;
-	const { taskId } = req.params;
-	const updatedTask = await tasksService.updateTask(taskId, task)
+	const { boardId, taskId } = req.params;
+	const updatedTask = await tasksService.updateTask(boardId, taskId, task)
 
 	if (!updatedTask) {
 		res.callNotFound();
 		return;
 	}
 
-	return updatedTask;
+	res.code(200).send(updatedTask);
 }
 
 /**
@@ -57,12 +45,7 @@ async function putTask(req, res) {
  */
 async function deleteTask(req, res) {
 	const { boardId, taskId } = req.params;
-	const result = await tasksService.deleteTask(boardId, taskId);
-
-	if (result <= 0) {
-		res.callNotFound();
-		return;
-	}
+	await tasksService.deleteTask(boardId, taskId);
 
 	res.code(204);
 }

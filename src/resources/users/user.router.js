@@ -1,10 +1,8 @@
-const { FastifyPluginCallback } = require('fastify')
 const { getUsers, putUser, postUser, deleteUser, getUser } = require('./user.controller');
 const opts = require('./user.opts.json');
 
-/**
- * @type {FastifyPluginCallback} 
- */
+
+
 function userRoutes(app, options, done) {
 
   app.get('/users', opts.getUsers, getUsers);

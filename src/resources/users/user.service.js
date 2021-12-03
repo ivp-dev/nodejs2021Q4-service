@@ -1,12 +1,9 @@
 const usersRepo = require('./user.memory.repository');
-const userRoutes = require('./user.router');
 const taskRepo = require('../tasks/task.memory.repository');
 
 const getAll = () => usersRepo.getAll();
 
 const getById = async (id) => usersRepo.getById(id);
-
-const getIndexById = async (id) => usersRepo.getById(id);
 
 const addUser = async (user) => {
   const newUser = await usersRepo.createUser(user);
@@ -20,14 +17,8 @@ const updateUser = async (id, user) => {
 }
 
 const deleteUser = async (id) => {
-  const result = await usersRepo.deleteUser(id);
-
-  if (result > 0) {
-    
-    await taskRepo.unassignUserTasks(id);
-  }
-
-  return result;
+  await usersRepo.deleteUser(id);
+  await taskRepo.unassignUserTasks(id);
 }
 
 module.exports = { getAll, getById, addUser, updateUser, deleteUser };
