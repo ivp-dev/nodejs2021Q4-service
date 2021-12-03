@@ -1,63 +1,68 @@
 {
-  "getUser": {
+  "getTask": {
     "schema": {
       "response": {
         "200": {
-          "$ref": "user_get"
+          "$ref": "task"
         }
       },
       "params": {
-        "userId": {
+        "taskId": {
           "type": "string"
         }
       }
     }
   },
-  "getUsers": {
+  "getTasks": {
     "schema": {
+      "params": {
+        "boardId": {
+          "type": "string"
+        }
+      },
       "response": {
         "200": {
           "type": "array",
           "items": {
-            "$ref": "user_get"
+            "$ref": "task"
           }
         }
       }
     }
   },
-  "postUser": {
+  "postTask": {
     "schema": {
       "response": {
         "201": {
-          "$ref": "user_get"
+          "$ref": "task"
         }
       },
       "body": {
-        "$ref": "user_post"
+        "$ref": "task_post"
       }
     }
   },
-  "putUser": {
+  "putTask": {
     "schema": {
       "body": {
-        "$ref": "user"
+        "$ref": "task"
       },
       "response": {
         "200": {
-          "$ref": "user_get"
+          "$ref": "task"
         }
       },
       "params": {
-        "userId": {
+        "taskId": {
           "type": "string"
         }
       }
     }
   },
-  "deleteUser": {
+  "deleteTask": {
     "schema": {
       "params": {
-        "userId": {
+        "taskId": {
           "type": "string"
         }
       }

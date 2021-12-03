@@ -1,0 +1,31 @@
+{
+  "$id": "task",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "userId": {
+      "type": ["string", "null"]
+    },
+    "boardId": {
+      "type": "string"
+    },
+    "columnId": {
+      "type": ["string", "null"]
+    },
+    "title": {
+      "type": "string"
+    },
+    "order": {
+      "type": "number"
+    },
+    "description": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "boardId"
+  ]
+}

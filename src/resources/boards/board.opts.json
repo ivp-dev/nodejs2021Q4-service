@@ -1,63 +1,66 @@
 {
-  "getUser": {
+  "getBoard": {
     "schema": {
       "response": {
         "200": {
-          "$ref": "user_get"
+          "$ref": "board"
         }
       },
       "params": {
-        "userId": {
+        "boardId": {
           "type": "string"
         }
       }
     }
   },
-  "getUsers": {
+  "getBoards": {
     "schema": {
       "response": {
         "200": {
           "type": "array",
           "items": {
-            "$ref": "user_get"
+            "$ref": "board"
           }
         }
       }
     }
   },
-  "postUser": {
+  "postBoard": {
     "schema": {
       "response": {
         "201": {
-          "$ref": "user_get"
+          "$ref": "board"
         }
       },
       "body": {
-        "$ref": "user_post"
+        "$ref": "board_post"
       }
     }
   },
-  "putUser": {
+  "putBoard": {
     "schema": {
       "body": {
-        "$ref": "user"
+        "$ref": "board"
       },
       "response": {
         "200": {
-          "$ref": "user_get"
+          "$ref": "board"
         }
       },
       "params": {
-        "userId": {
+        "boardId": {
           "type": "string"
         }
       }
     }
   },
-  "deleteUser": {
+  "deleteBoard": {
     "schema": {
+      "response": {
+        "204": {}
+      },
       "params": {
-        "userId": {
+        "boardId": {
           "type": "string"
         }
       }

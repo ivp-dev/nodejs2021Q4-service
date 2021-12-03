@@ -1,8 +1,5 @@
 const { v4: uuidv4 } = require('uuid');
-
-let state = {
-  users: []
-}
+const state = require('../../state');
 
 const getAll = async () => state.users
 
@@ -20,7 +17,6 @@ const createUser = async (data) => {
 
 const addUser = async (user) => {
   state.users.push(user);
-  //state = { ...state, users: [...state.users, user] }
 }
 
 const updateUserById = async (id, userData) => {
@@ -35,13 +31,6 @@ const updateUserById = async (id, userData) => {
   state.users.splice(userIndex, 1, updatedUser);
 
   return updatedUser;
-  // state = {
-  //   ...state, users: [
-  //     ...state.users.slice(0, userIndex),
-  //     updatedUser 
-  //     ...state.user.slice(userIndex + 1, state.users.length)
-  //   ]
-  // }
 }
 
 const deleteUser = async (id) => {

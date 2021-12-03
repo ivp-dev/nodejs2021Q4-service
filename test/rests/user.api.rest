@@ -3,22 +3,8 @@
 @host = {{hostname}}:{{port}}
 @contentType = application/json
 
-# @name swagger
-GET {{host}}/doc/json HTTP/1.1
-Content-Type: {{contentType}}
-
-###
-
 # @name getUsers
 GET {{host}}/users HTTP/1.1
-Content-Type: {{contentType}}
-
-###
-
-@userId = {{postUser.response.body.id}}
-
-# @name getUserById
-GET {{host}}/users/{{userId}} HTTP/1.1
 Content-Type: {{contentType}}
 
 ###
@@ -32,6 +18,14 @@ Content-Type: {{contentType}}
   "login": "Login_{{$timestamp}}",
   "password": "123"
 }
+
+###
+
+@userId = {{postUser.response.body.id}}
+
+# @name getUserById
+GET {{host}}/users/{{userId}} HTTP/1.1
+Content-Type: {{contentType}}
 
 ###
 
