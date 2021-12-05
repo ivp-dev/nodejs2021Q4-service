@@ -1,6 +1,5 @@
 const usersService = require('./user.service');
 
-
 async function getUsers(req, res) {
 	const users = await usersService.getAll();
 	// map user fields to exclude secret fields like "password"
@@ -43,12 +42,8 @@ async function putUser(req, res) {
  */
 async function deleteUser(req, res) {
 	const { userId } = req.params;
-	const result = await usersService.deleteUser(userId);
 
-	if (result <= 0) {
-		res.callNotFound();
-		return;
-	}
+	await usersService.deleteUser(userId);
 
 	res.code(204);
 }
