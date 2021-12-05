@@ -17,8 +17,10 @@ const updateUser = async (id, user) => {
 }
 
 const deleteUser = async (id) => {
-  await usersRepo.deleteUser(id);
-  await taskRepo.unassignUserTasks(id);
+  await Promise.all([
+    usersRepo.deleteUser(id),
+    taskRepo.unassignUserTasks(id)
+  ]);
 }
 
 module.exports = { getAll, getById, addUser, updateUser, deleteUser };
