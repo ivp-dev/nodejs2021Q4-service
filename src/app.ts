@@ -1,21 +1,20 @@
 // Require the framework and instantiate it
-const fastify = require('fastify');
-const swagger = require('fastify-swagger');
-const { NODE_ENV } = require('./common/config');
+import fastify from 'fastify';
+import swagger from 'fastify-swagger';
+import config from './common/config';
 
-const userRouter = require('./resources/users/user.router');
-const boardRouter = require('./resources/boards/board.router');
-const taskRouter = require('./resources/tasks/task.router');
+import userRouter from './resources/users/user.router';
+import boardRouter from './resources/boards/board.router';
+import taskRouter from './resources/tasks/task.router';
 
-const userSchemas = require('./resources/users/schemas');
-const boardSchemas = require('./resources/boards/schemas');
-const columnSchemas = require('./resources/columns/schemas');
-const taskSchemas = require('./resources/tasks/schemas');
+import userSchemas from './resources/users/schemas';
+import boardSchemas from './resources/boards/schemas';
+import columnSchemas from './resources/columns/schemas';
+import taskSchemas from './resources/tasks/schemas';
 
-/**
- * @type {FastifyInstance}
- */
-const app = fastify({ logger: NODE_ENV === 'development' });
+
+
+const app = fastify({ logger: config.NODE_ENV === 'development' });
 
 // Set swagger docs
 app.register(swagger, {
@@ -47,4 +46,4 @@ app.register(userRouter);
 app.register(taskRouter);
 app.register(boardRouter);
 
-module.exports = app;
+export default app;
