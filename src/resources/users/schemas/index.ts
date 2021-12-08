@@ -5,5 +5,5 @@ import userPost from './user-post.schema.json';
 export default {
   user,
   userGet,
-  userPost
-}
+  userPost,
+};

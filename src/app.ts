@@ -17,15 +17,15 @@ const app = fastify({ logger: config.NODE_ENV === 'development' });
 // Set swagger docs
 app.register(swagger, {
   routePrefix: '/doc',
-  specification: { 
-    baseDir: './doc', 
-    path: '/api.yaml'
+  specification: {
+    baseDir: './doc',
+    path: '/api.yaml',
   },
-  exposeRoute: true
+  exposeRoute: true,
 });
 
 // Add user schemas
-app.addSchema(userSchemas.user)
+app.addSchema(userSchemas.user);
 app.addSchema(userSchemas.userGet);
 app.addSchema(userSchemas.userPost);
 
@@ -38,8 +38,8 @@ app.addSchema(boardSchemas.board);
 app.addSchema(boardSchemas.boardPost);
 
 // Add column schemas
-app.addSchema(columnSchemas.columnSchema)
-app.addSchema(columnSchemas.columnPostSchema)
+app.addSchema(columnSchemas.columnSchema);
+app.addSchema(columnSchemas.columnPostSchema);
 
 // Setup plugin
 app.register(userRouter);

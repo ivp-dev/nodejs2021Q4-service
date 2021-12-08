@@ -27,7 +27,7 @@ const addBoard = async (boardData: BoardModel): Promise<BoardModel> => {
   const newBoard = await boardsRepo.createBoard(boardData);
   await boardsRepo.addBoard(newBoard);
   return newBoard;
-}
+};
 
 /**
  * Update board
@@ -35,10 +35,13 @@ const addBoard = async (boardData: BoardModel): Promise<BoardModel> => {
  * @param boardData - Board data
  * @returns Board
  */
-const updateBoard = async (id: string, boardData: BoardModel): Promise<BoardModel | null> => {
+const updateBoard = async (
+  id: string,
+  boardData: BoardModel
+): Promise<BoardModel | null> => {
   const updatedBoard = await boardsRepo.updateBoardById(id, boardData);
   return updatedBoard;
-}
+};
 
 /**
  * Delete board
@@ -47,8 +50,8 @@ const updateBoard = async (id: string, boardData: BoardModel): Promise<BoardMode
 const deleteBoard = async (id: string): Promise<void> => {
   await Promise.all([
     boardsRepo.deleteBoard(id),
-    tasksRepo.deleteBoardTasks(id)
+    tasksRepo.deleteBoardTasks(id),
   ]);
-}
+};
 
 export default { getAll, getById, addBoard, updateBoard, deleteBoard };

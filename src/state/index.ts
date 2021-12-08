@@ -1,9 +1,9 @@
-import { RootState } from '../types'
+import { RootState } from '../types';
 
 const state: RootState = {
   boards: [],
   users: [],
-  tasks: []
-}
+  tasks: [],
+};
 
 export default state;

@@ -8,9 +8,9 @@ import { TaskModel } from '../../types';
  * @returns Array of tasks
  */
 const getAll = async (boardId: string) => {
-  const result = state.tasks.filter(task => task.boardId === boardId);
+  const result = state.tasks.filter((task) => task.boardId === boardId);
   return result;
-}
+};
 
 /**
  * Get task
@@ -18,10 +18,15 @@ const getAll = async (boardId: string) => {
  * @param taskId - Task identifier
  * @returns Task
  */
-const getById = async (boardId: string, taskId: string): Promise<TaskModel | undefined> => {
-  const task = state.tasks.find(t => t.id === taskId && t.boardId === boardId);
+const getById = async (
+  boardId: string,
+  taskId: string
+): Promise<TaskModel | undefined> => {
+  const task = state.tasks.find(
+    (t) => t.id === taskId && t.boardId === boardId
+  );
   return task;
-}
+};
 
 /**
  * Create new task
@@ -29,10 +34,13 @@ const getById = async (boardId: string, taskId: string): Promise<TaskModel | und
  * @param taskData - Task data
  * @returns Task
  */
-const createTask = async (boardId: string, taskData: TaskModel): Promise<TaskModel> => {
-  const newTask = { ...taskData, id: uuidv4(), boardId }
+const createTask = async (
+  boardId: string,
+  taskData: TaskModel
+): Promise<TaskModel> => {
+  const newTask = { ...taskData, id: uuidv4(), boardId };
   return newTask;
-}
+};
 
 /**
  * Store task
@@ -40,7 +48,7 @@ const createTask = async (boardId: string, taskData: TaskModel): Promise<TaskMod
  */
 const addTask = async (task: TaskModel): Promise<void> => {
   state.tasks.push(task);
-}
+};
 
 /**
  * Update task
@@ -49,8 +57,14 @@ const addTask = async (task: TaskModel): Promise<void> => {
  * @param taskData - Task data
  * @returns Task
  */
-const updateTaskById = async (boardId: string, taskId: string, taskData: TaskModel): Promise<TaskModel | null> => {
-  const taskIndex = state.tasks.findIndex(t => t.boardId === boardId && t.id === taskId);
+const updateTaskById = async (
+  boardId: string,
+  taskId: string,
+  taskData: TaskModel
+): Promise<TaskModel | null> => {
+  const taskIndex = state.tasks.findIndex(
+    (t) => t.boardId === boardId && t.id === taskId
+  );
 
   if (taskIndex === -1) {
     return null;
@@ -62,61 +76,63 @@ const updateTaskById = async (boardId: string, taskId: string, taskData: TaskMod
   state.tasks.splice(taskIndex, 1, updatedTask);
 
   return updatedTask;
-}
+};
 /**
  * Delete task
  * @param boardId - Board identifier
  * @param taskId - Task identifier
  */
 const deleteTask = async (boardId: string, taskId: string): Promise<void> => {
-  const taskIndex = state.tasks.findIndex(t => t.id === taskId && t.boardId === boardId);
+  const taskIndex = state.tasks.findIndex(
+    (t) => t.id === taskId && t.boardId === boardId
+  );
 
   if (taskIndex !== -1) {
     state.tasks.splice(taskIndex, 1);
   }
-}
+};
 
 /**
  * Clear tasks of specified board
  * @param boardId - Board identifier
  */
 const deleteBoardTasks = async (boardId: string): Promise<void> => {
-  let idx = state.tasks.length
+  let idx = state.tasks.length;
   while (idx) {
     idx -= 1;
     if (state.tasks[idx].boardId === boardId) {
       state.tasks.splice(idx, 1);
     }
   }
-}
+};
 
 /**
  * Clear tasks of specified user
  * @param userId - User identifier
  */
 const deleteUserTasks = async (userId: string): Promise<void> => {
-  let idx = state.tasks.length
+  let idx = state.tasks.length;
   while (idx) {
     idx -= 1;
     if (state.tasks[idx].userId === userId) {
       state.tasks.splice(idx, 1);
     }
   }
-}
+};
 
 /**
  * Unassign user tasks
  * @param userId - User identifier
  */
 const unassignUserTasks = async (userId: string): Promise<void> => {
-  let idx = state.tasks.length
+  let idx = state.tasks.length;
   while (idx) {
     idx -= 1;
     if (state.tasks[idx].userId === userId) {
       state.tasks[idx].userId = null;
     }
   }
-}
+};
 
 export default {
   getAll,
@@ -127,5 +143,5 @@ export default {
   updateTaskById,
   deleteUserTasks,
   deleteBoardTasks,
-  unassignUserTasks
+  unassignUserTasks,
 };

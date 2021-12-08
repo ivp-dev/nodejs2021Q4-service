@@ -7,11 +7,14 @@ import tasksService from './task.service';
  * @param req - Fastify request
  * @param res - Festify reply
  */
-async function getTasks(req: FastifyRequest<{ Params: { boardId: string } }>, res: FastifyReply): Promise<void> {
-	const { boardId } = req.params;
-	const tasks = await tasksService.getAll(boardId);
+async function getTasks(
+  req: FastifyRequest<{ Params: { boardId: string } }>,
+  res: FastifyReply
+): Promise<void> {
+  const { boardId } = req.params;
+  const tasks = await tasksService.getAll(boardId);
 
-	res.code(200).send(tasks);
+  res.code(200).send(tasks);
 }
 
 /**
@@ -19,16 +22,19 @@ async function getTasks(req: FastifyRequest<{ Params: { boardId: string } }>, re
  * @param req - Fastify request
  * @param res - Festify reply
  */
-async function getTask(req: FastifyRequest<{ Params: { boardId: string, taskId: string } }>, res: FastifyReply): Promise<void> {
-	const { boardId, taskId } = req.params;
-	const task = await tasksService.getById(boardId, taskId);
+async function getTask(
+  req: FastifyRequest<{ Params: { boardId: string; taskId: string } }>,
+  res: FastifyReply
+): Promise<void> {
+  const { boardId, taskId } = req.params;
+  const task = await tasksService.getById(boardId, taskId);
 
-	if (!task) {
-		res.callNotFound();
-		return;
-	}
+  if (!task) {
+    res.callNotFound();
+    return;
+  }
 
-	res.code(200).send(task);
+  res.code(200).send(task);
 }
 
 /**
@@ -36,12 +42,15 @@ async function getTask(req: FastifyRequest<{ Params: { boardId: string, taskId: 
  * @param req - Fastify request
  * @param res - Festify reply
  */
-async function postTask(req: FastifyRequest<{ Params: { boardId: string }, Body: TaskModel }>, res: FastifyReply): Promise<void> {
-	const { body: task } = req;
-	const { boardId } = req.params;
-	const newTask = await tasksService.addTask(boardId, task);
+async function postTask(
+  req: FastifyRequest<{ Params: { boardId: string }; Body: TaskModel }>,
+  res: FastifyReply
+): Promise<void> {
+  const { body: task } = req;
+  const { boardId } = req.params;
+  const newTask = await tasksService.addTask(boardId, task);
 
-	res.code(201).send(newTask);
+  res.code(201).send(newTask);
 }
 
 /**
@@ -49,17 +58,23 @@ async function postTask(req: FastifyRequest<{ Params: { boardId: string }, Body:
  * @param req - Fastify request
  * @param res - Festify reply
  */
-async function putTask(req: FastifyRequest<{ Params: { boardId: string, taskId: string }, Body: TaskModel }>, res: FastifyReply): Promise<void> {
-	const { body: task } = req;
-	const { boardId, taskId } = req.params;
-	const updatedTask = await tasksService.updateTask(boardId, taskId, task)
+async function putTask(
+  req: FastifyRequest<{
+    Params: { boardId: string; taskId: string };
+    Body: TaskModel;
+  }>,
+  res: FastifyReply
+): Promise<void> {
+  const { body: task } = req;
+  const { boardId, taskId } = req.params;
+  const updatedTask = await tasksService.updateTask(boardId, taskId, task);
 
-	if (!updatedTask) {
-		res.callNotFound();
-		return;
-	}
+  if (!updatedTask) {
+    res.callNotFound();
+    return;
+  }
 
-	res.code(200).send(updatedTask);
+  res.code(200).send(updatedTask);
 }
 
 /**
@@ -67,17 +82,20 @@ async function putTask(req: FastifyRequest<{ Params: { boardId: string, taskId: 
  * @param req - Fastify request
  * @param res - Festify reply
  */
-async function deleteTask(req: FastifyRequest<{ Params: { boardId: string, taskId: string } }>, res: FastifyReply): Promise<void> {
-	const { boardId, taskId } = req.params;
-	await tasksService.deleteTask(boardId, taskId);
+async function deleteTask(
+  req: FastifyRequest<{ Params: { boardId: string; taskId: string } }>,
+  res: FastifyReply
+): Promise<void> {
+  const { boardId, taskId } = req.params;
+  await tasksService.deleteTask(boardId, taskId);
 
-	res.code(204);
+  res.code(204);
 }
 
 export default {
-	getTask,
-	getTasks,
-	postTask,
-	putTask,
-	deleteTask
-}
+  getTask,
+  getTasks,
+  postTask,
+  putTask,
+  deleteTask,
+};

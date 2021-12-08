@@ -15,7 +15,5 @@
       }
     }
   },
-  "required": [
-    "id"
-  ]
+  "required": ["id"]
 }

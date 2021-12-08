@@ -9,14 +9,33 @@ import TaskSchemas from './task.opts.json';
  * @param done - Done callback
  */
 const taskRoutes: FastifyPluginCallback = (app, opts, done): void => {
-
-  app.get('/boards/:boardId/tasks', TaskSchemas.getTasks, TaskControllers.getTasks);
-  app.get('/boards/:boardId/tasks/:taskId', TaskSchemas.getTask, TaskControllers.getTask);
-  app.put('/boards/:boardId/tasks/:taskId', TaskSchemas.putTask, TaskControllers.putTask);
-  app.post('/boards/:boardId/tasks', TaskSchemas.postTask, TaskControllers.postTask);
-  app.delete('/boards/:boardId/tasks/:taskId', TaskSchemas.deleteTask, TaskControllers.deleteTask)
+  app.get(
+    '/boards/:boardId/tasks',
+    TaskSchemas.getTasks,
+    TaskControllers.getTasks
+  );
+  app.get(
+    '/boards/:boardId/tasks/:taskId',
+    TaskSchemas.getTask,
+    TaskControllers.getTask
+  );
+  app.put(
+    '/boards/:boardId/tasks/:taskId',
+    TaskSchemas.putTask,
+    TaskControllers.putTask
+  );
+  app.post(
+    '/boards/:boardId/tasks',
+    TaskSchemas.postTask,
+    TaskControllers.postTask
+  );
+  app.delete(
+    '/boards/:boardId/tasks/:taskId',
+    TaskSchemas.deleteTask,
+    TaskControllers.deleteTask
+  );
 
   done();
-}
+};
 
 export default taskRoutes;

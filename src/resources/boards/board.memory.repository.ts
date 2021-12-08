@@ -6,7 +6,7 @@ import { BoardModel } from '../../types';
  * Get all boards route controller
  * @returns List of boards
  */
-const getAll = async (): Promise<BoardModel[]> => state.boards
+const getAll = async (): Promise<BoardModel[]> => state.boards;
 
 /**
  * Get boared by id route controller
@@ -14,9 +14,9 @@ const getAll = async (): Promise<BoardModel[]> => state.boards
  * @returns Board
  */
 const getById = async (id: string): Promise<BoardModel | undefined> => {
-  const board = state.boards.find(b => b.id === id);
+  const board = state.boards.find((b) => b.id === id);
   return board;
-}
+};
 
 /**
  * Create new board route controller
@@ -25,21 +25,24 @@ const getById = async (id: string): Promise<BoardModel | undefined> => {
  */
 const createBoard = async (boardData: BoardModel): Promise<BoardModel> => {
   const newBoard = {
-    ...boardData, id: uuidv4(), columns: boardData.columns?.map(column => ({
-      ...column, id: uuidv4()
-    }))
-  }
+    ...boardData,
+    id: uuidv4(),
+    columns: boardData.columns?.map((column) => ({
+      ...column,
+      id: uuidv4(),
+    })),
+  };
 
   return newBoard;
-}
+};
 
 /**
  * Store board route controller
- * @param board - Board 
+ * @param board - Board
  */
 const addBoard = async (board: BoardModel): Promise<void> => {
   state.boards.push(board);
-}
+};
 
 /**
  * Update board route controller
@@ -47,8 +50,11 @@ const addBoard = async (board: BoardModel): Promise<void> => {
  * @param boardData - Board data
  * @returns Board
  */
-const updateBoardById = async (id: string, boardData: BoardModel): Promise<BoardModel | null> => {
-  const boardIndex = state.boards.findIndex(u => u.id === id);
+const updateBoardById = async (
+  id: string,
+  boardData: BoardModel
+): Promise<BoardModel | null> => {
+  const boardIndex = state.boards.findIndex((u) => u.id === id);
 
   if (boardIndex === -1) {
     return null;
@@ -59,19 +65,19 @@ const updateBoardById = async (id: string, boardData: BoardModel): Promise<Board
   state.boards.splice(boardIndex, 1, updatedBoard);
 
   return updatedBoard;
-}
+};
 
 /**
  * Delete board route controller
  * @param id - Board identifier
  */
 const deleteBoard = async (id: string): Promise<void> => {
-  const boardIndex = state.boards.findIndex(b => b.id === id);
+  const boardIndex = state.boards.findIndex((b) => b.id === id);
 
   if (boardIndex !== -1) {
     state.boards.splice(boardIndex, 1);
   }
-}
+};
 
 export default {
   getAll,
@@ -79,5 +85,5 @@ export default {
   addBoard,
   deleteBoard,
   createBoard,
-  updateBoardById
+  updateBoardById,
 };

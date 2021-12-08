@@ -3,5 +3,5 @@ import boardPost from './board-post.schema.json';
 
 export default {
   board,
-  boardPost
-}
+  boardPost,
+};
