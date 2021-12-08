@@ -33,6 +33,7 @@
   "rules": {
     "import/extensions": "off",
     "linebreak-style": "off",
+    "node/no-unsupported-features/es-syntax": "off",
     "tsdoc/syntax": "error",
     "@typescript-eslint/no-explicit-any": ["error"],
     "node/no-missing-import": ["error", {
