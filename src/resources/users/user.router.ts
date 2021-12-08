@@ -4,9 +4,10 @@ import UserSchemas from './user.opts.json';
 
 /**
  * Set users routes with request and response schemas
- * @param app Instance of app
- * @param opts Options
- * @param done Done callback
+ * 
+ * @param app - Instance of app
+ * @param opts - Options
+ * @param done-  Done callback
  */
 const userRoutes: FastifyPluginCallback = (app, opts, done): void => {
 

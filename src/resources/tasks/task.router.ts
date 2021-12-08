@@ -4,9 +4,9 @@ import TaskSchemas from './task.opts.json';
 
 /**
  * Apply task routes with request and response schemas
- * @param app Instance of app
- * @param opts Options
- * @param done Done callback
+ * @param app - Instance of app
+ * @param opts - Options
+ * @param done - Done callback
  */
 const taskRoutes: FastifyPluginCallback = (app, opts, done): void => {
 

@@ -6,7 +6,7 @@ dotenv.config({
 });
 
 const config = {
-  PORT: process.env.PORT,
+  PORT: process.env.PORT || "5000",
   NODE_ENV: process.env.NODE_ENV,
   MONGO_CONNECTION_STRING: process.env.MONGO_CONNECTION_STRING,
   JWT_SECRET_KEY: process.env.JWT_SECRET_KEY,

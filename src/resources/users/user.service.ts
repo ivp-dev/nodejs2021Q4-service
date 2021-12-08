@@ -10,14 +10,14 @@ const getAll = (): Promise<UserModel[]> => usersRepo.getAll();
 
 /**
  * Get user by identifier
- * @param id Identifier of the user
+ * @param id - Identifier of the user
  * @returns User
  */
 const getById = async (id: string): Promise<UserModel | undefined> => usersRepo.getById(id);
 
 /**
  * Store user
- * @param user User to add
+ * @param user - User to add
  * @returns User
  */
 const addUser = async (user: UserModel): Promise<UserModel> => {
@@ -28,8 +28,8 @@ const addUser = async (user: UserModel): Promise<UserModel> => {
 
 /**
  * Update stored user
- * @param id User identifier
- * @param user User data
+ * @param id - User identifier
+ * @param user - User data
  * @returns Updated user data
  */
 const updateUser = async (id: string, user: UserModel): Promise<UserModel | null> => {
@@ -39,7 +39,7 @@ const updateUser = async (id: string, user: UserModel): Promise<UserModel | null
 
 /**
  * Delete stored user
- * @param id User identifier
+ * @param id - User identifier
  */
 const deleteUser = async (id: string): Promise<void> => {
   await Promise.all([

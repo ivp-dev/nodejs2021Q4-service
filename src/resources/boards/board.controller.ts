@@ -4,8 +4,8 @@ import boardsService from './board.service';
 
 /**
  * Get boards route controller
- * @param req Fastify request
- * @param res Fastify reply
+ * @param req - Fastify request
+ * @param res - Fastify reply
  */
 async function getBoards(req: FastifyRequest, res: FastifyReply): Promise<void> {
 	const boards = await boardsService.getAll();
@@ -15,8 +15,8 @@ async function getBoards(req: FastifyRequest, res: FastifyReply): Promise<void> 
 
 /**
  * Get board route controller
- * @param req Fastify request
- * @param res Fastify reply
+ * @param req - Fastify request
+ * @param res - Fastify reply
  */
 async function getBoard(req: FastifyRequest<{ Params: { boardId: string } }>, res: FastifyReply): Promise<void> {
 	const { boardId } = req.params;
@@ -32,8 +32,8 @@ async function getBoard(req: FastifyRequest<{ Params: { boardId: string } }>, re
 
 /**
  * Store board route controller
- * @param req Fastify request
- * @param res Fastify reply
+ * @param req - Fastify request
+ * @param res - Fastify reply
  */
 async function postBoard(req: FastifyRequest<{ Body: BoardModel }>, res: FastifyReply): Promise<void> {
 	const { body: board } = req;
@@ -43,8 +43,8 @@ async function postBoard(req: FastifyRequest<{ Body: BoardModel }>, res: Fastify
 
 /**
  * Update board route controller
- * @param req Fastify request
- * @param res Fastify reply
+ * @param req - Fastify request
+ * @param res - Fastify reply
  */
 async function putBoard(req: FastifyRequest<{ Params: { boardId: string }, Body: BoardModel }>, res: FastifyReply): Promise<void> {
 	const { body: board } = req;
@@ -61,8 +61,8 @@ async function putBoard(req: FastifyRequest<{ Params: { boardId: string }, Body:
 
 /**
  * Delete stored board route controller
- * @param req Fastify request
- * @param res Fastify reply
+ * @param req - Fastify request
+ * @param res - Fastify reply
  */
 async function deleteBoard(req: FastifyRequest<{ Params: { boardId: string } }>, res: FastifyReply): Promise<void> {
 	const { boardId } = req.params;

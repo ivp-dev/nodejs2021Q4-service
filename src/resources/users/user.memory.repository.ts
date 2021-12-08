@@ -10,7 +10,7 @@ const getAll = async (): Promise<UserModel[]> => state.users
 
 /**
  * Get user by id
- * @param id User identifier
+ * @param id - User identifier
  * @returns User
  */
 const getById = async (id: string): Promise<UserModel | undefined> => {
@@ -20,7 +20,7 @@ const getById = async (id: string): Promise<UserModel | undefined> => {
 
 /**
  * Create new user
- * @param userData User data
+ * @param userData - User data
  * @returns User
  */
 const createUser = async (userData: UserModel): Promise<UserModel> => {
@@ -30,7 +30,7 @@ const createUser = async (userData: UserModel): Promise<UserModel> => {
 
 /**
  * Add user to store
- * @param user User 
+ * @param user - User 
  */
 const addUser = async (user: UserModel): Promise<void> => {
   state.users.push(user);
@@ -38,8 +38,8 @@ const addUser = async (user: UserModel): Promise<void> => {
 
 /**
  * Update stored user by id
- * @param id User identifier
- * @param userData User data
+ * @param id - User identifier
+ * @param userData - User data
  * @returns User
  */
 const updateUserById = async (id: string, userData: UserModel): Promise<UserModel | null> => {
@@ -58,7 +58,7 @@ const updateUserById = async (id: string, userData: UserModel): Promise<UserMode
 
 /**
  * Delete stored user
- * @param id User identifier
+ * @param id - User identifier
  */
 const deleteUser = async (id: string): Promise<void> => {
   const userIndex = state.users.findIndex(u => u.id === id);

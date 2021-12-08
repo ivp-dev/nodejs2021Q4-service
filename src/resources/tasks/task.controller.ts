@@ -4,8 +4,8 @@ import tasksService from './task.service';
 
 /**
  * Get all tasks route controller
- * @param req Fastify request
- * @param res Festify reply
+ * @param req - Fastify request
+ * @param res - Festify reply
  */
 async function getTasks(req: FastifyRequest<{ Params: { boardId: string } }>, res: FastifyReply): Promise<void> {
 	const { boardId } = req.params;
@@ -16,8 +16,8 @@ async function getTasks(req: FastifyRequest<{ Params: { boardId: string } }>, re
 
 /**
  * Get task route controller
- * @param req Fastify request
- * @param res Festify reply
+ * @param req - Fastify request
+ * @param res - Festify reply
  */
 async function getTask(req: FastifyRequest<{ Params: { boardId: string, taskId: string } }>, res: FastifyReply): Promise<void> {
 	const { boardId, taskId } = req.params;
@@ -33,8 +33,8 @@ async function getTask(req: FastifyRequest<{ Params: { boardId: string, taskId: 
 
 /**
  * Add task route controller
- * @param req Fastify request
- * @param res Festify reply
+ * @param req - Fastify request
+ * @param res - Festify reply
  */
 async function postTask(req: FastifyRequest<{ Params: { boardId: string }, Body: TaskModel }>, res: FastifyReply): Promise<void> {
 	const { body: task } = req;
@@ -46,8 +46,8 @@ async function postTask(req: FastifyRequest<{ Params: { boardId: string }, Body:
 
 /**
  * Update task route controller
- * @param req Fastify request
- * @param res Festify reply
+ * @param req - Fastify request
+ * @param res - Festify reply
  */
 async function putTask(req: FastifyRequest<{ Params: { boardId: string, taskId: string }, Body: TaskModel }>, res: FastifyReply): Promise<void> {
 	const { body: task } = req;
@@ -64,8 +64,8 @@ async function putTask(req: FastifyRequest<{ Params: { boardId: string, taskId: 
 
 /**
  * Delete task route controller
- * @param req Fastify request
- * @param res Festify reply
+ * @param req - Fastify request
+ * @param res - Festify reply
  */
 async function deleteTask(req: FastifyRequest<{ Params: { boardId: string, taskId: string } }>, res: FastifyReply): Promise<void> {
 	const { boardId, taskId } = req.params;

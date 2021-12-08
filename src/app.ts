@@ -12,15 +12,15 @@ import boardSchemas from './resources/boards/schemas';
 import columnSchemas from './resources/columns/schemas';
 import taskSchemas from './resources/tasks/schemas';
 
-
-
 const app = fastify({ logger: config.NODE_ENV === 'development' });
 
 // Set swagger docs
 app.register(swagger, {
-  mode: 'static',
   routePrefix: '/doc',
-  specification: { path: './doc/api.yaml' },
+  specification: { 
+    baseDir: './doc', 
+    path: '/api.yaml'
+  },
   exposeRoute: true
 });
 

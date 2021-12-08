@@ -10,7 +10,7 @@ const getAll = async (): Promise<BoardModel[]> => state.boards
 
 /**
  * Get boared by id route controller
- * @param id Board identifier
+ * @param id - Board identifier
  * @returns Board
  */
 const getById = async (id: string): Promise<BoardModel | undefined> => {
@@ -20,7 +20,7 @@ const getById = async (id: string): Promise<BoardModel | undefined> => {
 
 /**
  * Create new board route controller
- * @param boardData Board data
+ * @param boardData - Board data
  * @returns Board
  */
 const createBoard = async (boardData: BoardModel): Promise<BoardModel> => {
@@ -35,7 +35,7 @@ const createBoard = async (boardData: BoardModel): Promise<BoardModel> => {
 
 /**
  * Store board route controller
- * @param board Board 
+ * @param board - Board 
  */
 const addBoard = async (board: BoardModel): Promise<void> => {
   state.boards.push(board);
@@ -43,8 +43,8 @@ const addBoard = async (board: BoardModel): Promise<void> => {
 
 /**
  * Update board route controller
- * @param id Board identifier
- * @param boardData Board data
+ * @param id - Board identifier
+ * @param boardData - Board data
  * @returns Board
  */
 const updateBoardById = async (id: string, boardData: BoardModel): Promise<BoardModel | null> => {
@@ -63,7 +63,7 @@ const updateBoardById = async (id: string, boardData: BoardModel): Promise<Board
 
 /**
  * Delete board route controller
- * @param id Board identifier
+ * @param id - Board identifier
  */
 const deleteBoard = async (id: string): Promise<void> => {
   const boardIndex = state.boards.findIndex(b => b.id === id);

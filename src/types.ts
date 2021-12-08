@@ -9,6 +9,15 @@ export interface UserModel {
 }
 
 /**
+ * Column model
+ */
+ export interface ColumnModel {
+  id: string
+  title: string
+  order: number
+}
+
+/**
  * Board model
  */
 export interface BoardModel {
@@ -28,15 +37,6 @@ export interface TaskModel {
   title: string
   order: number
   description: string
-}
-
-/**
- * Column model
- */
-export interface ColumnModel {
-  id: string
-  title: string
-  order: number
 }
 
 /**

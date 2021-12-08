@@ -10,7 +10,7 @@ const getAll = (): Promise<BoardModel[]> => boardsRepo.getAll();
 
 /**
  * Get board
- * @param id Board identifier
+ * @param id - Board identifier
  * @returns Board
  */
 const getById = async (id: string): Promise<BoardModel | undefined> => {
@@ -20,7 +20,7 @@ const getById = async (id: string): Promise<BoardModel | undefined> => {
 
 /**
  * Store board
- * @param boardData Board data
+ * @param boardData - Board data
  * @returns Board
  */
 const addBoard = async (boardData: BoardModel): Promise<BoardModel> => {
@@ -31,8 +31,8 @@ const addBoard = async (boardData: BoardModel): Promise<BoardModel> => {
 
 /**
  * Update board
- * @param id Board identifier
- * @param boardData Board data
+ * @param id - Board identifier
+ * @param boardData - Board data
  * @returns Board
  */
 const updateBoard = async (id: string, boardData: BoardModel): Promise<BoardModel | null> => {
@@ -42,7 +42,7 @@ const updateBoard = async (id: string, boardData: BoardModel): Promise<BoardMode
 
 /**
  * Delete board
- * @param id Board identifier
+ * @param id - Board identifier
  */
 const deleteBoard = async (id: string): Promise<void> => {
   await Promise.all([
