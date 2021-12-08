@@ -1,0 +1,69 @@
+{
+  "getBoard": {
+    "schema": {
+      "response": {
+        "200": {
+          "$ref": "board"
+        }
+      },
+      "params": {
+        "boardId": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "getBoards": {
+    "schema": {
+      "response": {
+        "200": {
+          "type": "array",
+          "items": {
+            "$ref": "board"
+          }
+        }
+      }
+    }
+  },
+  "postBoard": {
+    "schema": {
+      "response": {
+        "201": {
+          "$ref": "board"
+        }
+      },
+      "body": {
+        "$ref": "board_post"
+      }
+    }
+  },
+  "putBoard": {
+    "schema": {
+      "body": {
+        "$ref": "board"
+      },
+      "response": {
+        "200": {
+          "$ref": "board"
+        }
+      },
+      "params": {
+        "boardId": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "deleteBoard": {
+    "schema": {
+      "response": {
+        "204": {}
+      },
+      "params": {
+        "boardId": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

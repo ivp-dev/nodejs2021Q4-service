@@ -1,0 +1,18 @@
+{
+  "$id": "user_get",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "login": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "id"
+  ]
+}

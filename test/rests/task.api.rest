@@ -1,0 +1,75 @@
+@hostname = http://localhost
+@port = 4000
+@host = {{hostname}}:{{port}}
+@contentType = application/json
+
+# @name postBoard
+POST {{host}}/boards HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+  "title": "Board_{{$timestamp}}",
+  "columns": [{ "title": "in progress" }, { "title": "done" }]
+}
+
+###
+
+@boardId = {{postBoard.response.body.id}}
+
+# @name postUser
+POST {{host}}/users HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+  "name": "User_{{$timestamp}}",
+  "login": "Login_{{$timestamp}}",
+  "password": "123"
+}
+
+###
+
+# @name getTasks
+
+GET {{host}}/boards/{{boardId}}/tasks HTTP/1.1
+Content-Type: {{contentType}}
+
+###
+
+@taskId = {{postTask.response.body.id}}
+
+# @name getTask
+
+GET {{host}}/boards/{{boardId}}/tasks/{{taskId}} HTTP/1.1
+Content-Type: {{contentType}}
+
+###
+
+@userId = {{postUser.response.body.id}}
+@columnId = {{postBoard.response.body.columns[0].id}}
+
+# @name postTask
+
+POST {{host}}/boards/{{boardId}}/tasks HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+  "title": "Task_{{$timestamp}}",
+  "order": 0,
+  "description": "Dummy task",
+  "userId": "{{userId}}",
+  "boardId": "{{boardId}}",
+  "columnId": "{{columnId}}"
+}
+
+###
+
+# @name deleteUserById
+DELETE {{host}}/users/{{userId}} HTTP/1.1
+Content-Type: {{contentType}}
+
+###
+
+# @name deleteBoardById
+DELETE {{host}}/boards/{{boardId}} HTTP/1.1
+Content-Type: {{contentType}}
+
