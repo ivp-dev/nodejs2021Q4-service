@@ -3,6 +3,9 @@ import app from './app';
 
 const { PORT } = config;
 
+/**
+ * Starting the server
+ */
 const start = async () => {
   try {
     app.listen(PORT);

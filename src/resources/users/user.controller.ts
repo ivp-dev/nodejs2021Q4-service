@@ -17,7 +17,6 @@ async function getUsers(req: FastifyRequest, res: FastifyReply): Promise<void> {
  * Get user route controller
  * @param req - Fastify request
  * @param res - Fastify reply
- * @returns
  */
 async function getUser(
   req: FastifyRequest<{ Params: { userId: string } }>,
@@ -52,7 +51,6 @@ async function postUser(
  * Update stored user route controller
  * @param req - Fastify request
  * @param res - Fastify reply
- * @returns
  */
 async function putUser(
   req: FastifyRequest<{ Body: UserModel; Params: { userId: string } }>,
@@ -74,7 +72,6 @@ async function putUser(
  * Delete stored user route controller
  * @param req - Fastify request
  * @param res - Fastify reply
- * @returns
  */
 async function deleteUser(
   req: FastifyRequest<{ Params: { userId: string } }>,

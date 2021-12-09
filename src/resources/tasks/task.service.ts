@@ -16,7 +16,7 @@ const getAll = async (boardId: string): Promise<TaskModel[]> => {
  *
  * @param boardId - Board identifier
  * @param taskId - Task identifier
- * @returns Task
+ * @returns Task with specified identifier
  */
 const getById = async (
   boardId: string,
@@ -28,10 +28,9 @@ const getById = async (
 
 /**
  * Add task to specified board.
- *
  * @param boardId - Board identifier
  * @param task - Task identifier
- * @returns Task
+ * @returns Task with generated identifier
  */
 const addTask = async (
   boardId: string,
@@ -44,11 +43,10 @@ const addTask = async (
 
 /**
  * Update task of specified board.
- *
  * @param boardId - Board identifier
  * @param taskId - Task identifier
  * @param task - Target task
- * @returns Return updated task
+ * @returns Return updated task or null if not found
  */
 const updateTask = async (
   boardId: string,
@@ -61,7 +59,6 @@ const updateTask = async (
 
 /**
  * Delete task from specified board
- *
  * @param boardId - Board identifier
  * @param taskId - Task identifier
  */

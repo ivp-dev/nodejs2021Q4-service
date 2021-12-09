@@ -1,4 +1,3 @@
-// Require the framework and instantiate it
 import fastify from 'fastify';
 import swagger from 'fastify-swagger';
 import config from './common/config';
@@ -12,7 +11,9 @@ import boardSchemas from './resources/boards/schemas';
 import columnSchemas from './resources/columns/schemas';
 import taskSchemas from './resources/tasks/schemas';
 
-const app = fastify({ logger: config.NODE_ENV === 'development' });
+const app = fastify({
+  logger: config.NODE_ENV === 'development',
+});
 
 // Set swagger docs
 app.register(swagger, {
@@ -41,7 +42,7 @@ app.addSchema(boardSchemas.boardPost);
 app.addSchema(columnSchemas.columnSchema);
 app.addSchema(columnSchemas.columnPostSchema);
 
-// Setup plugin
+// Setup controllers
 app.register(userRouter);
 app.register(taskRouter);
 app.register(boardRouter);
