@@ -36,9 +36,7 @@
     "node/no-unsupported-features/es-syntax": "off",
     "tsdoc/syntax": "error",
     "@typescript-eslint/no-explicit-any": ["error"],
-    "node/no-missing-import": ["error", {
-      "tryExtensions": [".ts"]
-    }]
+    "node/no-missing-import": "off"
   },
   "parser": "@typescript-eslint/parser",
   "plugins": [
