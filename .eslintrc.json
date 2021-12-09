@@ -24,7 +24,6 @@
   },
   "extends": [
     "eslint:recommended",
-    "plugin:node/recommended",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:import/typescript",
@@ -36,9 +35,7 @@
     "linebreak-style": "off",
     "node/no-unsupported-features/es-syntax": "off",
     "tsdoc/syntax": "error",
-    "@typescript-eslint/no-explicit-any": ["error"],
-    "node/no-missing-import": "off",
-    "import/no-unresolved": "off"
+    "@typescript-eslint/no-explicit-any": ["error"]
   },
   "parser": "@typescript-eslint/parser",
   "plugins": [
