@@ -7,7 +7,6 @@
   },
   "description": "REST service starter for RS School",
   "main": "src/server.ts",
-  "type": "module",
   "scripts": {
     "start": "nodemon --exec npx ts-node src/server.ts",
     "lint": "eslint --ext .js,.ts --fix src/",
