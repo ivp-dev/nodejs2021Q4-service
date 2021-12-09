@@ -20,10 +20,15 @@
         "extensions": [".js", ".ts", ".json"],
         "tryExtensions": [".js", ".json", ".ts"]
       }
+    },
+    "node": {
+      "extensions": [".js", ".ts", ".json"],
+      "tryExtensions": [".js", ".json", ".ts"]
     }
   },
   "extends": [
     "eslint:recommended",
+    "plugin:node/recommended",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:import/typescript",
@@ -35,7 +40,10 @@
     "linebreak-style": "off",
     "node/no-unsupported-features/es-syntax": "off",
     "tsdoc/syntax": "error",
-    "@typescript-eslint/no-explicit-any": ["error"]
+    "@typescript-eslint/no-explicit-any": ["error"],
+    "node/no-missing-import": ["error", {
+      "tryExtensions": [".ts"]
+    }]
   },
   "parser": "@typescript-eslint/parser",
   "plugins": [
