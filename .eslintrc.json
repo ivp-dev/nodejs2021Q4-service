@@ -15,7 +15,10 @@
       ".js",
       ".json",
       ".ts"
-    ]
+    ],
+    "import/resolver": {
+      "typescript": {},
+    }
   },
   "rules": {
     "node/no-missing-import": [
