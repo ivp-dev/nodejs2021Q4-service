@@ -10,7 +10,20 @@
     "plugin:@typescript-eslint/recommended"
   ],
   "rules": {
-    "node/no-missing-import": "off",
+    "node/no-missing-import": [
+      "error",
+      {
+        "allowModules": [],
+        "resolvePaths": [
+          "/src"
+        ],
+        "tryExtensions": [
+          ".js",
+          ".json",
+          ".ts"
+        ]
+      }
+    ],
     "import/no-unresolved": "off"
   }
 }
