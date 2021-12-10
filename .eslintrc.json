@@ -27,7 +27,10 @@
       ".ts"
     ],
     "import/resolver": {
-      "typescript": {}
+      "typescript": {},
+      "node": {
+        "moduleDirectory": ["node_modules", "src/"]
+      }
     }
   },
   "rules": {
