@@ -9,6 +9,13 @@
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended"
   ],
+   "settings": {
+    "import/extensions": [
+      ".js",
+      ".json",
+      ".ts"
+    ]
+  },
   "rules": {
     "node/no-missing-import": [
       "error",
