@@ -21,6 +21,20 @@
     }
   },
   "rules": {
+    "node/no-missing-import": [
+      "error",
+      {
+        "allowModules": [],
+        "resolvePaths": [
+          "/src"
+        ],
+        "tryExtensions": [
+          ".js",
+          ".json",
+          ".ts"
+        ]
+      }
+    ],
     "import/no-unresolved": [ 2, { "caseSensitive": false }]
   }
 }
