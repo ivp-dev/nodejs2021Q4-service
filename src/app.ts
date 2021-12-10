@@ -12,7 +12,7 @@ import columnSchemas from './resources/columns/schemas';
 import taskSchemas from './resources/tasks/schemas';
 
 const app = fastify({
-  logger: config["NODE_ENV"] === 'development',
+  logger: config.NODE_ENV === 'development',
 });
 
 // Set swagger docs

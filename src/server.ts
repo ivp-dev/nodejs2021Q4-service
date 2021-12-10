@@ -6,7 +6,7 @@ import app from './app';
  */
 const start = async () => {
   try {
-    app.listen(config["PORT"]);
+    app.listen(config.PORT);
   } catch (e) {
     app.log.error(e);
     throw e;
