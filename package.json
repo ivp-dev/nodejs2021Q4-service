@@ -6,6 +6,7 @@
     "url": ""
   },
   "description": "REST service starter for RS School",
+  "type": "module",
   "main": "src/server.ts",
   "scripts": {
     "start": "nodemon --exec npx ts-node src/server.ts",
