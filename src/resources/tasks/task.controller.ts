@@ -6,6 +6,7 @@ import tasksService from './task.service';
  * Get all tasks route controller
  * @param req - Fastify request
  * @param res - Festify reply
+ * @returns Promise void
  */
 async function getTasks(
   req: FastifyRequest<{ Params: { boardId: string } }>,
@@ -21,6 +22,7 @@ async function getTasks(
  * Get task route controller
  * @param req - Fastify request
  * @param res - Festify reply
+ * @returns Promise void
  */
 async function getTask(
   req: FastifyRequest<{ Params: { boardId: string; taskId: string } }>,
@@ -41,6 +43,7 @@ async function getTask(
  * Add task route controller
  * @param req - Fastify request
  * @param res - Festify reply
+ * @returns Promise void
  */
 async function postTask(
   req: FastifyRequest<{ Params: { boardId: string }; Body: TaskModel }>,
@@ -57,6 +60,7 @@ async function postTask(
  * Update task route controller
  * @param req - Fastify request
  * @param res - Festify reply
+ * @returns Promise void
  */
 async function putTask(
   req: FastifyRequest<{
@@ -81,6 +85,7 @@ async function putTask(
  * Delete task route controller
  * @param req - Fastify request
  * @param res - Festify reply
+ * @returns Promise void
  */
 async function deleteTask(
   req: FastifyRequest<{ Params: { boardId: string; taskId: string } }>,

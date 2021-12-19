@@ -6,6 +6,7 @@ import usersService from './user.service';
  * Get all users route controller
  * @param req - Fastify request
  * @param res - Fastify reply
+ * @returns Promise void
  */
 async function getUsers(req: FastifyRequest, res: FastifyReply): Promise<void> {
   const users = await usersService.getAll();
@@ -17,6 +18,7 @@ async function getUsers(req: FastifyRequest, res: FastifyReply): Promise<void> {
  * Get user route controller
  * @param req - Fastify request
  * @param res - Fastify reply
+ * @returns Promise void
  */
 async function getUser(
   req: FastifyRequest<{ Params: { userId: string } }>,
@@ -37,6 +39,7 @@ async function getUser(
  * Store user route controller
  * @param req - Fastify request
  * @param res - Fastify reply
+ * @returns Promise void
  */
 async function postUser(
   req: FastifyRequest<{ Body: UserModel }>,
@@ -51,6 +54,7 @@ async function postUser(
  * Update stored user route controller
  * @param req - Fastify request
  * @param res - Fastify reply
+ * @returns Promise void
  */
 async function putUser(
   req: FastifyRequest<{ Body: UserModel; Params: { userId: string } }>,
@@ -72,6 +76,7 @@ async function putUser(
  * Delete stored user route controller
  * @param req - Fastify request
  * @param res - Fastify reply
+ * @returns Promise void
  */
 async function deleteUser(
   req: FastifyRequest<{ Params: { userId: string } }>,

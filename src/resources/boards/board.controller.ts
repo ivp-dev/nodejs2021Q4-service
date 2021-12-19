@@ -6,6 +6,7 @@ import boardsService from './board.service';
  * Get boards route controller
  * @param req - Fastify request
  * @param res - Fastify reply
+ * @returns Promise void
  */
 async function getBoards(
   req: FastifyRequest,
@@ -20,6 +21,7 @@ async function getBoards(
  * Get board route controller
  * @param req - Fastify request
  * @param res - Fastify reply
+ * @returns Promise void
  */
 async function getBoard(
   req: FastifyRequest<{ Params: { boardId: string } }>,
@@ -40,6 +42,7 @@ async function getBoard(
  * Store board route controller
  * @param req - Fastify request
  * @param res - Fastify reply
+ * @returns Promise void
  */
 async function postBoard(
   req: FastifyRequest<{ Body: BoardModel }>,
@@ -54,6 +57,7 @@ async function postBoard(
  * Update board route controller
  * @param req - Fastify request
  * @param res - Fastify reply
+ * @returns Promise void
  */
 async function putBoard(
   req: FastifyRequest<{ Params: { boardId: string }; Body: BoardModel }>,
@@ -75,6 +79,7 @@ async function putBoard(
  * Delete stored board route controller
  * @param req - Fastify request
  * @param res - Fastify reply
+ * @returns Promise void
  */
 async function deleteBoard(
   req: FastifyRequest<{ Params: { boardId: string } }>,

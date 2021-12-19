@@ -4,14 +4,14 @@ import { UserModel } from '../../types';
 
 /**
  * Get all users
- * @returns List of users
+ * @returns Promise List of users
  */
 const getAll = async (): Promise<UserModel[]> => state.users;
 
 /**
  * Get user by id
  * @param id - User identifier
- * @returns User
+ * @returns Promise User
  */
 const getById = async (id: string): Promise<UserModel | undefined> => {
   const user = state.users.find((u) => u.id === id);
@@ -21,7 +21,7 @@ const getById = async (id: string): Promise<UserModel | undefined> => {
 /**
  * Create new user
  * @param userData - User data
- * @returns User
+ * @returns Promise User
  */
 const createUser = async (userData: UserModel): Promise<UserModel> => {
   const newUser = { ...userData, id: uuidv4() };
@@ -31,6 +31,7 @@ const createUser = async (userData: UserModel): Promise<UserModel> => {
 /**
  * Add user to store
  * @param user - User
+ * @returns Promise void
  */
 const addUser = async (user: UserModel): Promise<void> => {
   state.users.push(user);
@@ -40,7 +41,7 @@ const addUser = async (user: UserModel): Promise<void> => {
  * Update stored user by id
  * @param id - User identifier
  * @param userData - User data
- * @returns User
+ * @returns Promise User
  */
 const updateUserById = async (
   id: string,
@@ -62,6 +63,7 @@ const updateUserById = async (
 /**
  * Delete stored user
  * @param id - User identifier
+ * @returns Promise void
  */
 const deleteUser = async (id: string): Promise<void> => {
   const userIndex = state.users.findIndex((u) => u.id === id);

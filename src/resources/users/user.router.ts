@@ -7,6 +7,7 @@ import UserSchemas from './user.opts.json';
  * @param app - Instance of app
  * @param opts - Options
  * @param done -  Done callback
+ * @returns void 
  */
 const userRoutes: FastifyPluginCallback = (app, opts, done): void => {
   app.get('/users', UserSchemas.getUsers, UserControllers.getUsers);

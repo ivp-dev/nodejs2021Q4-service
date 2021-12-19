@@ -7,6 +7,7 @@ import TaskSchemas from './task.opts.json';
  * @param app - Instance of app
  * @param opts - Options
  * @param done - Done callback
+ * @returns void
  */
 const taskRoutes: FastifyPluginCallback = (app, opts, done): void => {
   app.get(

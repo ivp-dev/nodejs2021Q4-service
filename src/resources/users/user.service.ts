@@ -4,7 +4,7 @@ import { UserModel } from '../../types';
 
 /**
  * Get all users
- * @returns List of users
+ * @returns Promise List of users
  */
 const getAll = (): Promise<UserModel[]> => usersRepo.getAll();
 

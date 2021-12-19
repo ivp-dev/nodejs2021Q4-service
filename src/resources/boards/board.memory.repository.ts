@@ -4,14 +4,14 @@ import { BoardModel } from '../../types';
 
 /**
  * Get all boards route controller
- * @returns List of boards
+ * @returns Promise list of boards
  */
 const getAll = async (): Promise<BoardModel[]> => state.boards;
 
 /**
  * Get boared by id route controller
  * @param id - Board identifier
- * @returns Board
+ * @returns Promise Board
  */
 const getById = async (id: string): Promise<BoardModel | undefined> => {
   const board = state.boards.find((b) => b.id === id);
@@ -21,7 +21,7 @@ const getById = async (id: string): Promise<BoardModel | undefined> => {
 /**
  * Create new board route controller
  * @param boardData - Board data
- * @returns Board
+ * @returns Promise Board
  */
 const createBoard = async (boardData: BoardModel): Promise<BoardModel> => {
   const newBoard = {
@@ -39,6 +39,7 @@ const createBoard = async (boardData: BoardModel): Promise<BoardModel> => {
 /**
  * Store board route controller
  * @param board - Board
+ * @returns Promise void
  */
 const addBoard = async (board: BoardModel): Promise<void> => {
   state.boards.push(board);
@@ -48,7 +49,7 @@ const addBoard = async (board: BoardModel): Promise<void> => {
  * Update board route controller
  * @param id - Board identifier
  * @param boardData - Board data
- * @returns Board
+ * @returns Promise Board 
  */
 const updateBoardById = async (
   id: string,
@@ -70,6 +71,7 @@ const updateBoardById = async (
 /**
  * Delete board route controller
  * @param id - Board identifier
+ * @returns Promise void
  */
 const deleteBoard = async (id: string): Promise<void> => {
   const boardIndex = state.boards.findIndex((b) => b.id === id);

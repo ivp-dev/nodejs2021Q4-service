@@ -4,14 +4,14 @@ import { BoardModel } from '../../types';
 
 /**
  * Get all boards
- * @returns List of boards
+ * @returns Promise List of boards
  */
 const getAll = (): Promise<BoardModel[]> => boardsRepo.getAll();
 
 /**
  * Get board
  * @param id - Board identifier
- * @returns Board
+ * @returns Promise Board or undefined
  */
 const getById = async (id: string): Promise<BoardModel | undefined> => {
   const result = await boardsRepo.getById(id);
@@ -21,7 +21,7 @@ const getById = async (id: string): Promise<BoardModel | undefined> => {
 /**
  * Store board
  * @param boardData - Board data
- * @returns Board
+ * @returns Promise Board
  */
 const addBoard = async (boardData: BoardModel): Promise<BoardModel> => {
   const newBoard = await boardsRepo.createBoard(boardData);
@@ -33,7 +33,7 @@ const addBoard = async (boardData: BoardModel): Promise<BoardModel> => {
  * Update board
  * @param id - Board identifier
  * @param boardData - Board data
- * @returns Board
+ * @returns Promise Board or null
  */
 const updateBoard = async (
   id: string,
@@ -46,6 +46,7 @@ const updateBoard = async (
 /**
  * Delete board
  * @param id - Board identifier
+ * @returns Promise void
  */
 const deleteBoard = async (id: string): Promise<void> => {
   await Promise.all([
