@@ -1,5 +1,7 @@
 import { FastifyInstance, FastifyRequest } from 'fastify';
-import logger, {LoggerPlugin} from '../plugins/logger';
+import config from './common/config';
+import logger from '../plugins/logger';
+import isLoggerEnabled from './utils/is-fastify-instance-logger-enabled';
 
 const stringifyRequest = (req: FastifyRequest) => {
   const { hostname, url, params, body, method } = req;
@@ -9,49 +11,62 @@ const stringifyRequest = (req: FastifyRequest) => {
   )} body: ${JSON.stringify(body)}`;
 };
 
-interface FastifyInstanceLoggerEnabled {
-  logger: LoggerPlugin
-}
+const enableLogging = (fastify: FastifyInstance) => {
 
-function isFastifyInstanceLoggerEnabled(obj: unknown): obj is FastifyInstanceLoggerEnabled {
-  if(typeof obj === 'object') {
-    return !!obj && 'logger' in obj;
-  }
-
-  return false;
-}
-
-const enableLogging = async (fastify: FastifyInstance) => {
-  fastify.register(logger);
-
-  if(!isFastifyInstanceLoggerEnabled(fastify)) {
-    return;
-  }
+  fastify.register(logger, {
+    level: parseFloat(config.LOGGIN_LEVEL),
+  });
 
   process.on('uncaughtException', async (error) => {
+    if (!isLoggerEnabled(fastify)) {
+      return;
+    }
+
     fastify.logger.error(error.message);
   });
 
   process.on('unhandledRejection', async (error) => {
+    if (!isLoggerEnabled(fastify)) {
+      return;
+    }
+
     if (error instanceof Error) {
-      fastify.logger.error(error.message)
+      fastify.logger.error(error.message);
     }
   });
 
-  fastify.addHook('preHandler', async (req, _rep, done) => {
-    fastify.logger.info(stringifyRequest(req));
+  fastify.addHook('onRequest', (req, _rep, done) => {
+    if (!isLoggerEnabled(fastify)) {
+      return;
+    }
+
+    const message = stringifyRequest(req);
+    fastify.logger.info(message);
     done();
   });
 
   fastify.addHook('onError', async (_req, _rep, error, done) => {
-    // fastify.logger.error();
+    if (!isLoggerEnabled(fastify)) {
+      return;
+    }
+
+    fastify.logger.error(error.message);
+
     done();
   });
 
   fastify.addHook('onResponse', (_req, rep, done) => {
-    // fastify.logger.info();
+    if (!isLoggerEnabled(fastify)) {
+      return;
+    }
+
+    const message = `Request completed with status code ${rep.statusCode}`;
+
+    fastify.logger.info(message);
+
     done();
   });
+
 };
 
 export default enableLogging;

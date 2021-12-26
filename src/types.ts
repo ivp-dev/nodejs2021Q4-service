@@ -1,3 +1,9 @@
+import { LoggerPlugin } from "../plugins/logger";
+
+export interface FastifyInstanceLoggerEnabled {
+  logger: LoggerPlugin;
+}
+
 /**
  * User model
  */
