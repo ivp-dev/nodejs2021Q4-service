@@ -10,9 +10,16 @@ import userSchemas from './resources/users/schemas';
 import boardSchemas from './resources/boards/schemas';
 import columnSchemas from './resources/columns/schemas';
 import taskSchemas from './resources/tasks/schemas';
+import logger from '../plugins/logger';
+import enableLogging from './enable-logging';
 
 const app = fastify({
-  logger: config.NODE_ENV === 'development',
+  disableRequestLogging: true,
+  logger: true
+});
+
+app.register(logger, {
+  level: parseFloat(config.LOGGIN_LEVEL)
 });
 
 // Set swagger docs
@@ -24,6 +31,8 @@ app.register(swagger, {
   },
   exposeRoute: true,
 });
+
+enableLogging(app);
 
 // Add user schemas
 app.addSchema(userSchemas.user);
