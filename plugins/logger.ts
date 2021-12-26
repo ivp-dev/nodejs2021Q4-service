@@ -1,5 +1,6 @@
 import { FastifyInstance, FastifyPluginOptions, FastifyError } from 'fastify';
 import fp from 'fastify-plugin';
+import fs from 'fs';
 
 type NextCallback = (error?: FastifyError) => void;
 
@@ -12,12 +13,17 @@ export interface LoggerPlugin {
   debug: (message: string) => Promise<void>;
   error: (message: string) => Promise<void>;
   warn: (message: string) => Promise<void>;
-  all: (message: string) => Promise<void>;
 }
 
 export type FastifyInstanceLoggingSupport = FastifyInstance &
   Partial<LoggerPlugin>;
 
+/**
+ *
+ * @param fastify - Fastify instance
+ * @param options - plugin options
+ * @param next - next callback
+ */
 const loggerPlugin = async (
   fastify: FastifyInstance,
   options: FastifyPluginOptions,
@@ -25,49 +31,78 @@ const loggerPlugin = async (
 ): Promise<void> => {
   const internalOptions = { level: 0, ...options };
 
-  const logger = async (type: string, message: string) => {
-    console.log(appendTime(`type: ${type}, message: ${message} \n`));
+  const errorFileWriteStream = fs.createWriteStream(options.filePath, {
+    flags: 'a',
+    encoding: 'utf-8',
+  });
+
+  /**
+   *
+   * @param type - type of log message
+   * @param message - message string
+   * @returns Promise void
+   */
+  const logging = async (type: string, message: string): Promise<void> => {
+    const targetMessage = appendTime(`type: ${type}, message: ${message} \n`);
+
+    return new Promise((resolve, reject) => {
+      errorFileWriteStream.write(targetMessage, (error) => {
+        if (error) reject(error);
+        resolve();
+      });
+    });
   };
 
+  /**
+   * Log info message
+   * @param message - message string
+   */
   const info = async (message: string) => {
     if (internalOptions.level >= 2) {
-      await logger('info', message);
+      await logging('info', message);
     }
   };
 
+  /**
+   * Log debug message
+   * @param message - message string
+   */
   const debug = async (message: string) => {
     if (internalOptions.level >= 3) {
-      await logger('debug', message);
+      await logging('debug', message);
     }
   };
 
+  /**
+   * Log error message
+   * @param message - message string
+   */
   const error = async (message: string) => {
-    await logger('error', message);
+    await logging('error', message);
   };
 
-  const warning = async (message: string) => {
+  /**
+   * Log warn message
+   * @param message - message string
+   */
+  const warn = async (message: string) => {
     if (internalOptions.level >= 1) {
-      await logger('debug', message);
+      await logging('warn', message);
     }
   };
 
-  const all = async (message: string) => {
-    if (internalOptions.level >= 4) {
-      await logger('debug', message);
-    }
-  };
-
-  fastify.decorate('logger', {
-    all,
+  const logger: LoggerPlugin = {
     info,
     debug,
     error,
-    warning,
-  });
+    warn,
+  };
+
+  fastify.decorate('logger', logger);
 
   next?.();
 };
 
 export default fp(loggerPlugin, {
-  name: 'logger',
+  name: 'custom-logger',
 });

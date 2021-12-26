@@ -29,8 +29,4 @@ app.register(userRouter);
 app.register(taskRouter);
 app.register(boardRouter);
 
-
-app.log.debug('Example Debug log');
-app.log.warn('Example warn log');
-
 export default app;
