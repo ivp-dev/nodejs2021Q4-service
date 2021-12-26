@@ -19,7 +19,7 @@ export type FastifyInstanceLoggingSupport = FastifyInstance &
   Partial<LoggerPlugin>;
 
 /**
- *
+ * Logger plugin
  * @param fastify - Fastify instance
  * @param options - plugin options
  * @param next - next callback
@@ -37,7 +37,7 @@ const loggerPlugin = async (
   });
 
   /**
-   *
+   * Write log to file
    * @param type - type of log message
    * @param message - message string
    * @returns Promise void
