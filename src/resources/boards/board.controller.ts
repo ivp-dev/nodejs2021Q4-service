@@ -31,7 +31,7 @@ async function getBoard(
   const board = await boardsService.getById(boardId);
 
   if (!board) {
-    res.callNotFound();
+    res.code(404).send('Not Found');
     return;
   }
 
@@ -68,7 +68,7 @@ async function putBoard(
   const updatedboard = await boardsService.updateBoard(boardId, board);
 
   if (!updatedboard) {
-    res.callNotFound();
+    res.code(404).send('Not Found');
     return;
   }
 

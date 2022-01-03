@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 import path from 'path';
 
 dotenv.config({
-  path: path.join(path.resolve(), '../../.env'),
+  path: path.join(__dirname, '../../.env'),
 });
 
 const config = {
@@ -11,6 +11,7 @@ const config = {
   MONGO_CONNECTION_STRING: process.env.MONGO_CONNECTION_STRING,
   JWT_SECRET_KEY: process.env.JWT_SECRET_KEY,
   AUTH_MODE: process.env.AUTH_MODE === 'true',
+  LOGGIN_LEVEL: process.env.LOGGIN_LEVEL || '0'
 };
 
 export default config;

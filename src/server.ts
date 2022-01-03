@@ -1,5 +1,7 @@
+import { AddressInfo } from 'net';
 import config from './common/config';
 import app from './app';
+import isLoggerEnable from './utils/is-logger-enable';
 
 const { PORT } = config;
 
@@ -8,10 +10,18 @@ const { PORT } = config;
  */
 const start = async () => {
   try {
-    app.listen(PORT);
+    await app.listen(PORT);
+
+    if (isLoggerEnable(app)) {
+      const info = app.server.address();
+      if (typeof info === 'object' && !!info && (info as AddressInfo).port) {
+        app.logger.info(`server listening on port: ${info.port}`);
+      }
+    }
   } catch (e) {
-    app.log.error(e);
-    process.exit(1);
+    if (isLoggerEnable(app)) {
+      app.logger.error(e instanceof Error ? e.message : JSON.stringify(e)); 
+    }
   }
 };
 

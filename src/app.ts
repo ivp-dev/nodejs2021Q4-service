@@ -1,19 +1,14 @@
 import fastify from 'fastify';
 import swagger from 'fastify-swagger';
-import config from './common/config';
 
 import userRouter from './resources/users/user.router';
 import boardRouter from './resources/boards/board.router';
 import taskRouter from './resources/tasks/task.router';
 
-import userSchemas from './resources/users/schemas';
-import boardSchemas from './resources/boards/schemas';
-import columnSchemas from './resources/columns/schemas';
-import taskSchemas from './resources/tasks/schemas';
+import enableLogging from './enable-logging';
+import registerSchemas from './register-schemas';
 
-const app = fastify({
-  logger: config.NODE_ENV === 'development',
-});
+const app = fastify();
 
 // Set swagger docs
 app.register(swagger, {
@@ -25,22 +20,9 @@ app.register(swagger, {
   exposeRoute: true,
 });
 
-// Add user schemas
-app.addSchema(userSchemas.user);
-app.addSchema(userSchemas.userGet);
-app.addSchema(userSchemas.userPost);
+enableLogging(app);
 
-// Add task schemas
-app.addSchema(taskSchemas.task);
-app.addSchema(taskSchemas.taskPost);
-
-// Add board schemas
-app.addSchema(boardSchemas.board);
-app.addSchema(boardSchemas.boardPost);
-
-// Add column schemas
-app.addSchema(columnSchemas.columnSchema);
-app.addSchema(columnSchemas.columnPostSchema);
+registerSchemas(app);
 
 // Setup controllers
 app.register(userRouter);
