@@ -48,7 +48,7 @@ const loggerPlugin = async (
     return new Promise((resolve, reject) => {
       errorFileWriteStream.write(targetMessage, (error) => {
         if (error) reject(error);
-        resolve();
+        else resolve();
       });
     });
   };

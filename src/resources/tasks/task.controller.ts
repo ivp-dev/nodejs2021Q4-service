@@ -32,7 +32,7 @@ async function getTask(
   const task = await tasksService.getById(boardId, taskId);
 
   if (!task) {
-    res.callNotFound();
+    res.code(404).send('Not Found');
     return;
   }
 
@@ -74,7 +74,7 @@ async function putTask(
   const updatedTask = await tasksService.updateTask(boardId, taskId, task);
 
   if (!updatedTask) {
-    res.callNotFound();
+    res.code(404).send('Not Found');
     return;
   }
 

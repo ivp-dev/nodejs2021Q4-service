@@ -1,6 +1,6 @@
 import { LoggerPlugin } from "../plugins/logger";
 
-export interface FastifyInstanceLoggerEnabled {
+export interface FastifyInstanceLoggerEnable {
   logger: LoggerPlugin;
 }
 

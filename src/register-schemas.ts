@@ -20,10 +20,7 @@ const registerSchemas = (app: FastifyInstance) => {
     // Add board schemas
     columnSchemas.columnSchema,
     columnSchemas.columnPostSchema,
-  ].reduce((acc, schema) => {
-    acc.addSchema(schema);
-    return acc;
-  }, app);
+  ].reduce((acc, schema) => acc.addSchema(schema), app);
 };
 
 export default registerSchemas;
