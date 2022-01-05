@@ -1,7 +1,6 @@
 import { FastifyInstance, FastifyRequest } from 'fastify';
 import config from './common/config';
 import logger from '../plugins/logger';
-import isLoggerEnabled from './utils/is-logger-enable';
 
 const stringifyRequest = (req: FastifyRequest) => {
   const { hostname, url, params, body, method } = req;
@@ -18,26 +17,21 @@ const stringifyRequest = (req: FastifyRequest) => {
 const enableLogging = (app: FastifyInstance) => {
   
   process.on('uncaughtException', async (error) => {
-    if (!isLoggerEnabled(app)) return;
-    await app.logger.error(`${error.message}: ${error.stack}`);
+    await app.logger?.error(`${error.message}: ${error.stack}`);
   });
 
   process.on('unhandledRejection', async (error) => {
-    if (!isLoggerEnabled(app)) return;
-    await app.logger.error(error instanceof Error ? error.message : JSON.stringify(error));
+    await app.logger?.error(error instanceof Error ? error.message : JSON.stringify(error));
   });
 
   app.addHook('preHandler', async (req, _rep, done) => {
-    if (!isLoggerEnabled(app)) return;
-    await app.logger.info(stringifyRequest(req));
+    await app.logger?.info(stringifyRequest(req));
 
     done();
   });
 
   app.addHook('onResponse', async (_req, rep, done) => {
-    if (!isLoggerEnabled(app)) return;
-    
-    await app.logger.info(
+    await app.logger?.info(
       `Request completed with status code ${rep.statusCode}`
     );
 
@@ -45,13 +39,11 @@ const enableLogging = (app: FastifyInstance) => {
   });
 
   app.addHook('onReady', async (done) => {
-    if (!isLoggerEnabled(app)) return;
-
-    await app.logger.warn(
+    await app.logger?.warn(
       `Test warn message`
     );
 
-    await app.logger.debug(
+    await app.logger?.debug(
       `Test debug message`
     );
 
@@ -59,9 +51,7 @@ const enableLogging = (app: FastifyInstance) => {
   });
 
   app.addHook('onError', async (_req, _rep, error, done) => {
-    if (!isLoggerEnabled(app)) return;
-
-    await app.logger.error(error.message);
+    await app.logger?.error(error.message);
 
     done();
   });
