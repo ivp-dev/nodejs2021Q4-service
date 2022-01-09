@@ -11,7 +11,7 @@ const stringifyRequest = (req: FastifyRequest) => {
 };
 
 /**
- * Enable logging
+ * Enable logging.
  * @param fastify- Fastify instance
  */
 const enableLogging = (app: FastifyInstance) => {

@@ -11,10 +11,7 @@ services:
       context: ./../
       dockerfile: ./docker/api/Dockerfile
     volumes:
-      - ./src:/app/src
-      - ./plugins:/app/plugins
-      - ./types:/app/types
-      - ./logs/:/app/logs
+      ['../src:/app/src', '../plugins:/app/plugins', '../types:/app/types', ../logs/:/app/logs]
     ports: 
       - ${PORT}:${PORT}
     depends_on:

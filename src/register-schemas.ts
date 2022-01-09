@@ -7,11 +7,11 @@ import taskSchemas from './resources/tasks/schemas';
 
 const registerSchemas = (app: FastifyInstance) => {
   [
-    // Add user schemas
+    // Add user schemas.
     userSchemas.user,
     userSchemas.userGet,
     userSchemas.userPost,
-    // Add task schemas
+    // Add task schemas.
     taskSchemas.task,
     taskSchemas.taskPost,
     // Add board schemas
