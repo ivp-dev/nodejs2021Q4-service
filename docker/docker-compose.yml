@@ -1,0 +1,29 @@
+version: '3.7'
+
+networks:
+  ivp-rss-network:
+    driver: bridge
+
+services:
+  ivp-rss-http-api:
+    container_name: ivp-rss-http-api
+    build:
+      context: ./../
+      dockerfile: ./docker/api/Dockerfile
+      ports: ${PORT}:${PORT}
+    depends_on:
+      - ivp-rss-postgres-web
+    networks:
+      - ivp-rss-network
+  
+  ivp-rss-postgres-web:
+    container_name: ivp-rss-postgres-web
+    image: postgres
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - ./postgres/data:/var/lib/postgresql/data:delegated
+    networks:
+      - ivp-rss-network

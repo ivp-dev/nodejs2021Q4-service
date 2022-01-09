@@ -58,7 +58,7 @@ const enableLogging = (app: FastifyInstance) => {
 
   app.register(logger, {
     level: parseFloat(config.LOGGIN_LEVEL),
-    filePath: 'logs.log',
+    filePath: config.LOG_FILE_PATH,
   });
 
 };

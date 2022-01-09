@@ -1,6 +1,7 @@
 import { FastifyInstance, FastifyPluginOptions, FastifyError } from 'fastify';
 import fp from 'fastify-plugin';
 import fs from 'fs';
+import path from 'path';
 
 type NextCallback = (error?: FastifyError) => void;
 
@@ -30,6 +31,11 @@ const loggerPlugin = async (
   next: NextCallback
 ): Promise<void> => {
   const internalOptions = { level: 0, ...options };
+  const filePath = path.dirname(options.filePath);
+
+  if (!fs.existsSync(filePath)) {
+    fs.mkdirSync(filePath);
+  }
 
   const errorFileWriteStream = fs.createWriteStream(options.filePath, {
     flags: 'a',
