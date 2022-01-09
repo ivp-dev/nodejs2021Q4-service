@@ -10,7 +10,13 @@ services:
     build:
       context: ./../
       dockerfile: ./docker/api/Dockerfile
-      ports: ${PORT}:${PORT}
+    volumes:
+      - ./src:/app/src
+      - ./plugins:/app/plugins
+      - ./types:/app/types
+      - ./logs/:/app/logs
+    ports: 
+      - ${PORT}:${PORT}
     depends_on:
       - ivp-rss-postgres-web
     networks:
