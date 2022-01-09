@@ -1,3 +1,17 @@
+# Run application with Docker
+
+Install Docker
+
+Execute command git clone https://github.com/ivp-dev/nodejs2021Q4-service.git
+
+Go to the Docker folder
+
+Open terminal with administrator rights
+
+run the ```docker-compose --env-file ../.env up -d``` command to run the application
+
+to stop, run ```docker compose down```
+
 # RS School REST service
 
 ## Prerequisites
