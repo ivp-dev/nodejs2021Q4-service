@@ -18,15 +18,16 @@ services:
       - ivp-rss-postgres-web
     networks:
       - ivp-rss-network
+    env_file:
+      ['../.env.docker']
   
   ivp-rss-postgres-web:
     container_name: ivp-rss-postgres-web
     image: postgres
     restart: unless-stopped
-    environment:
-      - POSTGRES_DB=${POSTGRES_DB}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     volumes:
       - ./postgres/data:/var/lib/postgresql/data:delegated
     networks:
       - ivp-rss-network
+    env_file:
+      ['../.env.docker']
