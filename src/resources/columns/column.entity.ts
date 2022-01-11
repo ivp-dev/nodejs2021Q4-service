@@ -11,11 +11,11 @@ export const columnEntity = new EntitySchema<ColumnModel>({
       generated: true
     },
     title: {
-      type: String,
+      type: 'string',
       name: 'title',
     },
     order: {
-      type: Number,
+      type: 'number',
       name: 'order',
     }
   },

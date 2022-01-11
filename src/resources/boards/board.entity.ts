@@ -6,11 +6,12 @@ const boardEntity = new EntitySchema<BoardModel>({
   columns: {
     id: {
       type: 'uuid',
+      name: 'id',
       primary: true,
       generated: true
     },
     title: {
-      type: String
+      type: 'string'
     }
   },
   relations: {
