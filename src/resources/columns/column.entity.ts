@@ -2,7 +2,7 @@
 import { EntitySchema } from "typeorm";
 import { ColumnModel } from "../../types";
 
-export const ColumnEntity = new EntitySchema<ColumnModel>({
+export const columnEntity = new EntitySchema<ColumnModel>({
   name: "column",
   columns: {
     id: {
@@ -31,4 +31,4 @@ export const ColumnEntity = new EntitySchema<ColumnModel>({
   }
 });
 
-export default ColumnEntity;
+export default columnEntity;
