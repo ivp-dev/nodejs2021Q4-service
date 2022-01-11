@@ -34,6 +34,8 @@ export interface ColumnModel {
    * Column identifier
    */
   id: string;
+
+  boardId: string;
   /**
    * Colum title
    */
@@ -42,6 +44,8 @@ export interface ColumnModel {
    * Column order index
    */
   order: number;
+
+  board: BoardModel
 }
 
 /**
