@@ -2,14 +2,14 @@ import { AddressInfo } from 'net';
 import config from './common/config';
 import app from './app';
 
-const { PORT } = config;
+const { PORT, HOST } = config;
 
 /**
  * Starting the server
  */
 const start = async () => {
   try {
-    await app.listen(PORT);
+    await app.listen(PORT, HOST);
 
     const info = app.server.address();
 
@@ -19,6 +19,7 @@ const start = async () => {
 
   } catch (e) {
     app.logger?.error(e instanceof Error ? e.message : JSON.stringify(e));
+    process.exit(1)
   }
 };
 
