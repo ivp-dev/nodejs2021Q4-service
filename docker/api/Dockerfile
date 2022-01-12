@@ -17,9 +17,13 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY --from=deps /app/package.json ./package.json
 COPY --from=deps /app/tsconfig.json ./tsconfig.json
 
+# copy source code
 COPY --from=builder /app/src ./src
 COPY --from=builder /app/types ./types
 COPY --from=builder /app/plugins ./plugins
+
+# copy migrations and seeders
+COPY --from=builder /app/database ./database
 
 COPY --from=builder /app/test ./test
 COPY --from=builder /app/build ./build

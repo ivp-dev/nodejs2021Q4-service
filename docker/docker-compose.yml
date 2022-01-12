@@ -11,23 +11,34 @@ services:
       context: ./../
       dockerfile: ./docker/api/Dockerfile
     volumes:
-      ['../src:/app/src', '../plugins:/app/plugins', '../types:/app/types', ../logs/:/app/logs]
-    ports: 
+      [
+        '../src:/app/src',
+        '../logs:/app/logs',
+        '../types:/app/types',
+        '../plugins:/app/plugins',
+        '../database:/app/database'
+      ]
+    ports:
       - ${PORT}:${PORT}
     depends_on:
       - ivp-rss-postgres-web
     networks:
       - ivp-rss-network
-    env_file:
-      ['../.env.docker']
-  
+    env_file: [ '../.env' ]
+
   ivp-rss-postgres-web:
     container_name: ivp-rss-postgres-web
     image: postgres
     restart: unless-stopped
+    environment:
+      - POSTGRES_PORT=${TYPEORM_PORT}
+      - POSTGRES_DB=${TYPEORM_DATABASE}
+      - POSTGRES_USER=${TYPEORM_USERNAME}
+      - POSTGRES_PASSWORD=${TYPEORM_PASSWORD}
+    ports:
+      - ${TYPEORM_PORT}:${TYPEORM_PORT}
     volumes:
       - ./postgres/data:/var/lib/postgresql/data:delegated
     networks:
       - ivp-rss-network
-    env_file:
-      ['../.env.orm']
+    env_file: [ '../.env' ]

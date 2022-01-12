@@ -5,15 +5,16 @@ import BaseEntity from "../../common/base-entity";
 
 export const columnEntity = new EntitySchema<ColumnModel>({
   name: "column",
+  tableName: 'columns',
   columns: {
     ...BaseEntity,
 
     title: {
-      type: 'string',
+      type: 'text',
       name: 'title',
     },
     order: {
-      type: 'number',
+      type: 'integer',
       name: 'order',
     }
   },

@@ -4,28 +4,29 @@ import baseEntity from "../../common/base-entity";
 
 const taskEntity = new EntitySchema<TaskModel>({
   name: 'task',
+  tableName: 'tasks',
   columns: {
     ...baseEntity,
 
     boardId: {
       name: 'board_id',
-      type: 'string',
+      type: 'uuid',
     },
     userId: {
       name: 'user_id',
-      type: 'string',
+      type: 'uuid',
     },
     columnId: {
       name: 'column_id',
-      type: 'string',
+      type: 'uuid',
     },
     title: {
       name: 'title',
-      type: 'string',
+      type: 'text',
     },
     description: {
       name: 'description',
-      type: 'string'
+      type: 'text'
     },
   },
   relations: {

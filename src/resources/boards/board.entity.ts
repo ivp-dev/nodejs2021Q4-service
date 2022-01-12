@@ -4,11 +4,12 @@ import baseEntity from "../../common/base-entity";
 
 const boardEntity = new EntitySchema<BoardModel>({
   name: "board",
+  tableName: 'boards',
   columns: {
     ...baseEntity,
 
     title: {
-      type: 'string',
+      type: 'text',
       name: 'title',
     },
   },

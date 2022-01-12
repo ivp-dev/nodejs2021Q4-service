@@ -4,20 +4,21 @@ import baseEntity from "../../common/base-entity";
 
 const userEntity = new EntitySchema<UserModel>({
   name: 'user',
+  tableName: 'users',
   columns: {
     ...baseEntity,
 
     name: {
       name: 'name',
-      type: 'string'
+      type: 'text'
     },
     login: {
       name: 'login',
-      type: 'string'
+      type: 'text'
     },
     password: {
       name: 'password',
-      type: 'string'
+      type: 'text'
     },
   },
   relations: {
