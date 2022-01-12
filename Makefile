@@ -7,14 +7,14 @@ create-migration:
 
 .PHONY: build
 build: 
-	cd ./docker && docker-compose build
-	cd ./docker && docker-compose up -d
+	cd ./docker && docker-compose --env-file ../.env build
+	cd ./docker && docker-compose --env-file ../.env up -d
 	docker exec -it ivp-rss-http-api npm run apply-migrations
 
 .PHONY: upd
-upd: set-context
-	docker-compose up -d
-	docker exec -it ivp-rss-http-api npm run apply-migrations
+upd: 
+	cd ./docker && docker-compose up -d
+	cd ./docker && docker exec -it ivp-rss-http-api npm run apply-migrations
 
 .PHONY: up
 up: set-context

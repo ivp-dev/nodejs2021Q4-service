@@ -24,12 +24,14 @@ services:
       - ivp-rss-postgres-web
     networks:
       - ivp-rss-network
-    env_file: [ '../.env' ]
+    env_file: ['../.env']
 
   ivp-rss-postgres-web:
     container_name: ivp-rss-postgres-web
     image: postgres
     restart: unless-stopped
+    expose:
+      - ${TYPEORM_PORT} # Publishes port to other containers but NOT to host machine
     environment:
       - POSTGRES_PORT=${TYPEORM_PORT}
       - POSTGRES_DB=${TYPEORM_DATABASE}
@@ -42,3 +44,4 @@ services:
     networks:
       - ivp-rss-network
     env_file: [ '../.env' ]
+    command: -p ${TYPEORM_PORT}

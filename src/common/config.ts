@@ -6,13 +6,9 @@ dotenv.config({
 });
 
 const config = {
-  PORT: process.env.PORT || '4000',
+  PORT: +(process.env.PORT || 4000),
   HOST: process.env.HOST || 'localhost',
   NODE_ENV: process.env.NODE_ENV,
-  POSTGRES_PORT: process.env.POSTGRES_PORT,
-  POSTGRES_DB: process.env.POSTGRES_DB,
-  POSTGRES_PASSWORD: process.env.POSTGRES_PASSWORD,
-  POSTGRES_USER: process.env.POSTGRES_USER,
   MONGO_CONNECTION_STRING: process.env.MONGO_CONNECTION_STRING,
   JWT_SECRET_KEY: process.env.JWT_SECRET_KEY,
   AUTH_MODE: process.env.AUTH_MODE === 'true',
