@@ -1,7 +1,7 @@
 
 import { EntitySchema } from "typeorm";
 import { ColumnModel } from "../../types";
-import BaseEntity from "../../common/base-entity";
+import BaseEntity from "../base-entity";
 
 export const columnEntity = new EntitySchema<ColumnModel>({
   name: "column",

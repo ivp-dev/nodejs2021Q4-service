@@ -15,7 +15,8 @@
     "start:npx": "nodemon --exec npx ts-node --files ./src/server.ts",
     "lint": "eslint --ext .js,.ts --fix src/",
     "test": "cross-env DEBUG=rs:* jest --testMatch \"<rootDir>/test/e2e/test/*.test.js\" --noStackTrace --runInBand",
-    "test:auth": "cross-env DEBUG=rs:* TEST_MODE=auth jest --noStackTrace"
+    "test:auth": "cross-env DEBUG=rs:* TEST_MODE=auth jest --noStackTrace",
+    "typeorm:migrations": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js "
   },
   "keywords": [
     "rs",
@@ -51,6 +52,7 @@
     "fastify": "^3.24.1",
     "fastify-plugin": "^3.0.0",
     "fastify-swagger": "^4.12.6",
+    "pg": "^8.7.1",
     "typeorm": "^0.2.41",
     "uuid": "8.3.2",
     "yamljs": "0.3.0"

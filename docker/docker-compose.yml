@@ -30,4 +30,4 @@ services:
     networks:
       - ivp-rss-network
     env_file:
-      ['../.env.docker']
+      ['../.env.orm']

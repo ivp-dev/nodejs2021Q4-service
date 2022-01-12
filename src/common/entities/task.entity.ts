@@ -1,6 +1,6 @@
 import { EntitySchema } from 'typeorm';
 import { TaskModel } from '../../types';
-import baseEntity from "../../common/base-entity";
+import baseEntity from "../base-entity";
 
 const taskEntity = new EntitySchema<TaskModel>({
   name: 'task',

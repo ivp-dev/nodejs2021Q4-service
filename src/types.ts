@@ -24,6 +24,11 @@ export interface UserModel {
    * User password
    */
   password: string;
+
+  /**
+   * Navigation property of Tasks
+   */
+  tasks: TaskModel[]
 }
 
 /**
@@ -44,7 +49,9 @@ export interface ColumnModel {
    * Column order index
    */
   order: number;
-
+  /**
+   * Navigation property of Board
+   */
   board: BoardModel
 }
 
@@ -61,7 +68,7 @@ export interface BoardModel {
    */
   title: string;
   /**
-   * List of columns of board
+   * Navigation property
    */
   columns: ColumnModel[];
 }
@@ -98,6 +105,14 @@ export interface TaskModel {
    * Type description
    */
   description: string;
+  /**
+   * Navigation property of Board
+   */
+  board: BoardModel
+  /**
+   * Navigation property of User
+   */
+  user: UserModel
 }
 
 /**

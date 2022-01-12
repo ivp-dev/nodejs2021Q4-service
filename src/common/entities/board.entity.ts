@@ -1,6 +1,6 @@
 import { EntitySchema } from "typeorm";
 import { BoardModel } from "../../types";
-import baseEntity from "../../common/base-entity";
+import baseEntity from "../base-entity";
 
 const boardEntity = new EntitySchema<BoardModel>({
   name: "board",

@@ -1,9 +1,13 @@
 import dotenv from 'dotenv';
 import path from 'path';
 
-dotenv.config({
-  path: path.join(__dirname, '../../.env'),
+const result = dotenv.config({
+  path: path.join(__dirname, './../../.env'),
 });
+
+if(result.error) {
+  throw result.error
+}
 
 const config = {
   PORT: process.env.PORT || '4000',
