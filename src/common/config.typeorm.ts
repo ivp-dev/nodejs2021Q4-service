@@ -19,6 +19,4 @@ const config = {
   TYPEORM_MIGRATIONS_TABLE_NAME: process.env.TYPEORM_MIGRATIONS_TABLE_NAME,
 };
 
-console.log(config)
-
 export default config;
