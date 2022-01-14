@@ -1,5 +1,7 @@
+import { uow } from '../../common/unit-of-work';
+import { getCustomRepository } from 'typeorm';
 import { TaskModel } from '../../types';
-import tasksRepo from './task.memory.repository';
+import TaskRepository from './task.repository';
 
 /**
  * Get all tasks of specified board
@@ -7,7 +9,8 @@ import tasksRepo from './task.memory.repository';
  * @returns List of tasks
  */
 const getAll = async (boardId: string): Promise<TaskModel[]> => {
-  const result = await tasksRepo.getAll(boardId);
+  const repository = getCustomRepository(TaskRepository);
+  const result = await repository.getTasks(boardId);
   return result;
 };
 
@@ -22,7 +25,8 @@ const getById = async (
   boardId: string,
   taskId: string
 ): Promise<TaskModel | undefined> => {
-  const result = await tasksRepo.getById(boardId, taskId);
+  const repository = getCustomRepository(TaskRepository);
+  const result = await repository.getTaskById(boardId, taskId);
   return result;
 };
 
@@ -36,9 +40,12 @@ const addTask = async (
   boardId: string,
   task: TaskModel
 ): Promise<TaskModel> => {
-  const newTask = await tasksRepo.createTask(boardId, task);
-  await tasksRepo.addTask(newTask);
-  return newTask;
+  const result = await uow(TaskRepository, async (repository) => {
+    const newTask = await repository.createTask(boardId, task);
+    return newTask;
+  });
+
+  return result;
 };
 
 /**
@@ -52,9 +59,13 @@ const updateTask = async (
   boardId: string,
   taskId: string,
   task: TaskModel
-): Promise<TaskModel | null> => {
-  const updatedTask = await tasksRepo.updateTaskById(boardId, taskId, task);
-  return updatedTask;
+): Promise<TaskModel | undefined> => {
+  const result = await uow(TaskRepository, async (repository) => {
+    const updatedTask = await repository.updateTaskById(boardId, taskId, task);
+    return updatedTask;
+  });
+
+  return result;
 };
 
 /**
@@ -64,7 +75,9 @@ const updateTask = async (
  * @returns Promise void
  */
 const deleteTask = async (boardId: string, taskId: string): Promise<void> => {
-  await tasksRepo.deleteTask(boardId, taskId);
+  await uow(TaskRepository, async (repository) => {
+    await repository.deleteTask(boardId, taskId);
+  })
 };
 
 export default {

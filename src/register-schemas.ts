@@ -16,6 +16,7 @@ const registerSchemas = (app: FastifyInstance) => {
     taskSchemas.taskPost,
     // Add board schemas
     boardSchemas.board,
+    boardSchemas.boardGet,
     boardSchemas.boardPost,
     // Add board schemas
     columnSchemas.columnSchema,

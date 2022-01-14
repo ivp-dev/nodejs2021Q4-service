@@ -1,6 +1,7 @@
 import { AddressInfo } from 'net';
 import config from './common/config';
 import app from './app';
+import { createConnection } from 'typeorm';
 
 const { PORT, HOST } = config;
 
@@ -16,6 +17,9 @@ const start = async () => {
     if (typeof info === 'object' && !!info && (info as AddressInfo).port) {
       app.logger?.info(`server listening on port: ${info.port}`);
     }
+
+    // setup connection to db 
+    createConnection();
 
   } catch (e) {
     app.logger?.error(e instanceof Error ? e.message : JSON.stringify(e));

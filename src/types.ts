@@ -21,7 +21,7 @@ export interface UserModel {
   name: string;
   login: string;
   password: string;
-  tasks: TaskModel[]
+  tasks: TaskModel[];
 }
 
 /**
@@ -32,7 +32,8 @@ export interface ColumnModel {
   boardId: string;
   title: string;
   order: number;
-  board: BoardModel
+  board: BoardModel;
+  tasks: TaskModel[];
 }
 
 /**
@@ -57,6 +58,7 @@ export interface TaskModel {
   description: string;
   board: BoardModel
   user: UserModel
+  column: ColumnModel
 }
 
 /**

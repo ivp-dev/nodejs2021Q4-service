@@ -4,6 +4,7 @@ import { TaskModel } from '../../types';
 
 /**
  * Get all tasks
+ * @deprecated The method should not be used
  * @param boardId - Board identifier
  * @returns Promise Array of tasks
  */
@@ -14,6 +15,7 @@ const getAll = async (boardId: string) => {
 
 /**
  * Get task
+ * @deprecated The method should not be used
  * @param boardId - Board identifier
  * @param taskId - Task identifier
  * @returns Promise Task
@@ -30,6 +32,7 @@ const getById = async (
 
 /**
  * Create new task
+ * @deprecated The method should not be used
  * @param boardId - Board identifier
  * @param taskData - Task data
  * @returns Promise Task
@@ -44,6 +47,7 @@ const createTask = async (
 
 /**
  * Store task
+ * @deprecated The method should not be used
  * @param task - Task data
  * @returns Promise void
  */
@@ -53,6 +57,7 @@ const addTask = async (task: TaskModel): Promise<void> => {
 
 /**
  * Update task
+ * @deprecated The method should not be used
  * @param boardId - Board identifier
  * @param taskId - Task identifier
  * @param taskData - Task data
@@ -80,6 +85,7 @@ const updateTaskById = async (
 };
 /**
  * Delete task
+ * @deprecated The method should not be used
  * @param boardId - Board identifier
  * @param taskId - Task identifier
  * @returns Promise void
@@ -96,6 +102,7 @@ const deleteTask = async (boardId: string, taskId: string): Promise<void> => {
 
 /**
  * Clear tasks of specified board
+ * @deprecated The method should not be used
  * @param boardId - Board identifier
  * @returns Promise void
  */
@@ -111,6 +118,7 @@ const deleteBoardTasks = async (boardId: string): Promise<void> => {
 
 /**
  * Clear tasks of specified user
+ * @deprecated The method should not be used
  * @param userId - User identifier
  * @returns Promise void
  */
@@ -126,6 +134,7 @@ const deleteUserTasks = async (userId: string): Promise<void> => {
 
 /**
  * Unassign user tasks
+ * @deprecated The method should not be used
  * @param userId - User identifier
  * @returns Promise void
  */

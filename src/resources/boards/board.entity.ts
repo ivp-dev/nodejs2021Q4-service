@@ -18,7 +18,7 @@ export const BoardEntity = new EntitySchema<BoardModel>({
       type: "one-to-many",
       target: "column",
       inverseSide: "board",
-      cascade: ["remove"],
+      cascade: true,
     }
   }
 });

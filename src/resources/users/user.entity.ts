@@ -2,7 +2,7 @@ import { EntitySchema } from "typeorm";
 import { UserModel } from "../../types"
 import baseEntity from "../../common/base-entity";
 
-export const userEntity = new EntitySchema<UserModel>({
+export const UserEntity = new EntitySchema<UserModel>({
   name: 'user',
   tableName: 'users',
   columns: {
@@ -26,7 +26,7 @@ export const userEntity = new EntitySchema<UserModel>({
       type: "one-to-many",
       target: "task",
       inverseSide: "user",
-      cascade: ["remove"],
+      cascade: false,
     }
   }
 });

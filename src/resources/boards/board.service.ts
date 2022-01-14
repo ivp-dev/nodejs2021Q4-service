@@ -10,7 +10,7 @@ import { getCustomRepository } from "typeorm";
  */
 const getAll = async (): Promise<BoardModel[]> => {
   const repository = getCustomRepository(BoardRepository);
-  return await repository.find()
+  return await repository.getBoards();
 };
 
 /**
@@ -30,13 +30,10 @@ const getById = async (id: string): Promise<BoardModel | undefined> => {
  * @returns Promise Board
  */
 const addBoard = async (boardData: BoardModel): Promise<BoardModel> => {
-  const repository = getCustomRepository(BoardRepository);
-  const board = await repository.createBoard(boardData);
-  await repository.addBoard(board);
-  return board;
-
-
-  return board;
+  return await uow(BoardRepository, async (repository) => {
+    const board = await repository.createBoard(boardData);
+    return board;
+  });
 };
 
 /**
@@ -49,12 +46,10 @@ const updateBoard = async (
   id: string,
   boardData: BoardModel
 ): Promise<BoardModel | undefined> => {
-  const board = await uow(BoardRepository, async (repository) => {
+  return await uow(BoardRepository, async (repository) => {
     const board = await repository.updateBoardById(id, boardData);
     return board;
   });
-
-  return board
 };
 
 /**

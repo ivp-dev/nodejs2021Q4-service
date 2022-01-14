@@ -1,5 +1,5 @@
 {
-  "$id": "column_post",
+  "$id": "board_get",
   "type": "object",
   "properties": {
     "id": {
@@ -7,9 +7,7 @@
     },
     "title": {
       "type": "string"
-    },
-    "order": {
-      "type": "number"
     }
-  }
+  },
+  "required": []
 }

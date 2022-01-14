@@ -30,9 +30,6 @@ enableLogging(app);
 // to requests end response
 registerSchemas(app);
 
-// setup connection to db 
-createConnection();
-
 // Setup controllers
 app.register(userRouter);
 app.register(taskRouter);

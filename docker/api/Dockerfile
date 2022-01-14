@@ -22,9 +22,6 @@ COPY --from=builder /app/src ./src
 COPY --from=builder /app/types ./types
 COPY --from=builder /app/plugins ./plugins
 
-# Copy migrations and seeders
-COPY --from=builder /app/database ./database
-
 COPY --from=builder /app/test ./test
 COPY --from=builder /app/build ./build
 

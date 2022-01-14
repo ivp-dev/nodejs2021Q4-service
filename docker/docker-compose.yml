@@ -24,7 +24,7 @@ services:
       - ivp-rss-postgres-web
     networks:
       - ivp-rss-network
-    env_file: ['../.env']
+    env_file: ['../.env.docker']
 
   ivp-rss-postgres-web:
     container_name: ivp-rss-postgres-web
@@ -43,5 +43,5 @@ services:
       - ./postgres/data:/var/lib/postgresql/data:delegated
     networks:
       - ivp-rss-network
-    env_file: [ '../.env' ]
+    env_file: [ '../.env.docker' ]
     command: -p ${TYPEORM_PORT}

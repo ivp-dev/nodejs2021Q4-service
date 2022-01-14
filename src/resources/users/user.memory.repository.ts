@@ -4,12 +4,14 @@ import { UserModel } from '../../types';
 
 /**
  * Get all users
+ * @deprecated The method should not be used
  * @returns Promise List of users
  */
 const getAll = async (): Promise<UserModel[]> => state.users;
 
 /**
  * Get user by id
+ * @deprecated The method should not be used
  * @param id - User identifier
  * @returns Promise User
  */
@@ -20,6 +22,7 @@ const getById = async (id: string): Promise<UserModel | undefined> => {
 
 /**
  * Create new user
+ * @deprecated The method should not be used
  * @param userData - User data
  * @returns Promise User
  */
@@ -30,6 +33,7 @@ const createUser = async (userData: UserModel): Promise<UserModel> => {
 
 /**
  * Add user to store
+ * @deprecated The method should not be used
  * @param user - User
  * @returns Promise void
  */
@@ -39,6 +43,7 @@ const addUser = async (user: UserModel): Promise<void> => {
 
 /**
  * Update stored user by id
+ * @deprecated The method should not be used
  * @param id - User identifier
  * @param userData - User data
  * @returns Promise User
@@ -62,6 +67,7 @@ const updateUserById = async (
 
 /**
  * Delete stored user
+ * @deprecated The method should not be used
  * @param id - User identifier
  * @returns Promise void
  */

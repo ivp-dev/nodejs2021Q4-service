@@ -46,7 +46,7 @@ async function postUser(
   res: FastifyReply
 ): Promise<void> {
   const { body: user } = req;
-  const newUser = await usersService.addUser(user);
+  const newUser = await usersService.createUser(user);
   res.code(201).send(newUser);
 }
 

@@ -16,6 +16,7 @@ export const columnEntity = new EntitySchema<ColumnModel>({
     order: {
       type: 'integer',
       name: 'order',
+      nullable: true
     }
   },
   relations: {
@@ -26,6 +27,13 @@ export const columnEntity = new EntitySchema<ColumnModel>({
       joinColumn: {
         name: 'boardId',
       },
+      onDelete: 'CASCADE'
+    },
+    tasks: {
+      type: "one-to-many",
+      target: "task",
+      inverseSide: "columns",
+      cascade: true
     }
   }
 });
