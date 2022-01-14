@@ -2,7 +2,7 @@ import { EntitySchema } from 'typeorm';
 import { TaskModel } from '../../types';
 import baseEntity from "../../common/base-entity";
 
-const taskEntity = new EntitySchema<TaskModel>({
+export const taskEntity = new EntitySchema<TaskModel>({
   name: 'task',
   tableName: 'tasks',
   columns: {
@@ -47,6 +47,4 @@ const taskEntity = new EntitySchema<TaskModel>({
       },
     }
   }
-})
-
-export default taskEntity;
+});

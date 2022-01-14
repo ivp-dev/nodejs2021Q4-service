@@ -1,6 +1,5 @@
-import state from '../../state';
 import { BoardModel } from '../../types';
-import BoardEntity from './board.entity';
+import { BoardEntity } from './board.entity';
 import { EntityRepository, Repository } from "typeorm";
 
 @EntityRepository(BoardEntity)
@@ -11,19 +10,19 @@ class BoardRepository extends Repository<BoardModel> {
    * @returns Promise list of boards
    */
   getBoards = async (): Promise<BoardModel[]> => {
-    return await this.find();
+    const result = await this.find();
+    return result;
   }
 
   /**
-   * Get boared by id route controller
+   * Get board by id
    * @param id - Board identifier
    * @returns Promise Board
    */
   getBoardById = async (id: string): Promise<BoardModel | undefined> => {
-    const board = (await this.findByIds([id]))?.[0];
+    const board = await this.findOne({ where: { id: id } });
     return board;
   }
-
 
   /**
    * Create new board route controller
@@ -31,7 +30,10 @@ class BoardRepository extends Repository<BoardModel> {
    * @returns Promise Board
    */
   createBoard = async (boardData: BoardModel): Promise<BoardModel> => {
+    console.log('---------------------')
+    console.log(this.create)
     const newBoard = this.create(boardData);
+    console.log('####################')
     await this.save(newBoard);
     return newBoard;
   };
@@ -41,8 +43,9 @@ class BoardRepository extends Repository<BoardModel> {
    * @param board - Board
    * @returns Promise void
    */
-  addBoard = async (board: BoardModel): Promise<void> => {
-    
+  addBoard = async (board: BoardModel): Promise<BoardModel> => {
+    await this.insert(board);
+    return board;
   };
 
   /**
@@ -54,17 +57,9 @@ class BoardRepository extends Repository<BoardModel> {
   updateBoardById = async (
     id: string,
     boardData: BoardModel
-  ): Promise<BoardModel | null> => {
-    const boardIndex = state.boards.findIndex((u) => u.id === id);
-
-    if (boardIndex === -1) {
-      return null;
-    }
-
-    const targetBoard = state.boards[boardIndex];
-    const updatedBoard = { ...targetBoard, ...boardData, id: targetBoard.id };
-    state.boards.splice(boardIndex, 1, updatedBoard);
-
+  ): Promise<BoardModel | undefined> => {
+    await this.update(id, boardData);
+    const updatedBoard = this.findOne({ id });
     return updatedBoard;
   };
 
@@ -74,13 +69,8 @@ class BoardRepository extends Repository<BoardModel> {
    * @returns Promise void
    */
   deleteBoard = async (id: string): Promise<void> => {
-    const boardIndex = state.boards.findIndex((b) => b.id === id);
-
-    if (boardIndex !== -1) {
-      state.boards.splice(boardIndex, 1);
-    }
+    await this.delete({ id });
   };
-
 
 }
 

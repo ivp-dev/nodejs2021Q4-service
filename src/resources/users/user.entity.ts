@@ -2,7 +2,7 @@ import { EntitySchema } from "typeorm";
 import { UserModel } from "../../types"
 import baseEntity from "../../common/base-entity";
 
-const userEntity = new EntitySchema<UserModel>({
+export const userEntity = new EntitySchema<UserModel>({
   name: 'user',
   tableName: 'users',
   columns: {
@@ -30,5 +30,3 @@ const userEntity = new EntitySchema<UserModel>({
     }
   }
 });
-
-export default userEntity;

@@ -1,13 +1,18 @@
+import { EntityManager } from "typeorm";
 import { LoggerPlugin } from "../plugins/logger";
 
 export interface FastifyInstanceLoggerEnable {
   logger: LoggerPlugin;
 }
 
+export interface Repository<T> {
+  new (transactionManager: EntityManager): T
+}
+
 export interface UnitOfWork {
-  start(): void | Promise<void>;
-  complete(work: () => void): Promise<void>;
-  getRepository<T>(R: new (transactionManager: any) => T): T;
+  start(): Promise<this>;
+  complete<T>(work: (repository: Repository<T>) => Promise<void>, R: new (transactionManager: EntityManager) => Repository<T>): Promise<void>;
+  getRepository<T>(R: new (transactionManager: EntityManager) => Repository<T>): Repository<T>;
 }
 
 

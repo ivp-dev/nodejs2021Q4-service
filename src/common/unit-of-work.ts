@@ -1,4 +1,4 @@
-import { Connection, EntityManager, EntityTarget, getConnection, QueryRunner } from 'typeorm';
+import { Connection, EntityManager, getConnection, QueryRunner } from 'typeorm';
 import { UnitOfWork } from '../types'
 
 class WorkAsUnit implements UnitOfWork {
@@ -16,9 +16,10 @@ class WorkAsUnit implements UnitOfWork {
     this.transactionManager = this.queryRunner.manager;
   }
 
-  async start() {
+  async start(): Promise<this> {
     await this.queryRunner.startTransaction();
     this.setTransactionManager();
+    return this;
   }
 
   getRepository<T>(R: new (transactionManager: EntityManager) => T): T {
@@ -28,9 +29,11 @@ class WorkAsUnit implements UnitOfWork {
     return new R(this.transactionManager);
   }
 
-  async complete(work: () => void | Promise<void>) {
+  async complete<T, TR>(work: (repository: T) => Promise<TR>, R: new (transactionManager: EntityManager) => T) {
+    let result: TR
+    
     try {
-      await Promise.resolve(work);
+      result = await work(this.getRepository(R))
       await this.queryRunner.commitTransaction();
     } catch (error) {
       await this.queryRunner.rollbackTransaction();
@@ -38,9 +41,18 @@ class WorkAsUnit implements UnitOfWork {
     } finally {
       await this.queryRunner.release();
     }
+
+    return result;
   }
 
   static Create = () => new WorkAsUnit();
 }
+
+export async function uow<T, TR>(
+  R: new (transactionManager: EntityManager) => T, work: (repository: T) => Promise<TR>): Promise<TR> {
+  const uow = WorkAsUnit.Create();
+  return await (await uow.start()).complete(work, R);
+}
+
 
 export default WorkAsUnit;

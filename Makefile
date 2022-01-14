@@ -13,10 +13,10 @@ build:
 
 .PHONY: upd
 upd:
-	cd ./docker && docker-compose up -d
+	cd ./docker && docker-compose --env-file ../.env up -d
 	docker exec -it ivp-rss-http-api npm run apply-migrations
 
 .PHONY: up
-up: set-context
-	docker-compose up
+up:
+	cd ./docker && docker-compose --env-file ../.env up
 	docker exec -it ivp-rss-http-api npm run apply-migrations

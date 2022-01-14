@@ -4,11 +4,12 @@ import swagger from 'fastify-swagger';
 import userRouter from './resources/users/user.router';
 import boardRouter from './resources/boards/board.router';
 import taskRouter from './resources/tasks/task.router';
-import typeormConfig from './common/config.typeorm';
 
 import enableLogging from './enable-logging';
 import registerSchemas from './register-schemas';
 import { createConnection } from 'typeorm';
+
+import 'reflect-metadata';
 
 const app = fastify();
 

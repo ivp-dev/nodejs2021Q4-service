@@ -4,12 +4,14 @@ import { BoardModel } from '../../types';
 
 /**
  * Get all boards route controller
+ * @deprecated The method should not be used
  * @returns Promise list of boards
  */
 const getAll = async (): Promise<BoardModel[]> => state.boards;
 
 /**
  * Get boared by id route controller
+ * @deprecated The method should not be used
  * @param id - Board identifier
  * @returns Promise Board
  */
@@ -20,6 +22,7 @@ const getById = async (id: string): Promise<BoardModel | undefined> => {
 
 /**
  * Create new board route controller
+ * @deprecated The method should not be used
  * @param boardData - Board data
  * @returns Promise Board
  */
@@ -38,6 +41,7 @@ const createBoard = async (boardData: BoardModel): Promise<BoardModel> => {
 
 /**
  * Store board route controller
+ * @deprecated The method should not be used
  * @param board - Board
  * @returns Promise void
  */
@@ -47,6 +51,7 @@ const addBoard = async (board: BoardModel): Promise<void> => {
 
 /**
  * Update board route controller
+ * @deprecated The method should not be used
  * @param id - Board identifier
  * @param boardData - Board data
  * @returns Promise Board 
@@ -70,6 +75,7 @@ const updateBoardById = async (
 
 /**
  * Delete board route controller
+ * @deprecated The method should not be used
  * @param id - Board identifier
  * @returns Promise void
  */

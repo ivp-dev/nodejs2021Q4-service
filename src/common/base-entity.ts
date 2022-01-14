@@ -4,7 +4,7 @@ const baseEntity = {
   id: {
     type: 'uuid',
     primary: true,
-    generated: true,
+    generated: 'uuid',
   } as EntitySchemaColumnOptions,
   createdAt: {
     name: 'created_at',

@@ -2,7 +2,7 @@ import { EntitySchema } from "typeorm";
 import { BoardModel } from "../../types";
 import baseEntity from "../../common/base-entity";
 
-const boardEntity = new EntitySchema<BoardModel>({
+export const BoardEntity = new EntitySchema<BoardModel>({
   name: "board",
   tableName: 'boards',
   columns: {
@@ -22,5 +22,3 @@ const boardEntity = new EntitySchema<BoardModel>({
     }
   }
 });
-
-export default boardEntity
