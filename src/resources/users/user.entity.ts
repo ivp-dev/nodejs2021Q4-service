@@ -26,7 +26,8 @@ export const UserEntity = new EntitySchema<UserModel>({
       type: "one-to-many",
       target: "task",
       inverseSide: "user",
-      cascade: false,
+      cascade: true,
+      orphanedRowAction: "nullify"
     }
   }
 });

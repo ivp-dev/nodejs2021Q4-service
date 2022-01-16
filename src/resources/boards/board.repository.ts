@@ -1,6 +1,7 @@
 import { BoardModel } from '../../types';
 import { BoardEntity } from './board.entity';
 import { EntityManager, EntityRepository } from "typeorm";
+import { TaskEntity } from '../tasks/task.entity';
 
 @EntityRepository(BoardEntity)
 class BoardRepository {
@@ -12,7 +13,7 @@ class BoardRepository {
    * @returns Promise list of boards
    */
   getBoards = async (): Promise<BoardModel[]> => {
-    const result = await this.manager.find(BoardEntity);
+    const result = await this.manager.find(BoardEntity, {relations: ['columns']});
     return result;
   }
 
@@ -22,7 +23,10 @@ class BoardRepository {
    * @returns Promise Board
    */
   getBoardById = async (id: string): Promise<BoardModel | undefined> => {
-    const board = await this.manager.findOne(BoardEntity, { id });
+    const board = await this.manager.findOne(BoardEntity, { 
+      where: { id },
+      relations: ['columns'] 
+    });
     return board;
   }
 
@@ -53,7 +57,7 @@ class BoardRepository {
       where: { id },
       relations: ['columns']
     });
-    
+
     return updatedBoard;
   };
 
@@ -63,7 +67,9 @@ class BoardRepository {
    * @returns Promise void
    */
   deleteBoard = async (id: string): Promise<void> => {
-    await this.manager.delete(BoardEntity, { id });
+    await this.manager.delete(BoardEntity, {id}); 
+
+    await this.manager.createQueryBuilder().delete().from(TaskEntity).where({boardId: id}).execute();
   };
 
 }

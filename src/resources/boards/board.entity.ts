@@ -18,7 +18,14 @@ export const BoardEntity = new EntitySchema<BoardModel>({
       type: "one-to-many",
       target: "column",
       inverseSide: "board",
+      joinColumn: true,
       cascade: true,
+      orphanedRowAction: 'delete'
+    },
+    tasks: {
+      type: "one-to-many",
+      target: "task",
+      inverseSide: "board",
     }
   }
 });

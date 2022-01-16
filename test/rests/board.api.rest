@@ -36,7 +36,7 @@ Content-Type: {{contentType}}
 {
   "id": "{{boardId}}",
   "title": "Board_updated_{{$timestamp}}",
-  "columns": [{ "title": "in progress", "id": "{{columnId}}", "order": 2 }]
+  "columns": [{ "title": "done", "id": "{{columnId}}", "order": 2 }]
 }
 
 ###

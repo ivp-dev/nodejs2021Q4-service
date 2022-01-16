@@ -65,7 +65,6 @@ async function putBoard(
 ): Promise<void> {
   const { body: board } = req;
   const { boardId } = req.params;
-  console.log('########################')
   const updatedboard = await boardsService.updateBoard(boardId, board);
 
   if (!updatedboard) {

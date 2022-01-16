@@ -43,6 +43,7 @@ export interface BoardModel {
   id: string;
   title: string;
   columns: ColumnModel[];
+  tasks: TaskModel[]
 }
 
 /**

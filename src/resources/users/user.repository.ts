@@ -1,3 +1,4 @@
+import { TaskEntity } from '../tasks/task.entity';
 import { EntityManager, EntityRepository } from 'typeorm';
 import { UserModel } from '../../types';
 import { UserEntity } from './user.entity'
@@ -48,7 +49,7 @@ class UserRepository {
     userData: UserModel
   ): Promise<UserModel | undefined> => {
     await this.manager.update(UserEntity, { id }, userData);
-    const updatedUser = await this.manager.findOne(UserEntity, { where: { id } });
+    const updatedUser = await this.manager.findOne(UserEntity, { id });
     return updatedUser;
   };
 
@@ -58,7 +59,12 @@ class UserRepository {
    * @returns Promise void
    */
   deleteUser = async (id: string): Promise<void> => {
-    await this.manager.delete(UserEntity, { id })
+    await this.manager.delete(UserEntity, { id });
+
+    await this.manager.createQueryBuilder().update(TaskEntity).set({
+      userId: null
+    }).where({ userId: id }).execute();
+
   };
 }
 

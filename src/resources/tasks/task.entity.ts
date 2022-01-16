@@ -1,4 +1,4 @@
-import { EntitySchema } from 'typeorm';
+import { BaseEntity, EntitySchema } from 'typeorm';
 import { TaskModel } from '../../types';
 import baseEntity from "../../common/base-entity";
 
@@ -42,10 +42,10 @@ export const TaskEntity = new EntitySchema<TaskModel>({
       type: "many-to-one",
       target: "board",
       inverseSide: "tasks",
-      joinColumn: {
-        name: 'boardId',
-      },
-      onDelete: 'CASCADE'
+      joinColumn: true,
+      cascade: true,
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE'
     },
     user: {
       type: "many-to-one",
@@ -55,7 +55,9 @@ export const TaskEntity = new EntitySchema<TaskModel>({
         name: "userId",
       },
       onDelete: "CASCADE",
-      nullable: true
+      onUpdate: 'CASCADE',
+      nullable: true,
+      orphanedRowAction: "nullify"
     },
     column: {
       type: "many-to-one",
@@ -65,6 +67,7 @@ export const TaskEntity = new EntitySchema<TaskModel>({
         name: "columnId"
       },
       onDelete: "CASCADE",
+      onUpdate: 'CASCADE',
       nullable: true
     }
   }

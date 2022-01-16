@@ -3,7 +3,7 @@ import { EntitySchema } from "typeorm";
 import { ColumnModel } from "../../types";
 import BaseEntity from "../../common/base-entity";
 
-export const columnEntity = new EntitySchema<ColumnModel>({
+const columnEntity = new EntitySchema<ColumnModel>({
   name: "column",
   tableName: 'columns',
   columns: {
@@ -24,10 +24,10 @@ export const columnEntity = new EntitySchema<ColumnModel>({
       type: "many-to-one",
       target: "board",
       inverseSide: "columns",
-      joinColumn: {
-        name: 'boardId',
-      },
-      onDelete: 'CASCADE'
+      joinTable: true,
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE',
+      orphanedRowAction: 'delete'
     },
     tasks: {
       type: "one-to-many",
