@@ -28,7 +28,9 @@ services:
 
   ivp-rss-postgres-web:
     container_name: ivp-rss-postgres-web
-    image: postgres
+    build:
+      context: ./../
+      dockerfile: ./docker/postgres/Dockerfile
     restart: unless-stopped
     expose:
       - ${TYPEORM_PORT} # Publishes port to other containers but NOT to host machine
@@ -43,7 +45,6 @@ services:
       - ${TYPEORM_PORT}:${TYPEORM_PORT}
     volumes:
       - ./postgres/data:/var/lib/postgresql/data:delegated
-      - ./postgres/scripts:/docker-entrypoint-initdb.d/
     networks:
       - ivp-rss-network
     env_file: [ '../.env.docker' ]
