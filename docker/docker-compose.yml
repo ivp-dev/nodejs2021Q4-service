@@ -1,4 +1,4 @@
-version: '3.9'
+version: '3.7'
 
 networks:
   ivp-rss-network:
@@ -34,13 +34,16 @@ services:
       - ${TYPEORM_PORT} # Publishes port to other containers but NOT to host machine
     environment:
       - POSTGRES_PORT=${TYPEORM_PORT}
-      - POSTGRES_DB=${TYPEORM_DATABASE}
-      - POSTGRES_USER=${TYPEORM_USERNAME}
-      - POSTGRES_PASSWORD=${TYPEORM_PASSWORD}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - TYPEORM_USERNAME=${TYPEORM_USERNAME}
+      - TYPEORM_PASSWORD=${TYPEORM_PASSWORD}
+      - TYPEORM_DATABASE=${TYPEORM_DATABASE}
     ports:
       - ${TYPEORM_PORT}:${TYPEORM_PORT}
     volumes:
       - ./postgres/data:/var/lib/postgresql/data:delegated
+      - ./postgres/scripts:/docker-entrypoint-initdb.d/
     networks:
       - ivp-rss-network
     env_file: [ '../.env.docker' ]
