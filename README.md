@@ -1,17 +1,45 @@
 # Run application with Docker
 
+## Windows
+
 ```sh
 git clone https://github.com/ivp-dev/nodejs2021Q4-service.git
 
 cd ./nodejs2021Q4-service
 
-git switch docker
+git switch postgres
 
 npm install
 
 cd ./docker
 
-docker-compose --env-file ../.env up --build
+docker-compose --env-file ../.env.docker build
+
+docker-compose --env-file ../.env.docker up -d
+
+docker exec -it ivp-rss-http-api npm run apply-migrations
+
+npm run test
+
+```
+
+## Linux / Mac OS
+
+```sh
+
+git clone https://github.com/ivp-dev/nodejs2021Q4-service.git
+
+cd ./nodejs2021Q4-service
+
+git switch postgres
+
+npm install
+
+make build
+
+make migrate
+
+npm run test
 
 ```
 
