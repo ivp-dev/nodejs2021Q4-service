@@ -2,6 +2,12 @@
 
 ## Windows
 
+To avoid this [issue with powershell and docker](https://forums.docker.com/t/error-while-running-docker-code-in-powershell/34059/5) run this before you will clone the repository
+
+```sh
+git config --global core.autocrlf input
+```
+
 ```sh
 git clone https://github.com/ivp-dev/nodejs2021Q4-service.git
 
