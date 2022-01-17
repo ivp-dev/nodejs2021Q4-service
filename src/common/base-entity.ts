@@ -1,21 +1,14 @@
-import { EntitySchema, EntitySchemaColumnOptions } from "typeorm";
+import { BaseEntity, CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
-const baseEntity = {
-  id: {
-    type: 'uuid',
-    primary: true,
-    generated: 'uuid',
-  } as EntitySchemaColumnOptions,
-  createdAt: {
-    name: 'created_at',
-    type: 'timestamp with time zone',
-    createDate: true,
-  } as EntitySchemaColumnOptions,
-  updatedAt: {
-    name: 'updated_at',
-    type: 'timestamp with time zone',
-    updateDate: true,
-  } as EntitySchemaColumnOptions,
-};
+class BaseClassEntity extends BaseEntity {
+  @PrimaryGeneratedColumn('uuid')
+  id?: string;
 
-export default baseEntity
+  @CreateDateColumn()
+  createAt?: Date
+
+  @UpdateDateColumn()
+  updateAt?: Date
+}
+
+export default BaseClassEntity

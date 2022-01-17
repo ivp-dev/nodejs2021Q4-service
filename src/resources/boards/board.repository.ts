@@ -1,19 +1,16 @@
-import { BoardModel } from '../../types';
-import { BoardEntity } from './board.entity';
-import { EntityManager, EntityRepository } from "typeorm";
-import { TaskEntity } from '../tasks/task.entity';
+import { EntityRepository } from "typeorm";
+import BoardEntity from './board.entity';
+import BaseRepository from "../../common/base-repository";
 
 @EntityRepository(BoardEntity)
-class BoardRepository {
-
-  constructor(private manager: EntityManager) { }
+class BoardRepository extends BaseRepository {
 
   /**
    * Get all boards route controller
    * @returns Promise list of boards
    */
-  getBoards = async (): Promise<BoardModel[]> => {
-    const result = await this.manager.find(BoardEntity, {relations: ['columns']});
+  getBoards = async (): Promise<BoardEntity[]> => {
+    const result = await this.manager.find(BoardEntity, { relations: ['columns'] });
     return result;
   }
 
@@ -22,10 +19,10 @@ class BoardRepository {
    * @param id - Board identifier
    * @returns Promise Board
    */
-  getBoardById = async (id: string): Promise<BoardModel | undefined> => {
-    const board = await this.manager.findOne(BoardEntity, { 
+  getBoardById = async (id: string): Promise<BoardEntity | undefined> => {
+    const board = await this.manager.findOne(BoardEntity, {
       where: { id },
-      relations: ['columns'] 
+      relations: ['columns']
     });
     return board;
   }
@@ -35,9 +32,9 @@ class BoardRepository {
    * @param boardData - Board data
    * @returns Promise Board
    */
-  createBoard = async (boardData: BoardModel): Promise<BoardModel> => {
+  createBoard = async (boardData: BoardEntity): Promise<BoardEntity> => {
     const newBoard = this.manager.create(BoardEntity, boardData);
-    await this.manager.save(BoardEntity, newBoard);
+    await this.manager.save(newBoard);
     return newBoard;
   };
 
@@ -49,8 +46,8 @@ class BoardRepository {
    */
   updateBoardById = async (
     id: string,
-    boardData: BoardModel
-  ): Promise<BoardModel | undefined> => {
+    boardData: BoardEntity
+  ): Promise<BoardEntity | undefined> => {
     await this.manager.save(BoardEntity, boardData);
 
     const updatedBoard = await this.manager.findOne(BoardEntity, {
@@ -67,9 +64,8 @@ class BoardRepository {
    * @returns Promise void
    */
   deleteBoard = async (id: string): Promise<void> => {
-    await this.manager.delete(BoardEntity, {id}); 
-
-    await this.manager.createQueryBuilder().delete().from(TaskEntity).where({boardId: id}).execute();
+    const entity = await this.manager.findOne(BoardEntity, { id });
+    await this.manager.remove(entity);
   };
 
 }

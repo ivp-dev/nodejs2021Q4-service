@@ -51,20 +51,22 @@
     "@typescript-eslint/no-explicit-any": [
       "error"
     ],
+    "no-use-before-define": "off",
     "@typescript-eslint/no-use-before-define": [
       "error",
       {
-        "typedefs": false,
-        "tryExtensions": [
-          ".ts"
-        ]
+        "functions": true,
+        "classes": true,
+        "variables": true
       }
     ],
     "node/no-missing-import": [
       "error",
       {
         "tryExtensions": [
-          ".ts"
+          ".js",
+          ".ts",
+          ".json"
         ]
       }
     ],

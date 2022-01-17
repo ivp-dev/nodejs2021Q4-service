@@ -7,7 +7,6 @@ import taskRouter from './resources/tasks/task.router';
 
 import enableLogging from './enable-logging';
 import registerSchemas from './register-schemas';
-import { createConnection } from 'typeorm';
 
 import 'reflect-metadata';
 

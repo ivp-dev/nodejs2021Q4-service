@@ -1,14 +1,14 @@
-import { uow } from '../../common/unit-of-work';
 import { getCustomRepository } from 'typeorm';
-import { TaskModel } from '../../types';
+import { uow } from '../../common/unit-of-work';
 import TaskRepository from './task.repository';
+import TaskEntity from './task.entity';
 
 /**
  * Get all tasks of specified board
  * @param boardId - Board identifier
  * @returns List of tasks
  */
-const getAll = async (boardId: string): Promise<TaskModel[]> => {
+const getAll = async (boardId: string): Promise<TaskEntity[]> => {
   const repository = getCustomRepository(TaskRepository);
   const result = await repository.getTasks(boardId);
   return result;
@@ -24,7 +24,7 @@ const getAll = async (boardId: string): Promise<TaskModel[]> => {
 const getById = async (
   boardId: string,
   taskId: string
-): Promise<TaskModel | undefined> => {
+): Promise<TaskEntity | undefined> => {
   const repository = getCustomRepository(TaskRepository);
   const result = await repository.getTaskById(boardId, taskId);
   return result;
@@ -38,8 +38,8 @@ const getById = async (
  */
 const addTask = async (
   boardId: string,
-  task: TaskModel
-): Promise<TaskModel> => {
+  task: TaskEntity
+): Promise<TaskEntity> => {
   const result = await uow(TaskRepository, async (repository) => {
     const newTask = await repository.createTask(boardId, task);
     return newTask;
@@ -58,8 +58,8 @@ const addTask = async (
 const updateTask = async (
   boardId: string,
   taskId: string,
-  task: TaskModel
-): Promise<TaskModel | undefined> => {
+  task: TaskEntity
+): Promise<TaskEntity | undefined> => {
   const result = await uow(TaskRepository, async (repository) => {
     const updatedTask = await repository.updateTaskById(boardId, taskId, task);
     return updatedTask;

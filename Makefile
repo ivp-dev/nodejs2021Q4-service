@@ -2,9 +2,11 @@
 add-migration:
 	npx ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:generate --name $(name)
 
+.PHONY: create-migration
 create-migration:
 	npx ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:create --name $(name)
 	
+.PHONY: apply-migration
 apply-migration:
 	npx ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:run
 	

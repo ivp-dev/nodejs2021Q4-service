@@ -4,7 +4,9 @@ import { UnitOfWork } from '../types'
 class WorkAsUnit implements UnitOfWork {
 
   private readonly asyncDatabaseConnection: Connection;
+
   private readonly queryRunner: QueryRunner;
+
   private transactionManager?: EntityManager;
 
   constructor(connectionName?: string) {
@@ -50,8 +52,9 @@ class WorkAsUnit implements UnitOfWork {
 
 export async function uow<T, TR>(
   R: new (transactionManager: EntityManager) => T, work: (repository: T) => Promise<TR>): Promise<TR> {
-  const uow = WorkAsUnit.Create();
-  return await (await uow.start()).complete(work, R);
+  const worker = WorkAsUnit.Create();
+  const result = await (await worker.start()).complete(work, R);
+  return result;
 }
 
 

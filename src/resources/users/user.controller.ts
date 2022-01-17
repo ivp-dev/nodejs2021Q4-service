@@ -1,5 +1,5 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { UserModel } from '../../types';
+import UserEntity from './user.entity';
 import usersService from './user.service';
 
 /**
@@ -42,7 +42,7 @@ async function getUser(
  * @returns Promise void
  */
 async function postUser(
-  req: FastifyRequest<{ Body: UserModel }>,
+  req: FastifyRequest<{ Body: UserEntity }>,
   res: FastifyReply
 ): Promise<void> {
   const { body: user } = req;
@@ -57,7 +57,7 @@ async function postUser(
  * @returns Promise void
  */
 async function putUser(
-  req: FastifyRequest<{ Body: UserModel; Params: { userId: string } }>,
+  req: FastifyRequest<{ Body: UserEntity; Params: { userId: string } }>,
   res: FastifyReply
 ): Promise<void> {
   const { body: user } = req;

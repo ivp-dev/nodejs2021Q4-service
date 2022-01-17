@@ -1,16 +1,16 @@
-import boardsRepo from './board.memory.repository';
-import { BoardModel } from '../../types';
+import { getCustomRepository } from "typeorm";
 import BoardRepository from './board.repository';
 import { uow } from '../../common/unit-of-work';
-import { getCustomRepository } from "typeorm";
+import BoardEntity from './board.entity';
 
 /**
  * Get all boards
  * @returns Promise List of boards
  */
-const getAll = async (): Promise<BoardModel[]> => {
+const getAll = async (): Promise<BoardEntity[]> => {
   const repository = getCustomRepository(BoardRepository);
-  return await repository.getBoards();
+  const result = await repository.getBoards();
+  return result;
 };
 
 /**
@@ -18,7 +18,7 @@ const getAll = async (): Promise<BoardModel[]> => {
  * @param id - Board identifier
  * @returns Promise Board or undefined
  */
-const getById = async (id: string): Promise<BoardModel | undefined> => {
+const getById = async (id: string): Promise<BoardEntity | undefined> => {
   const repository = getCustomRepository(BoardRepository);
   const result = await repository.getBoardById(id);
   return result;
@@ -29,12 +29,14 @@ const getById = async (id: string): Promise<BoardModel | undefined> => {
  * @param boardData - Board data
  * @returns Promise Board
  */
-const addBoard = async (boardData: BoardModel): Promise<BoardModel> => {
-  return await uow(BoardRepository, async (repository) => {
+const addBoard = async (boardData: BoardEntity): Promise<BoardEntity> => {
+  const result = await uow(BoardRepository, async (repository) => {
     const board = await repository.createBoard(boardData);
     return board;
   });
-};
+
+  return result;
+}
 
 /**
  * Update board
@@ -44,13 +46,15 @@ const addBoard = async (boardData: BoardModel): Promise<BoardModel> => {
  */
 const updateBoard = async (
   id: string,
-  boardData: BoardModel
-): Promise<BoardModel | undefined> => {
-  return await uow(BoardRepository, async (repository) => {
+  boardData: BoardEntity
+): Promise<BoardEntity | undefined> => {
+  const result = await uow(BoardRepository, async (repository) => {
     const board = await repository.updateBoardById(id, boardData);
     return board;
   });
-};
+
+  return result
+}
 
 /**
  * Delete board

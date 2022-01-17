@@ -1,20 +1,16 @@
-import { EntityManager, EntityRepository } from 'typeorm';
-import { v4 as uuidv4 } from 'uuid';
-import state from '../../state';
-import { TaskModel } from '../../types';
-import { TaskEntity } from './task.entity';
+import { EntityRepository } from 'typeorm';
+import TaskEntity from './task.entity';
+import BaseRepository from '../../common/base-repository';
 
 @EntityRepository(TaskEntity)
-class TaskRepository {
-
-  constructor(private manager: EntityManager) { }
+class TaskRepository extends BaseRepository{
 
   /**
    * Get all tasks
    * @param boardId - Board identifier
    * @returns Promise Array of tasks
    */
-  getTasks = async (boardId: string): Promise<TaskModel[]> => {
+  getTasks = async (boardId: string): Promise<TaskEntity[]> => {
     const result = await this.manager.find(TaskEntity, { where: { boardId } });
     return result;
   }
@@ -25,7 +21,7 @@ class TaskRepository {
    * @param taskId - Task identifier
    * @returns Promise Task
    */
-  getTaskById = async (boardId: string, taskId: string): Promise<TaskModel | undefined> => {
+  getTaskById = async (boardId: string, taskId: string): Promise<TaskEntity | undefined> => {
     const result = await this.manager.findOne(TaskEntity, { where: { id: taskId, boardId } });
     return result;
   }
@@ -36,8 +32,8 @@ class TaskRepository {
  * @param taskData - Task data
  * @returns Promise Task
  */
-  createTask = async (boardId: string, taskData: TaskModel): Promise<TaskModel> => {
-    const newTask = this.manager.create(TaskEntity, { ...taskData, boardId: boardId });
+  createTask = async (boardId: string, taskData: TaskEntity): Promise<TaskEntity> => {
+    const newTask = this.manager.create<TaskEntity>(TaskEntity, { ...taskData, boardId });
     await this.manager.save(TaskEntity, newTask);
     return newTask;
   }
@@ -47,7 +43,7 @@ class TaskRepository {
  * @param task - Task data
  * @returns Promise void
  */
-  addTask = async (task: TaskModel): Promise<TaskModel> => {
+  addTask = async (task: TaskEntity): Promise<TaskEntity> => {
     await this.manager.insert(TaskEntity, task);
     return task;
   }
@@ -62,8 +58,8 @@ class TaskRepository {
   updateTaskById = async (
     boardId: string,
     taskId: string,
-    taskData: TaskModel
-  ): Promise<TaskModel | undefined> => {
+    taskData: TaskEntity
+  ): Promise<TaskEntity | undefined> => {
     await this.manager.update(TaskEntity, { id: taskId, boardId }, taskData);
     const updatedTask = await this.manager.findOne(TaskEntity, { where: { id: taskId } });
     return updatedTask;
@@ -81,48 +77,3 @@ class TaskRepository {
 }
 
 export default TaskRepository;
-
-/**
- * Clear tasks of specified board
- * @param boardId - Board identifier
- * @returns Promise void
- */
-const deleteBoardTasks = async (boardId: string): Promise<void> => {
-  let idx = state.tasks.length;
-  while (idx) {
-    idx -= 1;
-    if (state.tasks[idx].boardId === boardId) {
-      state.tasks.splice(idx, 1);
-    }
-  }
-};
-
-/**
- * Clear tasks of specified user
- * @param userId - User identifier
- * @returns Promise void
- */
-const deleteUserTasks = async (userId: string): Promise<void> => {
-  let idx = state.tasks.length;
-  while (idx) {
-    idx -= 1;
-    if (state.tasks[idx].userId === userId) {
-      state.tasks.splice(idx, 1);
-    }
-  }
-};
-
-/**
- * Unassign user tasks
- * @param userId - User identifier
- * @returns Promise void
- */
-const unassignUserTasks = async (userId: string): Promise<void> => {
-  let idx = state.tasks.length;
-  while (idx) {
-    idx -= 1;
-    if (state.tasks[idx].userId === userId) {
-      state.tasks[idx].userId = null;
-    }
-  }
-};

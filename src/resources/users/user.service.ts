@@ -1,14 +1,13 @@
-import usersRepo from './user.memory.repository';
-import UserRepository from './user.repository';
-import { UserModel } from '../../types';
 import { getCustomRepository } from 'typeorm';
+import UserRepository from './user.repository';
 import { uow } from '../../common/unit-of-work';
+import UserEntity from './user.entity';
 
 /**
  * Get all users
  * @returns Promise List of users
  */
-const getAll = async (): Promise<UserModel[]> => {
+const getAll = async (): Promise<UserEntity[]> => {
   const repository = getCustomRepository(UserRepository);
   const users = await repository.getUsers();
   return users
@@ -19,7 +18,7 @@ const getAll = async (): Promise<UserModel[]> => {
  * @param id - Identifier of the user
  * @returns User
  */
-const getById = async (id: string): Promise<UserModel | undefined> => {
+const getById = async (id: string): Promise<UserEntity | undefined> => {
   const repository = getCustomRepository(UserRepository);
   const user = await repository.getUserById(id);
   return user;
@@ -30,7 +29,7 @@ const getById = async (id: string): Promise<UserModel | undefined> => {
  * @param user - User to add
  * @returns User
  */
-const createUser = async (userData: UserModel): Promise<UserModel> => {
+const createUser = async (userData: UserEntity): Promise<UserEntity> => {
   const newUser = await uow(UserRepository, async (repository) => {
     const user = await repository.createUser(userData);
     return user;
@@ -47,8 +46,8 @@ const createUser = async (userData: UserModel): Promise<UserModel> => {
  */
 const updateUser = async (
   id: string,
-  user: UserModel
-): Promise<UserModel | undefined> => {
+  user: UserEntity
+): Promise<UserEntity | undefined> => {
   const updatedUser = await uow(UserRepository, async (repository) => {
     const result = await repository.updateUserById(id, user);
     return result;

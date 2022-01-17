@@ -1,31 +1,22 @@
-import { EntitySchema } from "typeorm";
-import { BoardModel } from "../../types";
-import baseEntity from "../../common/base-entity";
+import { Column, Entity, OneToMany } from 'typeorm';
+import type ColumnEntity from '../columns/column.entity';
+import BaseEntity from '../../common/base-entity';
+import type TaskEntity from '../tasks/task.entity';
 
-export const BoardEntity = new EntitySchema<BoardModel>({
-  name: "board",
-  tableName: 'boards',
-  columns: {
-    ...baseEntity,
+@Entity({ name: 'boards' })
+class BoardEntity extends BaseEntity {
+  @Column({ type: 'text' })
+  title?: string
 
-    title: {
-      type: 'text',
-      name: 'title',
-    },
-  },
-  relations: {
-    columns: {
-      type: "one-to-many",
-      target: "column",
-      inverseSide: "board",
-      joinColumn: true,
-      cascade: true,
-      orphanedRowAction: 'delete'
-    },
-    tasks: {
-      type: "one-to-many",
-      target: "task",
-      inverseSide: "board",
-    }
-  }
-});
+  @OneToMany('columns', 'board', {
+    cascade: true
+  })
+  columns?: ColumnEntity[]
+
+  @OneToMany('tasks', 'board', {
+    cascade: true
+  })
+  tasks?: TaskEntity[]
+}
+
+export default BoardEntity;

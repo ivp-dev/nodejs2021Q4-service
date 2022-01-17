@@ -1,33 +1,22 @@
-import { EntitySchema } from "typeorm";
-import { UserModel } from "../../types"
-import baseEntity from "../../common/base-entity";
+import { Column, Entity, OneToMany } from 'typeorm';
+import type TaskEntity from '../tasks/task.entity';
+import BaseEntity from '../../common/base-entity';
 
-export const UserEntity = new EntitySchema<UserModel>({
-  name: 'user',
-  tableName: 'users',
-  columns: {
-    ...baseEntity,
+@Entity({ name: 'users' })
+class UserEntity extends BaseEntity {
+  @Column({ type: 'text' })
+  name?: string
 
-    name: {
-      name: 'name',
-      type: 'text'
-    },
-    login: {
-      name: 'login',
-      type: 'text'
-    },
-    password: {
-      name: 'password',
-      type: 'text'
-    },
-  },
-  relations: {
-    tasks: {
-      type: "one-to-many",
-      target: "task",
-      inverseSide: "user",
-      cascade: true,
-      orphanedRowAction: "nullify"
-    }
-  }
-});
+  @Column({ type: 'text' })
+  login?: string
+
+  @Column({ type: 'text' })
+  password?: string
+
+  @OneToMany('tasks', 'user', {
+    cascade: true
+  })
+  tasks?: TaskEntity[]
+}
+
+export default UserEntity;

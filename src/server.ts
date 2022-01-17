@@ -1,7 +1,7 @@
 import { AddressInfo } from 'net';
+import { createConnection } from 'typeorm';
 import config from './common/config';
 import app from './app';
-import { createConnection } from 'typeorm';
 
 const { PORT, HOST } = config;
 

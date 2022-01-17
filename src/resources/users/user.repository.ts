@@ -1,18 +1,15 @@
-import { TaskEntity } from '../tasks/task.entity';
-import { EntityManager, EntityRepository } from 'typeorm';
-import { UserModel } from '../../types';
-import { UserEntity } from './user.entity'
+import { EntityRepository } from 'typeorm';
+import BaseRepository from '../../common/base-repository';
+import UserEntity from './user.entity'
 
 @EntityRepository(UserEntity)
-class UserRepository {
-
-  constructor(private manager: EntityManager) { }
+class UserRepository extends BaseRepository {
 
   /**
  * Get all users
  * @returns Promise List of users
  */
-  getUsers = async (): Promise<UserModel[]> => {
+  getUsers = async (): Promise<UserEntity[]> => {
     const users = this.manager.find(UserEntity);
     return users;
   }
@@ -22,7 +19,7 @@ class UserRepository {
    * @param id - User identifier
    * @returns Promise User
    */
-  getUserById = async (id: string): Promise<UserModel | undefined> => {
+  getUserById = async (id: string): Promise<UserEntity | undefined> => {
     const user = await this.manager.findOne(UserEntity, { id });
     return user;
   }
@@ -32,7 +29,7 @@ class UserRepository {
    * @param userData - User data
    * @returns Promise User
    */
-  createUser = async (userData: UserModel): Promise<UserModel> => {
+  createUser = async (userData: UserEntity): Promise<UserEntity> => {
     const newUser = this.manager.create(UserEntity, userData);
     await this.manager.save(UserEntity, newUser);
     return newUser;
@@ -46,8 +43,8 @@ class UserRepository {
    */
   updateUserById = async (
     id: string,
-    userData: UserModel
-  ): Promise<UserModel | undefined> => {
+    userData: UserEntity
+  ): Promise<UserEntity | undefined> => {
     await this.manager.update(UserEntity, { id }, userData);
     const updatedUser = await this.manager.findOne(UserEntity, { id });
     return updatedUser;
@@ -59,12 +56,9 @@ class UserRepository {
    * @returns Promise void
    */
   deleteUser = async (id: string): Promise<void> => {
-    await this.manager.delete(UserEntity, { id });
-
-    await this.manager.createQueryBuilder().update(TaskEntity).set({
-      userId: null
-    }).where({ userId: id }).execute();
-
+    // await this.manager.delete(UserEntity, { id })
+    const user = await this.manager.findOne(UserEntity, { id });
+    await this.manager.remove(user);
   };
 }
 

@@ -1,41 +1,36 @@
-
-import { EntitySchema } from "typeorm";
-import { ColumnModel } from "../../types";
+import { Column, Entity, ManyToOne, OneToMany } from "typeorm";
+import type BoardEntity from '../boards/board.entity';
+import type TaskEntity from "../tasks/task.entity";
 import BaseEntity from "../../common/base-entity";
 
-const columnEntity = new EntitySchema<ColumnModel>({
-  name: "column",
-  tableName: 'columns',
-  columns: {
-    ...BaseEntity,
+@Entity({ name: 'columns' })
+class ColumnEntity extends BaseEntity {
+  @Column({
+    type: 'text'
+  })
+  title?: string
 
-    title: {
-      type: 'text',
-      name: 'title',
-    },
-    order: {
-      type: 'integer',
-      name: 'order',
-      nullable: true
-    }
-  },
-  relations: {
-    board: {
-      type: "many-to-one",
-      target: "board",
-      inverseSide: "columns",
-      joinTable: true,
-      onDelete: 'CASCADE',
-      onUpdate: 'CASCADE',
-      orphanedRowAction: 'delete'
-    },
-    tasks: {
-      type: "one-to-many",
-      target: "task",
-      inverseSide: "columns",
-      cascade: true
-    }
-  }
-});
+  @Column({
+    type: 'integer',
+    nullable: true
+  })
+  order?: number
 
-export default columnEntity;
+  @Column({
+    type: 'text',
+    nullable: false
+  })
+  boardId?: string;
+
+  @ManyToOne('boards', 'columns', {
+    onDelete: 'CASCADE'
+  })
+  board?: BoardEntity
+
+  @OneToMany('tasks', 'column')
+  tasks?: TaskEntity[]
+}
+
+
+
+export default ColumnEntity;

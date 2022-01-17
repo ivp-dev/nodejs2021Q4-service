@@ -57,9 +57,9 @@ export interface TaskModel {
   title: string;
   order: number;
   description: string;
-  board: BoardModel
-  user: UserModel
-  column: ColumnModel
+  board: Partial<BoardModel>
+  user: Partial<UserModel>
+  column: Partial<ColumnModel>
 }
 
 /**
