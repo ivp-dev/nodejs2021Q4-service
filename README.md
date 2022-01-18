@@ -1,3 +1,20 @@
+# Run application with Docker
+
+```sh
+git clone https://github.com/ivp-dev/nodejs2021Q4-service.git
+
+cd ./nodejs2021Q4-service
+
+git switch docker
+
+npm install
+
+cd ./docker
+
+docker-compose --env-file ../.env up --build
+
+```
+
 # RS School REST service
 
 ## Prerequisites

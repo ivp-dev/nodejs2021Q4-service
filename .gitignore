@@ -1,2 +1,5 @@
 node_modules
-logs.log
+build
+logs
+docker/postgres
+**/*.log
