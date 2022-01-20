@@ -1,6 +1,6 @@
 import { FastifyRequest, FastifyReply } from 'fastify';
 import TaskEntity from './task.entity';
-import tasksService from './task.service';
+import * as tasksService from './task.service';
 
 /**
  * Get all tasks route controller
@@ -8,7 +8,7 @@ import tasksService from './task.service';
  * @param res - Festify reply
  * @returns Promise void
  */
-async function getTasks(
+export async function getTasks(
   req: FastifyRequest<{ Params: { boardId: string } }>,
   res: FastifyReply
 ): Promise<void> {
@@ -24,7 +24,7 @@ async function getTasks(
  * @param res - Festify reply
  * @returns Promise void
  */
-async function getTask(
+export async function getTask(
   req: FastifyRequest<{ Params: { boardId: string; taskId: string } }>,
   res: FastifyReply
 ): Promise<void> {
@@ -45,7 +45,7 @@ async function getTask(
  * @param res - Festify reply
  * @returns Promise void
  */
-async function postTask(
+export async function postTask(
   req: FastifyRequest<{ Params: { boardId: string }; Body: TaskEntity }>,
   res: FastifyReply
 ): Promise<void> {
@@ -62,7 +62,7 @@ async function postTask(
  * @param res - Festify reply
  * @returns Promise void
  */
-async function putTask(
+export async function putTask(
   req: FastifyRequest<{
     Params: { boardId: string; taskId: string };
     Body: TaskEntity;
@@ -87,7 +87,7 @@ async function putTask(
  * @param res - Festify reply
  * @returns Promise void
  */
-async function deleteTask(
+export async function deleteTask(
   req: FastifyRequest<{ Params: { boardId: string; taskId: string } }>,
   res: FastifyReply
 ): Promise<void> {
@@ -96,11 +96,3 @@ async function deleteTask(
 
   res.code(204);
 }
-
-export default {
-  getTask,
-  getTasks,
-  postTask,
-  putTask,
-  deleteTask,
-};

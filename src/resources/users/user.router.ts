@@ -1,5 +1,5 @@
 import { FastifyPluginCallback } from 'fastify';
-import UserControllers from './user.controller';
+import * as UserControllers from './user.controller';
 import UserSchemas from './user.opts.json';
 
 /**

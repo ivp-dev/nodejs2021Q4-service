@@ -8,7 +8,7 @@ import TaskEntity from './task.entity';
  * @param boardId - Board identifier
  * @returns List of tasks
  */
-const getAll = async (boardId: string): Promise<TaskEntity[]> => {
+export const getAll = async (boardId: string): Promise<TaskEntity[]> => {
   const repository = getCustomRepository(TaskRepository);
   const result = await repository.getTasks(boardId);
   return result;
@@ -21,7 +21,7 @@ const getAll = async (boardId: string): Promise<TaskEntity[]> => {
  * @param taskId - Task identifier
  * @returns Promise Task with specified identifier
  */
-const getById = async (
+export const getById = async (
   boardId: string,
   taskId: string
 ): Promise<TaskEntity | undefined> => {
@@ -36,7 +36,7 @@ const getById = async (
  * @param task - Task identifier
  * @returns Promise Task with generated identifier
  */
-const addTask = async (
+export const addTask = async (
   boardId: string,
   task: TaskEntity
 ): Promise<TaskEntity> => {
@@ -55,7 +55,7 @@ const addTask = async (
  * @param task - Target task
  * @returns Return Promise with updated task or null if not found
  */
-const updateTask = async (
+export const updateTask = async (
   boardId: string,
   taskId: string,
   task: TaskEntity
@@ -74,16 +74,8 @@ const updateTask = async (
  * @param taskId - Task identifier
  * @returns Promise void
  */
-const deleteTask = async (boardId: string, taskId: string): Promise<void> => {
+export const deleteTask = async (boardId: string, taskId: string): Promise<void> => {
   await uow(TaskRepository, async (repository) => {
     await repository.deleteTask(boardId, taskId);
   })
-};
-
-export default {
-  getAll,
-  getById,
-  addTask,
-  updateTask,
-  deleteTask,
 };

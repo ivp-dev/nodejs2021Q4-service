@@ -1,5 +1,5 @@
 import { FastifyPluginCallback } from 'fastify';
-import BoardControllers from './board.controller';
+import * as BoardControllers from './board.controller';
 import BoardSchemas from './board.opts.json';
 
 /**

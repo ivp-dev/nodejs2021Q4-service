@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import BoardEntity from './board.entity';
-import boardsService from './board.service';
+import * as boardsService from './board.service';
 
 /**
  * Get boards route controller
@@ -8,7 +8,7 @@ import boardsService from './board.service';
  * @param res - Fastify reply
  * @returns Promise void
  */
-async function getBoards(
+export async function getBoards(
   req: FastifyRequest,
   res: FastifyReply
 ): Promise<void> {
@@ -23,7 +23,7 @@ async function getBoards(
  * @param res - Fastify reply
  * @returns Promise void
  */
-async function getBoard(
+export async function getBoard(
   req: FastifyRequest<{ Params: { boardId: string } }>,
   res: FastifyReply
 ): Promise<void> {
@@ -44,7 +44,7 @@ async function getBoard(
  * @param res - Fastify reply
  * @returns Promise void
  */
-async function postBoard(
+export async function postBoard(
   req: FastifyRequest<{ Body: BoardEntity }>,
   res: FastifyReply
 ): Promise<void> {
@@ -59,7 +59,7 @@ async function postBoard(
  * @param res - Fastify reply
  * @returns Promise void
  */
-async function putBoard(
+export async function putBoard(
   req: FastifyRequest<{ Params: { boardId: string }; Body: BoardEntity }>,
   res: FastifyReply
 ): Promise<void> {
@@ -81,7 +81,7 @@ async function putBoard(
  * @param res - Fastify reply
  * @returns Promise void
  */
-async function deleteBoard(
+export async function deleteBoard(
   req: FastifyRequest<{ Params: { boardId: string } }>,
   res: FastifyReply
 ): Promise<void> {
@@ -90,11 +90,3 @@ async function deleteBoard(
   await boardsService.deleteBoard(boardId);
   res.code(204);
 }
-
-export default {
-  getBoard,
-  getBoards,
-  postBoard,
-  putBoard,
-  deleteBoard,
-};

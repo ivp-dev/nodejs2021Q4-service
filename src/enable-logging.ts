@@ -15,13 +15,14 @@ const stringifyRequest = (req: FastifyRequest) => {
  * @param fastify- Fastify instance
  */
 const enableLogging = (app: FastifyInstance) => {
-  
   process.on('uncaughtException', async (error) => {
     await app.logger?.error(`${error.message}: ${error.stack}`);
   });
 
   process.on('unhandledRejection', async (error) => {
-    await app.logger?.error(error instanceof Error ? error.message : JSON.stringify(error));
+    await app.logger?.error(
+      error instanceof Error ? error.message : JSON.stringify(error)
+    );
   });
 
   app.addHook('preHandler', async (req, _rep, done) => {
@@ -39,13 +40,9 @@ const enableLogging = (app: FastifyInstance) => {
   });
 
   app.addHook('onReady', async (done) => {
-    await app.logger?.warn(
-      `Test warn message`
-    );
+    await app.logger?.warn('Test warn message');
 
-    await app.logger?.debug(
-      `Test debug message`
-    );
+    await app.logger?.debug('Test debug message');
 
     done();
   });
@@ -60,7 +57,6 @@ const enableLogging = (app: FastifyInstance) => {
     level: parseFloat(config.LOGGIN_LEVEL),
     filePath: config.LOG_FILE_PATH,
   });
-
 };
 
 export default enableLogging;

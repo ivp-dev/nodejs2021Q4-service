@@ -9,22 +9,18 @@ const { PORT, HOST } = config;
  * Starting the server
  */
 const start = async () => {
-  try {
-    await app.listen(PORT, HOST);
+  await app.listen(PORT, HOST);
 
-    const info = app.server.address();
+  const info = app.server.address();
 
-    if (typeof info === 'object' && !!info && (info as AddressInfo).port) {
-      app.logger?.info(`server listening on port: ${info.port}`);
-    }
-
-    // setup connection to db 
-    createConnection();
-
-  } catch (e) {
-    app.logger?.error(e instanceof Error ? e.message : JSON.stringify(e));
-    process.exit(1)
+  if (typeof info === 'object' && !!info && (info as AddressInfo).port) {
+    app.logger?.info(`server listening on port: ${info.port}`);
   }
+  // setup connection to db
+  await createConnection();
 };
 
-start();
+start().catch((reason) => {
+  app.logger?.error(reason instanceof Error ? reason.message : JSON.stringify(reason));
+  process.exit(1);
+});

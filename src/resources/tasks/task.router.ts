@@ -1,5 +1,5 @@
 import { FastifyPluginCallback } from 'fastify';
-import TaskControllers from './task.controller';
+import * as TaskControllers from './task.controller';
 import TaskSchemas from './task.opts.json';
 
 /**

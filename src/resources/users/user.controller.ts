@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import UserEntity from './user.entity';
-import usersService from './user.service';
+import * as usersService from './user.service';
 
 /**
  * Get all users route controller
@@ -8,7 +8,7 @@ import usersService from './user.service';
  * @param res - Fastify reply
  * @returns Promise void
  */
-async function getUsers(req: FastifyRequest, res: FastifyReply): Promise<void> {
+export async function getUsers(req: FastifyRequest, res: FastifyReply): Promise<void> {
   const users = await usersService.getAll();
   // map user fields to exclude secret fields like "password"
   res.code(200).send(users);
@@ -20,7 +20,7 @@ async function getUsers(req: FastifyRequest, res: FastifyReply): Promise<void> {
  * @param res - Fastify reply
  * @returns Promise void
  */
-async function getUser(
+export async function getUser(
   req: FastifyRequest<{ Params: { userId: string } }>,
   res: FastifyReply
 ): Promise<void> {
@@ -41,7 +41,7 @@ async function getUser(
  * @param res - Fastify reply
  * @returns Promise void
  */
-async function postUser(
+export async function postUser(
   req: FastifyRequest<{ Body: UserEntity }>,
   res: FastifyReply
 ): Promise<void> {
@@ -56,7 +56,7 @@ async function postUser(
  * @param res - Fastify reply
  * @returns Promise void
  */
-async function putUser(
+ export async function putUser(
   req: FastifyRequest<{ Body: UserEntity; Params: { userId: string } }>,
   res: FastifyReply
 ): Promise<void> {
@@ -78,7 +78,7 @@ async function putUser(
  * @param res - Fastify reply
  * @returns Promise void
  */
-async function deleteUser(
+export async function deleteUser(
   req: FastifyRequest<{ Params: { userId: string } }>,
   res: FastifyReply
 ): Promise<void> {
@@ -88,11 +88,3 @@ async function deleteUser(
 
   res.code(204);
 }
-
-export default {
-  getUser,
-  getUsers,
-  postUser,
-  putUser,
-  deleteUser,
-};

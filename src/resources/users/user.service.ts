@@ -7,7 +7,7 @@ import UserEntity from './user.entity';
  * Get all users
  * @returns Promise List of users
  */
-const getAll = async (): Promise<UserEntity[]> => {
+export const getAll = async (): Promise<UserEntity[]> => {
   const repository = getCustomRepository(UserRepository);
   const users = await repository.getUsers();
   return users
@@ -18,7 +18,7 @@ const getAll = async (): Promise<UserEntity[]> => {
  * @param id - Identifier of the user
  * @returns User
  */
-const getById = async (id: string): Promise<UserEntity | undefined> => {
+export const getById = async (id: string): Promise<UserEntity | undefined> => {
   const repository = getCustomRepository(UserRepository);
   const user = await repository.getUserById(id);
   return user;
@@ -29,7 +29,7 @@ const getById = async (id: string): Promise<UserEntity | undefined> => {
  * @param user - User to add
  * @returns User
  */
-const createUser = async (userData: UserEntity): Promise<UserEntity> => {
+export const createUser = async (userData: UserEntity): Promise<UserEntity> => {
   const newUser = await uow(UserRepository, async (repository) => {
     const user = await repository.createUser(userData);
     return user;
@@ -44,7 +44,7 @@ const createUser = async (userData: UserEntity): Promise<UserEntity> => {
  * @param user - User data
  * @returns Updated user data
  */
-const updateUser = async (
+export const updateUser = async (
   id: string,
   user: UserEntity
 ): Promise<UserEntity | undefined> => {
@@ -60,16 +60,8 @@ const updateUser = async (
  * Delete stored user
  * @param id - User identifier
  */
-const deleteUser = async (id: string): Promise<void> => {
+export const deleteUser = async (id: string): Promise<void> => {
   await uow(UserRepository, async (repository) => {
     await repository.deleteUser(id);
   })
-};
-
-export default {
-  getAll,
-  getById,
-  createUser,
-  updateUser,
-  deleteUser,
 };
