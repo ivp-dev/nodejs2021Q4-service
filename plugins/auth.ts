@@ -9,17 +9,18 @@ import auth, { BasicAuthResult } from 'basic-auth';
 import { Unauthorized } from 'http-errors';
 import fp from 'fastify-plugin';
 
-// TODO: move to global types
-type NextCallback = (error?: unknown) => void;
+export type NextCallback = (error?: unknown) => void;
 
-interface AuthPluginOptions {
-  header: string | undefined;
+export type DoneCallback = NextCallback;
+
+export interface AuthPluginOptions {
+  header?: string;
   validate: (
     authResult: BasicAuthResult,
     req: FastifyRequest,
     res: FastifyReply,
-    next: NextCallback
-  ) => boolean;
+    done: DoneCallback
+  ) => void | Promise<void>;
 }
 
 const checkOptions = (obj: unknown): obj is AuthPluginOptions =>
@@ -31,7 +32,7 @@ const isPromise = <T>(obj: unknown): obj is Promise<T> =>
 const isFastifyError = (obj: unknown): obj is FastifyError =>
   !!obj && !!(obj as FastifyError).statusCode;
 
-const AuthPlugin = async (
+const authPluginFn = async (
   fastify: FastifyInstance,
   options: FastifyPluginOptions
 ) => {
@@ -42,63 +43,69 @@ const AuthPlugin = async (
   const header =
     (options.header && options.header.toLowerCase()) || 'authorization';
 
-  const validate = options.validate.bind(fastify);
+  const { validate } = options; // .validate.bind(fastify);
 
-  const authPlugin = (
+  const authPluginHandler = (
     req: FastifyRequest,
     res: FastifyReply,
     next: NextCallback
   ): void => {
-    if (!req.headers) {
-      next(new Unauthorized('Missing authorization header'));
-      return;
-    }
-
-    const done = (err: unknown) => {
+    const done = (err?: unknown) => {
       // We set the status code to be 401 if it is not set
-      if (!(typeof err === 'object')) {
+      if (typeof err === 'object') {
+        const statusCode = isFastifyError(err) ? err.statusCode : 401;
+
+        if (statusCode && !isFastifyError(err)) {
+          Object.defineProperty(err, 'statusCode', {
+            value: statusCode,
+            writable: false,
+          });
+        }
+
+        if (statusCode === 401) {
+          res.header('WWW-Authenticate', 'Basic');
+        }
+
+        next(err);
+      } else {
         next();
-        return;
       }
-
-      const error = {
-        ...err,
-        statusCode: isFastifyError(err) ? err.statusCode : 401,
-      };
-
-      if (error.statusCode === 401) {
-        res.header('WWW-Authenticate', 'Basic');
-      }
-
-      next(error);
     };
 
-    const authHeader = req.headers[header];
-
-    if (!authHeader) {
+    if (!req.headers) {
       done(new Unauthorized('Missing authorization header'));
-      return;
-    }
+    } else {
+      const authHeader = req.headers[header];
 
-    const credentials = auth.parse(
-      Array.isArray(authHeader) ? authHeader[0] : authHeader
-    );
+      if (!authHeader) {
+        done(new Unauthorized('Missing authorization header'));
+      } else {
+        const credentials = auth.parse(
+          Array.isArray(authHeader) ? authHeader[0] : authHeader
+        );
 
-    if (!credentials) {
-      done(new Unauthorized('Bad formatted authorization header'));
-      return;
-    }
+        if (!credentials) {
+          done(new Unauthorized('Bad formatted authorization header'));
+        } else {
+          const result = validate(credentials, req, res, done);
 
-    const result = validate(credentials, req, res, done);
-
-    if (isPromise(result)) {
-      result.then(done, done);
+          if (isPromise(result)) {
+            result.then(done, done);
+          }
+        }
+      }
     }
   };
 
-  fastify.decorate('auth', authPlugin);
+  fastify.decorate('auth', authPluginHandler);
 };
 
-export default fp(AuthPlugin, {
+export type AuthPlugin = (
+  req: FastifyRequest,
+  res: FastifyReply,
+  next: NextCallback
+) => void;
+
+export default fp<AuthPluginOptions>(authPluginFn, {
   name: 'custom-auth',
 });

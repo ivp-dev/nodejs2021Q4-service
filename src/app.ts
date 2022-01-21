@@ -1,37 +1,15 @@
-import fastify from 'fastify';
-import swagger from 'fastify-swagger';
+import { FastifyInstance, RegisterOptions } from 'fastify';
 
-import userRouter from './resources/users/user.router';
-import boardRouter from './resources/boards/board.router';
-import taskRouter from './resources/tasks/task.router';
+import { userRouter, boardRouter, taskRouter } from './resources/routers';
 
-import enableLogging from './enable-logging';
-import registerSchemas from './register-schemas';
-
-import 'reflect-metadata';
-
-const app = fastify();
-
-// Set swagger docs
-app.register(swagger, {
-  routePrefix: '/doc',
-  specification: {
-    baseDir: './doc',
-    path: '/api.yaml',
-  },
-  exposeRoute: true,
-});
-
-// setup logger
-enableLogging(app);
-
-// register data schemas 
-// to requests end response
-registerSchemas(app);
-
-// Setup controllers
-app.register(userRouter);
-app.register(taskRouter);
-app.register(boardRouter);
+const app = (
+  fastify: FastifyInstance,
+  opts: RegisterOptions,
+  done: (err: Error | undefined) => void
+): void => {
+  boardRouter(fastify, opts, done);
+  userRouter(fastify, opts, done);
+  taskRouter(fastify, opts, done);
+};
 
 export default app;
