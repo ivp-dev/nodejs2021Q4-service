@@ -8,12 +8,12 @@ class BoardEntity extends BaseEntity {
   @Column({ type: 'text' })
   title?: string;
 
-  @OneToMany(/* target */ 'columns', /* inverseSide */ 'board', {
+  @OneToMany('columns', 'board', {
     cascade: true,
   })
   columns?: ColumnEntity[];
 
-  @OneToMany(/* target */ 'tasks', /* inverseSide */ 'board', {
+  @OneToMany('tasks', 'board', {
     cascade: true,
   })
   tasks?: TaskEntity[];

@@ -8,6 +8,7 @@ import {
 } from '../controllers';
 import opts from './opts/user.opts.json';
 import { userSchemas } from '../schemas';
+import { UserEntity } from '../entities';
 
 /**
  * Set users routes with request and response schemas
@@ -25,11 +26,45 @@ const userRoutes: FastifyPluginCallback = async (
   app.addSchema(userSchemas.userGet);
   app.addSchema(userSchemas.userPost);
 
-  app.get('/users', opts.getUsers, getUsers);
-  app.get('/users/:userId', opts.getUser, getUser);
-  app.put('/users/:userId', opts.putUser, putUser);
-  app.post('/users', opts.postUser, postUser);
-  app.delete('/users/:userId', opts.deleteUser, deleteUser);
+  app.get('/users', {
+    ...opts.getUsers,
+    preHandler: [app.auth]
+  }, getUsers);
+  
+  app.get<{
+    Params: {
+      userId: string;
+    };
+  }>('/users/:userId', {
+    ...opts.getUser,
+    preHandler: [app.auth]
+  }, getUser);
+
+  app.put<{
+    Body: UserEntity;
+    Params: {
+      userId: string;
+    };
+  }>('/users/:userId', {
+    ...opts.putUser,
+    preHandler: [app.auth]
+  }, putUser);
+
+  app.post<{
+    Body: UserEntity;
+  }>('/users', {
+    ...opts.postUser,
+    preHandler: [app.auth]
+  }, postUser);
+
+  app.delete<{
+    Params: {
+      userId: string;
+    };
+  }>('/users/:userId', {
+    ...opts.deleteUser,
+    preHandler: [app.auth]
+  }, deleteUser);
 
   done();
 };

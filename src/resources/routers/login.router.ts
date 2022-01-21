@@ -4,4 +4,4 @@ const loginRoutes: FastifyPluginCallback = (): void => {
   /* */
 }
 
-export default loginRoutes
+export default loginRoutes;

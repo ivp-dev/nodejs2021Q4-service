@@ -9,7 +9,7 @@ import { taskService } from '../services';
  * @returns Promise void
  */
 export async function getTasks(
-  req: FastifyRequest<{ Params: { boardId: string } }>,
+  req: FastifyRequest<{ Params: { boardId: string }}>,
   res: FastifyReply
 ): Promise<void> {
   const { boardId } = req.params;

@@ -72,7 +72,7 @@ const start = async (): Promise<void> => {
   );
 
   //
-  server.addHook('preHandler', server.auth);
+  // server.addHook('preHandler', server.auth);
 
   server.addHook('preHandler', async (req, _res, done) => {
     await server.logger.info(stringifyRequest(req));
@@ -103,8 +103,8 @@ const start = async (): Promise<void> => {
   process.on('uncaughtException', async (error: Error) => {
     // eslint-disable-next-line no-console
     console.log(error.message);
-
-    await server.logger.error(`${error.message}: ${error.stack}`);
+    // TODO: cause an error: 'write after close' 
+    // await server.logger.error(`${error.message}: ${error.stack}`);
 
     process.exit(1);
   });
@@ -112,10 +112,10 @@ const start = async (): Promise<void> => {
   process.on('unhandledRejection', async (error: Error) => {
     // eslint-disable-next-line no-console
     console.log(error.message);
-
-    await server.logger.error(
+    // TODO: cause an error: 'write after close' 
+    /* await server.logger.error(
       error instanceof Error ? error.message : JSON.stringify(error)
-    );
+    ); */
 
     process.exit(1);
   });
@@ -137,7 +137,7 @@ start().catch((error: Error) => {
   // eslint-disable-next-line no-console
   console.log(error.message);
 
-  server.logger.error(error.message);
+  // server.logger.error(error.message);
 
   process.exit(1);
 });
