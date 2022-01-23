@@ -28,7 +28,7 @@ const boardRoutes: FastifyPluginCallback = (app, _, done): void => {
 
   app.get('/boards', {
     ...opts.getBoards,
-    preHandler: [app.auth]
+    preValidation: [app.auth]
   }, getBoards);
 
   app.get<{
@@ -37,7 +37,7 @@ const boardRoutes: FastifyPluginCallback = (app, _, done): void => {
     };
   }>('/boards/:boardId', {
     ...opts.getBoard,
-    preHandler: [app.auth]
+    preValidation: [app.auth]
   }, getBoard);
 
   app.put<{
@@ -47,14 +47,14 @@ const boardRoutes: FastifyPluginCallback = (app, _, done): void => {
     Body: BoardEntity;
   }>('/boards/:boardId', {
     ...opts.putBoard,
-    preHandler: [app.auth]
+    preValidation: [app.auth]
   }, putBoard);
 
   app.post<{
     Body: BoardEntity;
   }>('/boards', {
     ...opts.postBoard,
-    preHandler: [app.auth]
+    preValidation: [app.auth]
   }, postBoard);
   
   app.delete<{
@@ -62,7 +62,8 @@ const boardRoutes: FastifyPluginCallback = (app, _, done): void => {
       boardId: string;
     };
   }>('/boards/:boardId', {
-    ...opts.deleteBoard, preHandler: [app.auth]
+    ...opts.deleteBoard,
+    preValidation: [app.auth]
   }, deleteBoard);
 
   done();

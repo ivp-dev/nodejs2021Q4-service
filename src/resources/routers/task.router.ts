@@ -23,7 +23,7 @@ const taskRoutes: FastifyPluginCallback = (app, _, done): void => {
 
   app.get<{ Params: { boardId: string } }>('/boards/:boardId/tasks', {
     ...opts.getTasks,
-    preHandler: [app.auth]
+    preValidation: [app.auth]
   }, getTasks);
 
   app.get<{
@@ -33,7 +33,7 @@ const taskRoutes: FastifyPluginCallback = (app, _, done): void => {
     };
   }>('/boards/:boardId/tasks/:taskId', {
     ...opts.getTask,
-    preHandler: [app.auth]
+    preValidation: [app.auth]
   }, getTask);
 
   app.put<{
@@ -44,7 +44,7 @@ const taskRoutes: FastifyPluginCallback = (app, _, done): void => {
     Body: TaskEntity;
   }>('/boards/:boardId/tasks/:taskId', {
     ...opts.putTask,
-    preHandler: [app.auth]
+    preValidation: [app.auth]
   }, putTask);
 
   app.post<{
@@ -54,7 +54,7 @@ const taskRoutes: FastifyPluginCallback = (app, _, done): void => {
     Body: TaskEntity;
   }>('/boards/:boardId/tasks', {
     ...opts.postTask,
-    preHandler: [app.auth]
+    preValidation: [app.auth]
   }, postTask);
 
   app.delete<{
@@ -64,7 +64,7 @@ const taskRoutes: FastifyPluginCallback = (app, _, done): void => {
     };
   }>('/boards/:boardId/tasks/:taskId', {
     ...opts.deleteTask,
-    preHandler: [app.auth],
+    preValidation: [app.auth],
   }, deleteTask);
 
   done();

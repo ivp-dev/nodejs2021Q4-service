@@ -110,5 +110,5 @@ const loggerPlugin = (
 };
 
 export default fp(loggerPlugin, {
-  name: 'custom-logger',
+  name: 'ivp-logger',
 });

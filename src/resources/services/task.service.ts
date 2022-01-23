@@ -1,4 +1,4 @@
-import { getCustomRepository } from 'typeorm';
+import { DeepPartial, getCustomRepository } from 'typeorm';
 import { uow } from '../../common/unit-of-work';
 import { taskRepository } from '../repositories';
 import TaskEntity from '../entities/task.entity';
@@ -38,10 +38,13 @@ export const getById = async (
  */
 export const addTask = async (
   boardId: string,
-  task: TaskEntity
+  task: DeepPartial<TaskEntity>
 ): Promise<TaskEntity> => {
   const result = await uow(taskRepository, async (repository) => {
-    const newTask = await repository.createTask(boardId, task);
+    const newTask = await repository.createTask({
+      ...task,
+      boardId,
+    });
     return newTask;
   });
 

@@ -2,13 +2,16 @@ import { AddressInfo } from 'net';
 import { createConnection } from 'typeorm';
 import fastify, { FastifyError, FastifyReply, FastifyRequest } from 'fastify';
 import swagger from 'fastify-swagger';
-// import auth from 'fastify-basic-auth';
+import jwt from 'fastify-jwt';
 import config from './common/config';
-import auth from '../plugins/auth';
 import logger from '../plugins/logger';
+import bcrypt from '../plugins/bcrypt';
+import auth from '../plugins/auth';
 import app from './app';
 
 import 'reflect-metadata';
+
+
 
 const stringifyRequest = (req: FastifyRequest) => {
   const { hostname, url, params, body, method } = req;
@@ -41,17 +44,13 @@ const start = async (): Promise<void> => {
       exposeRoute: true,
     }),
 
-    await server.register(auth, {
-      validate: async (result, _req, _reply, done) => {
-        server.logger.info(
-          `auth try: ${JSON.stringify({
-            result,
-          })}`
-        );
-
-        done();
-      },
+    await server.register(jwt, {
+      secret: config.JWT_SECRET_KEY,
     }),
+
+    await server.register(auth),
+
+    await server.register(bcrypt),
   ]);
 
   server.setErrorHandler(
@@ -71,11 +70,10 @@ const start = async (): Promise<void> => {
     }
   );
 
-  //
-  // server.addHook('preHandler', server.auth);
-
   server.addHook('preHandler', async (req, _res, done) => {
+    
     await server.logger.info(stringifyRequest(req));
+    
     done();
   });
 
@@ -103,7 +101,7 @@ const start = async (): Promise<void> => {
   process.on('uncaughtException', async (error: Error) => {
     // eslint-disable-next-line no-console
     console.log(error.message);
-    // TODO: cause an error: 'write after close' 
+    // TODO: cause an error: 'write after close'
     // await server.logger.error(`${error.message}: ${error.stack}`);
 
     process.exit(1);
@@ -112,7 +110,7 @@ const start = async (): Promise<void> => {
   process.on('unhandledRejection', async (error: Error) => {
     // eslint-disable-next-line no-console
     console.log(error.message);
-    // TODO: cause an error: 'write after close' 
+    // TODO: cause an error: 'write after close'
     /* await server.logger.error(
       error instanceof Error ? error.message : JSON.stringify(error)
     ); */
@@ -135,7 +133,7 @@ const start = async (): Promise<void> => {
 
 start().catch((error: Error) => {
   // eslint-disable-next-line no-console
-  console.log(error.message);
+  console.log(error);
 
   // server.logger.error(error.message);
 

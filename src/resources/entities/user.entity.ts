@@ -4,6 +4,7 @@ import BaseEntity from '../../common/base-entity';
 
 @Entity({ name: 'users' })
 class UserEntity extends BaseEntity {
+ 
   @Column({ type: 'text' })
   name?: string;
 

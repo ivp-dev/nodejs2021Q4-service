@@ -28,7 +28,7 @@ const userRoutes: FastifyPluginCallback = async (
 
   app.get('/users', {
     ...opts.getUsers,
-    preHandler: [app.auth]
+    preValidation: [app.auth]
   }, getUsers);
   
   app.get<{
@@ -37,7 +37,7 @@ const userRoutes: FastifyPluginCallback = async (
     };
   }>('/users/:userId', {
     ...opts.getUser,
-    preHandler: [app.auth]
+    preValidation: [app.auth]
   }, getUser);
 
   app.put<{
@@ -47,14 +47,14 @@ const userRoutes: FastifyPluginCallback = async (
     };
   }>('/users/:userId', {
     ...opts.putUser,
-    preHandler: [app.auth]
+    preValidation: [app.auth]
   }, putUser);
 
   app.post<{
     Body: UserEntity;
   }>('/users', {
     ...opts.postUser,
-    preHandler: [app.auth]
+    preValidation: [app.auth]
   }, postUser);
 
   app.delete<{
@@ -63,7 +63,7 @@ const userRoutes: FastifyPluginCallback = async (
     };
   }>('/users/:userId', {
     ...opts.deleteUser,
-    preHandler: [app.auth]
+    preValidation: [app.auth]
   }, deleteUser);
 
   done();

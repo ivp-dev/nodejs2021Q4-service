@@ -1,27 +1,45 @@
-import { EntityManager } from "typeorm";
-import { LoggerPlugin } from "../plugins/logger";
+import { EntityManager } from 'typeorm';
+import { LoggerPlugin } from '../plugins/logger';
 
 export interface FastifyInstanceLoggerEnable {
   logger: LoggerPlugin;
 }
 
 export interface Repository<T> {
-  new (transactionManager: EntityManager): T
+  new (transactionManager: EntityManager): T;
 }
 
 export interface UnitOfWork {
   start(): Promise<this>;
-  complete<T>(work: (repository: Repository<T>) => Promise<void>, R: new (transactionManager: EntityManager) => Repository<T>): Promise<void>;
-  getRepository<T>(R: new (transactionManager: EntityManager) => Repository<T>): Repository<T>;
+  complete<T>(
+    work: (repository: Repository<T>) => Promise<void>,
+    R: new (transactionManager: EntityManager) => Repository<T>
+  ): Promise<void>;
+  getRepository<T>(
+    R: new (transactionManager: EntityManager) => Repository<T>
+  ): Repository<T>;
 }
 
+export interface LoginModel {
+  password: string;
+  login: string;
+}
+
+export interface UserPayloadModel {
+  userId: string,
+  login: string
+}
+
+export interface TokenDataModel {
+  token: string;
+}
 
 export interface UserModel {
-  id: string;
-  name: string;
-  login: string;
-  password: string;
-  tasks: TaskModel[];
+  id?: string;
+  name?: string;
+  login?: string;
+  password?: string;
+  tasks?: TaskModel[];
 }
 
 /**
@@ -43,7 +61,7 @@ export interface BoardModel {
   id: string;
   title: string;
   columns: ColumnModel[];
-  tasks: TaskModel[]
+  tasks: TaskModel[];
 }
 
 /**
@@ -57,9 +75,9 @@ export interface TaskModel {
   title: string;
   order: number;
   description: string;
-  board: Partial<BoardModel>
-  user: Partial<UserModel>
-  column: Partial<ColumnModel>
+  board: Partial<BoardModel>;
+  user: Partial<UserModel>;
+  column: Partial<ColumnModel>;
 }
 
 /**

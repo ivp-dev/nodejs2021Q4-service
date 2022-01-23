@@ -1,4 +1,4 @@
-import { EntityRepository } from 'typeorm';
+import { DeepPartial, EntityRepository } from 'typeorm';
 import { BoardEntity } from '../entities';
 import BaseRepository from '../../common/base-repository';
 
@@ -33,7 +33,7 @@ class BoardRepository extends BaseRepository {
    * @param boardData - Board data
    * @returns Promise Board
    */
-  createBoard = async (boardData: BoardEntity): Promise<BoardEntity> => {
+  createBoard = async (boardData: DeepPartial<BoardEntity>): Promise<BoardEntity> => {
     const newBoard = this.manager.create(BoardEntity, boardData);
     await this.manager.save(newBoard);
     return newBoard;

@@ -49,7 +49,8 @@ export async function postUser(
   res: FastifyReply
 ): Promise<void> {
   const { body: user } = req;
-  const newUser = await userService.createUser(user);
+
+  const newUser = await userService.createUser(user, await req.bcryptHash(user.password!));
   res.code(201).send(newUser);
 }
 

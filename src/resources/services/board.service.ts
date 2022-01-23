@@ -1,4 +1,4 @@
-import { getCustomRepository } from 'typeorm';
+import { DeepPartial, getCustomRepository } from 'typeorm';
 import { boardRepository } from '../repositories';
 import { uow } from '../../common/unit-of-work';
 import { BoardEntity } from '../entities';
@@ -30,7 +30,7 @@ export const getById = async (id: string): Promise<BoardEntity | undefined> => {
  * @returns Promise Board
  */
 export const addBoard = async (
-  boardData: BoardEntity
+  boardData: DeepPartial<BoardEntity>
 ): Promise<BoardEntity> => {
   const result = await uow(boardRepository, async (repository) => {
     const board = await repository.createBoard(boardData);

@@ -25,13 +25,32 @@ export const getById = async (id: string): Promise<UserEntity | undefined> => {
 };
 
 /**
+ * Get user by name
+ * @param login - user name
+ * @returns User
+ */
+export const getByName = async (
+  login: string
+): Promise<UserEntity | undefined> => {
+  const repository = getCustomRepository(userRepository);
+  const user = await repository.getUserByName(login);
+  return user;
+};
+
+/**
  * Store user
  * @param user - User to add
  * @returns User
  */
-export const createUser = async (userData: UserEntity): Promise<UserEntity> => {
+export const createUser = async (
+  userData: UserEntity,
+  hashedPassword: string
+): Promise<UserEntity> => {
   const newUser = await uow(userRepository, async (repository) => {
-    const user = await repository.createUser(userData);
+    const user = await repository.createUser({
+      ...userData,
+      password: hashedPassword,
+    });
     return user;
   });
 

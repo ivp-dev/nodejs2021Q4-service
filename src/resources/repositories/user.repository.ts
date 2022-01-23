@@ -1,4 +1,4 @@
-import { EntityRepository } from 'typeorm';
+import { DeepPartial, EntityRepository } from 'typeorm';
 import { UserEntity } from '../entities';
 import BaseRepository from '../../common/base-repository';
 
@@ -23,12 +23,22 @@ class UserRepository extends BaseRepository {
     return user;
   };
 
+  getUserByName = async (login: string) => {
+    const user = await this.manager.findOne(UserEntity, {
+      where: {
+        login,
+      },
+    });
+
+    return user;
+  };
+
   /**
    * Create new user
    * @param userData - User data
    * @returns Promise User
    */
-  createUser = async (userData: UserEntity): Promise<UserEntity> => {
+  createUser = async (userData: DeepPartial<UserEntity>): Promise<UserEntity> => {
     const newUser = this.manager.create(UserEntity, userData);
     await this.manager.save(UserEntity, newUser);
     return newUser;

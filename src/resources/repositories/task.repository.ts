@@ -1,4 +1,4 @@
-import { EntityRepository } from 'typeorm';
+import { DeepPartial, EntityRepository } from 'typeorm';
 import { TaskEntity } from '../entities';
 import BaseRepository from '../../common/base-repository';
 
@@ -37,13 +37,9 @@ class TaskRepository extends BaseRepository {
    * @returns Promise Task
    */
   createTask = async (
-    boardId: string,
-    taskData: TaskEntity
+    taskData: DeepPartial<TaskEntity>
   ): Promise<TaskEntity> => {
-    const newTask = this.manager.create<TaskEntity>(TaskEntity, {
-      ...taskData,
-      boardId,
-    });
+    const newTask = this.manager.create<TaskEntity>(TaskEntity, taskData);
     await this.manager.save(TaskEntity, newTask);
     return newTask;
   };

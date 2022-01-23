@@ -8,6 +8,13 @@ import boardGet from './board-get.schema.json';
 import boardPost from './board-post.schema.json';
 import column from './column.schema.json';
 import columnPost from './column-post.schema.json';
+import loginPost from './login-post.schema.json';
+import loginGet from './login-get.schema.json';
+
+export const loginSchema = {
+  loginPost,
+  loginGet
+}
 
 export const userSchemas = {
   user,
