@@ -19,7 +19,7 @@ docker-compose --env-file ../.env.docker up -d
 
 docker exec -it ivp-rss-http-api npm run apply-migrations
 
-npm run test
+npm run test:auth
 
 ```
 
@@ -39,7 +39,7 @@ make build
 
 make migrate
 
-npm run test
+npm run test:auth
 
 ```
 
