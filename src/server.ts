@@ -11,8 +11,6 @@ import app from './app';
 
 import 'reflect-metadata';
 
-
-
 const stringifyRequest = (req: FastifyRequest) => {
   const { hostname, url, params, body, method } = req;
 
@@ -102,7 +100,7 @@ const start = async (): Promise<void> => {
     // eslint-disable-next-line no-console
     console.log(error.message);
     // TODO: cause an error: 'write after close'
-    // await server.logger.error(`${error.message}: ${error.stack}`);
+    await server.logger?.error(`${error.message}: ${error.stack}`);
 
     process.exit(1);
   });
@@ -111,9 +109,9 @@ const start = async (): Promise<void> => {
     // eslint-disable-next-line no-console
     console.log(error.message);
     // TODO: cause an error: 'write after close'
-    /* await server.logger.error(
+    await server.logger?.error(
       error instanceof Error ? error.message : JSON.stringify(error)
-    ); */
+    );
 
     process.exit(1);
   });
@@ -135,7 +133,7 @@ start().catch((error: Error) => {
   // eslint-disable-next-line no-console
   console.log(error);
 
-  // server.logger.error(error.message);
+  server.logger?.error(error.message);
 
   process.exit(1);
 });
