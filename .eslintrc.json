@@ -18,9 +18,20 @@
     "noInlineConfig": true,
     "import/resolver": {
       "node": {
-        "extensions": [".js", ".ts", ".json"],
-        "tryExtensions": [".js", ".json", ".ts"],
-        "moduleDirectory": ["node_modules", "src/"]
+        "extensions": [
+          ".js",
+          ".ts",
+          ".json"
+        ],
+        "tryExtensions": [
+          ".js",
+          ".json",
+          ".ts"
+        ],
+        "moduleDirectory": [
+          "node_modules",
+          "src/"
+        ]
       }
     }
   },
@@ -37,15 +48,36 @@
     "linebreak-style": "off",
     "node/no-unsupported-features/es-syntax": "off",
     "tsdoc/syntax": "error",
-    "@typescript-eslint/no-explicit-any": ["error"],
-    "node/no-missing-import": ["error", {
-      "tryExtensions": [".ts"]
-    }],
+    "@typescript-eslint/no-explicit-any": [
+      "error"
+    ],
+    "no-use-before-define": "off",
+    "@typescript-eslint/no-use-before-define": [
+      "error",
+      {
+        "functions": true,
+        "classes": true,
+        "variables": true
+      }
+    ],
+    "node/no-missing-import": [
+      "error",
+      {
+        "tryExtensions": [
+          ".js",
+          ".ts",
+          ".json"
+        ]
+      }
+    ],
     "no-unused-vars": "off",
-    "@typescript-eslint/no-unused-vars": ["error"]
+    "@typescript-eslint/no-unused-vars": [
+      "error"
+    ]
   },
   "parser": "@typescript-eslint/parser",
   "plugins": [
-    "@typescript-eslint", "eslint-plugin-tsdoc"
+    "@typescript-eslint",
+    "eslint-plugin-tsdoc"
   ]
 }

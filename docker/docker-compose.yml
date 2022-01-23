@@ -11,22 +11,41 @@ services:
       context: ./../
       dockerfile: ./docker/api/Dockerfile
     volumes:
-      ['../src:/app/src', '../plugins:/app/plugins', '../types:/app/types', ../logs/:/app/logs]
-    ports: 
+      [
+        '../src:/app/src',
+        '../logs:/app/logs',
+        '../types:/app/types',
+        '../plugins:/app/plugins',
+        '../database:/app/database'
+      ]
+    ports:
       - ${PORT}:${PORT}
     depends_on:
       - ivp-rss-postgres-web
     networks:
       - ivp-rss-network
-  
+    env_file: ['../.env.docker']
+
   ivp-rss-postgres-web:
     container_name: ivp-rss-postgres-web
-    image: postgres
+    build:
+      context: ./../
+      dockerfile: ./docker/postgres/Dockerfile
     restart: unless-stopped
+    expose:
+      - ${TYPEORM_PORT} # Publishes port to other containers but NOT to host machine
     environment:
-      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_PORT=${TYPEORM_PORT}
+      - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - TYPEORM_USERNAME=${TYPEORM_USERNAME}
+      - TYPEORM_PASSWORD=${TYPEORM_PASSWORD}
+      - TYPEORM_DATABASE=${TYPEORM_DATABASE}
+    ports:
+      - ${TYPEORM_PORT}:${TYPEORM_PORT}
     volumes:
       - ./postgres/data:/var/lib/postgresql/data:delegated
     networks:
       - ivp-rss-network
+    env_file: [ '../.env.docker' ]
+    command: -p ${TYPEORM_PORT}

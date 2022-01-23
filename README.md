@@ -1,17 +1,51 @@
 # Run application with Docker
 
+## Windows
+
+To avoid this [issue with powershell and docker](https://forums.docker.com/t/error-while-running-docker-code-in-powershell/34059/5) run this code snippet before you will clone the repository
+
+```sh
+git config --global core.autocrlf input
+```
+
 ```sh
 git clone https://github.com/ivp-dev/nodejs2021Q4-service.git
 
 cd ./nodejs2021Q4-service
 
-git switch docker
+git switch postgres
 
 npm install
 
 cd ./docker
 
-docker-compose --env-file ../.env up --build
+docker-compose --env-file ../.env.docker build
+
+docker-compose --env-file ../.env.docker up -d
+
+docker exec -it ivp-rss-http-api npm run apply-migrations
+
+npm run test
+
+```
+
+## Linux / Mac OS
+
+```sh
+
+git clone https://github.com/ivp-dev/nodejs2021Q4-service.git
+
+cd ./nodejs2021Q4-service
+
+git switch postgres
+
+npm install
+
+make build
+
+make migrate
+
+npm run test
 
 ```
 

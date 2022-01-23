@@ -8,6 +8,8 @@ import taskRouter from './resources/tasks/task.router';
 import enableLogging from './enable-logging';
 import registerSchemas from './register-schemas';
 
+import 'reflect-metadata';
+
 const app = fastify();
 
 // Set swagger docs
@@ -20,8 +22,11 @@ app.register(swagger, {
   exposeRoute: true,
 });
 
+// setup logger
 enableLogging(app);
 
+// register data schemas 
+// to requests end response
 registerSchemas(app);
 
 // Setup controllers

@@ -1,115 +1,72 @@
+import { EntityManager } from "typeorm";
 import { LoggerPlugin } from "../plugins/logger";
 
 export interface FastifyInstanceLoggerEnable {
   logger: LoggerPlugin;
 }
 
-/**
- * User model
- */
+export interface Repository<T> {
+  new (transactionManager: EntityManager): T
+}
+
+export interface UnitOfWork {
+  start(): Promise<this>;
+  complete<T>(work: (repository: Repository<T>) => Promise<void>, R: new (transactionManager: EntityManager) => Repository<T>): Promise<void>;
+  getRepository<T>(R: new (transactionManager: EntityManager) => Repository<T>): Repository<T>;
+}
+
+
 export interface UserModel {
-  /**
-   * User identifier
-   */
   id: string;
-  /**
-   * User name
-   */
   name: string;
-  /**
-   * User login
-   */
   login: string;
-  /**
-   * User password
-   */
   password: string;
+  tasks: TaskModel[];
 }
 
 /**
  * Column model
  */
 export interface ColumnModel {
-  /**
-   * Column identifier
-   */
   id: string;
-  /**
-   * Colum title
-   */
+  boardId: string;
   title: string;
-  /**
-   * Column order index
-   */
   order: number;
+  board: BoardModel;
+  tasks: TaskModel[];
 }
 
 /**
  * Board model
  */
 export interface BoardModel {
-  /**
-   * Board identifier
-   */
   id: string;
-  /**
-   * Board title
-   */
   title: string;
-  /**
-   * List of columns of board
-   */
   columns: ColumnModel[];
+  tasks: TaskModel[]
 }
 
 /**
  * Task model
  */
 export interface TaskModel {
-  /**
-   * Task identifier
-   */
   id: string;
-  /**
-   * Related board identifier
-   */
   boardId: string;
-  /**
-   * Related user identifier
-   */
   userId: string | null;
-  /**
-   * Related column identifier
-   */
   columnId: string | null;
-  /**
-   * Task title
-   */
   title: string;
-  /**
-   * Task order index 
-   */
   order: number;
-  /**
-   * Type description
-   */
   description: string;
+  board: Partial<BoardModel>
+  user: Partial<UserModel>
+  column: Partial<ColumnModel>
 }
 
 /**
  * Route state
  */
 export interface RootState {
-  /**
-   * Array of boards 
-   */
   boards: BoardModel[];
-  /**
-   * Array of tasks
-   */
   tasks: TaskModel[];
-  /**
-   * Array of users
-   */
   users: UserModel[];
 }

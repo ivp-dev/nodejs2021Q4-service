@@ -1,5 +1,7 @@
 node_modules
 build
 logs
-docker/postgres
+docker/postgres/data
 **/*.log
+.env
+.DS_Store

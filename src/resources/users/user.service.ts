@@ -1,29 +1,40 @@
-import usersRepo from './user.memory.repository';
-import taskRepo from '../tasks/task.memory.repository';
-import { UserModel } from '../../types';
+import { getCustomRepository } from 'typeorm';
+import UserRepository from './user.repository';
+import { uow } from '../../common/unit-of-work';
+import UserEntity from './user.entity';
 
 /**
  * Get all users
  * @returns Promise List of users
  */
-const getAll = (): Promise<UserModel[]> => usersRepo.getAll();
+const getAll = async (): Promise<UserEntity[]> => {
+  const repository = getCustomRepository(UserRepository);
+  const users = await repository.getUsers();
+  return users
+};
 
 /**
  * Get user by identifier
  * @param id - Identifier of the user
  * @returns User
  */
-const getById = async (id: string): Promise<UserModel | undefined> =>
-  usersRepo.getById(id);
+const getById = async (id: string): Promise<UserEntity | undefined> => {
+  const repository = getCustomRepository(UserRepository);
+  const user = await repository.getUserById(id);
+  return user;
+}
 
 /**
  * Store user
  * @param user - User to add
  * @returns User
  */
-const addUser = async (user: UserModel): Promise<UserModel> => {
-  const newUser = await usersRepo.createUser(user);
-  await usersRepo.addUser(newUser);
+const createUser = async (userData: UserEntity): Promise<UserEntity> => {
+  const newUser = await uow(UserRepository, async (repository) => {
+    const user = await repository.createUser(userData);
+    return user;
+  });
+
   return newUser;
 };
 
@@ -35,9 +46,13 @@ const addUser = async (user: UserModel): Promise<UserModel> => {
  */
 const updateUser = async (
   id: string,
-  user: UserModel
-): Promise<UserModel | null> => {
-  const updatedUser = await usersRepo.updateUserById(id, user);
+  user: UserEntity
+): Promise<UserEntity | undefined> => {
+  const updatedUser = await uow(UserRepository, async (repository) => {
+    const result = await repository.updateUserById(id, user);
+    return result;
+  });
+
   return updatedUser;
 };
 
@@ -46,13 +61,15 @@ const updateUser = async (
  * @param id - User identifier
  */
 const deleteUser = async (id: string): Promise<void> => {
-  await Promise.all([usersRepo.deleteUser(id), taskRepo.unassignUserTasks(id)]);
+  await uow(UserRepository, async (repository) => {
+    await repository.deleteUser(id);
+  })
 };
 
 export default {
   getAll,
   getById,
-  addUser,
+  createUser,
   updateUser,
   deleteUser,
 };

@@ -1,5 +1,5 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { BoardModel } from '../../types';
+import BoardEntity from './board.entity';
 import boardsService from './board.service';
 
 /**
@@ -45,7 +45,7 @@ async function getBoard(
  * @returns Promise void
  */
 async function postBoard(
-  req: FastifyRequest<{ Body: BoardModel }>,
+  req: FastifyRequest<{ Body: BoardEntity }>,
   res: FastifyReply
 ): Promise<void> {
   const { body: board } = req;
@@ -60,7 +60,7 @@ async function postBoard(
  * @returns Promise void
  */
 async function putBoard(
-  req: FastifyRequest<{ Params: { boardId: string }; Body: BoardModel }>,
+  req: FastifyRequest<{ Params: { boardId: string }; Body: BoardEntity }>,
   res: FastifyReply
 ): Promise<void> {
   const { body: board } = req;

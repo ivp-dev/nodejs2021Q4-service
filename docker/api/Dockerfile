@@ -17,12 +17,14 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY --from=deps /app/package.json ./package.json
 COPY --from=deps /app/tsconfig.json ./tsconfig.json
 
+# Copy source code
 COPY --from=builder /app/src ./src
 COPY --from=builder /app/types ./types
 COPY --from=builder /app/plugins ./plugins
 
 COPY --from=builder /app/test ./test
-COPY --from=builder /app/build/src ./app
-COPY --from=builder /app/build/plugins ./plugins
+COPY --from=builder /app/build ./build
 
-CMD [ "npm", "run", "start:con" ]
+EXPOSE 4000
+
+CMD [ "npm", "run", "start:dev" ]

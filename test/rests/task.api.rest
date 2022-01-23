@@ -28,6 +28,14 @@ Content-Type: {{contentType}}
 
 ###
 
+
+# @name deleteUser
+DELETE {{host}}/users/{{userId}} HTTP/1.1
+Content-Type: {{contentType}}
+
+###
+
+
 # @name getTasks
 
 GET {{host}}/boards/{{boardId}}/tasks HTTP/1.1
@@ -65,6 +73,12 @@ Content-Type: {{contentType}}
 
 # @name deleteUserById
 DELETE {{host}}/users/{{userId}} HTTP/1.1
+Content-Type: {{contentType}}
+
+###
+
+# @name getUserById
+GET {{host}}/users/{{userId}} HTTP/1.1
 Content-Type: {{contentType}}
 
 ###

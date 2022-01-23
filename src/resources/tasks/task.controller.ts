@@ -1,5 +1,5 @@
 import { FastifyRequest, FastifyReply } from 'fastify';
-import { TaskModel } from '../../types';
+import TaskEntity from './task.entity';
 import tasksService from './task.service';
 
 /**
@@ -46,7 +46,7 @@ async function getTask(
  * @returns Promise void
  */
 async function postTask(
-  req: FastifyRequest<{ Params: { boardId: string }; Body: TaskModel }>,
+  req: FastifyRequest<{ Params: { boardId: string }; Body: TaskEntity }>,
   res: FastifyReply
 ): Promise<void> {
   const { body: task } = req;
@@ -65,7 +65,7 @@ async function postTask(
 async function putTask(
   req: FastifyRequest<{
     Params: { boardId: string; taskId: string };
-    Body: TaskModel;
+    Body: TaskEntity;
   }>,
   res: FastifyReply
 ): Promise<void> {
