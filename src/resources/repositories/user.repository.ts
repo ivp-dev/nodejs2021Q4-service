@@ -38,7 +38,9 @@ class UserRepository extends BaseRepository {
    * @param userData - User data
    * @returns Promise User
    */
-  createUser = async (userData: DeepPartial<UserEntity>): Promise<UserEntity> => {
+  createUser = async (
+    userData: DeepPartial<UserEntity>
+  ): Promise<UserEntity> => {
     const newUser = this.manager.create(UserEntity, userData);
     await this.manager.save(UserEntity, newUser);
     return newUser;
@@ -52,7 +54,7 @@ class UserRepository extends BaseRepository {
    */
   updateUserById = async (
     id: string,
-    userData: UserEntity
+    userData: DeepPartial<UserEntity>
   ): Promise<UserEntity | undefined> => {
     await this.manager.update(UserEntity, { id }, userData);
     const updatedUser = await this.manager.findOne(UserEntity, { id });

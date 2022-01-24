@@ -65,10 +65,14 @@ export const createUser = async (
  */
 export const updateUser = async (
   id: string,
-  user: UserEntity
+  user: UserEntity,
+  hashedPassword: string
 ): Promise<UserEntity | undefined> => {
   const updatedUser = await uow(userRepository, async (repository) => {
-    const result = await repository.updateUserById(id, user);
+    const result = await repository.updateUserById(id, {
+      ...user,
+      password: hashedPassword
+    });
     return result;
   });
 

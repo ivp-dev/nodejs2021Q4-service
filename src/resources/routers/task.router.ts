@@ -21,20 +21,28 @@ const taskRoutes: FastifyPluginCallback = (app, _, done): void => {
   app.addSchema(taskSchemas.task);
   app.addSchema(taskSchemas.taskPost);
 
-  app.get<{ Params: { boardId: string } }>('/boards/:boardId/tasks', {
-    ...opts.getTasks,
-    preValidation: [app.auth]
-  }, getTasks);
+  app.get<{ Params: { boardId: string } }>(
+    '/boards/:boardId/tasks',
+    {
+      ...opts.getTasks,
+      preValidation: [app.auth],
+    },
+    getTasks
+  );
 
   app.get<{
     Params: {
       boardId: string;
       taskId: string;
     };
-  }>('/boards/:boardId/tasks/:taskId', {
-    ...opts.getTask,
-    preValidation: [app.auth]
-  }, getTask);
+  }>(
+    '/boards/:boardId/tasks/:taskId',
+    {
+      ...opts.getTask,
+      preValidation: [app.auth],
+    },
+    getTask
+  );
 
   app.put<{
     Params: {
@@ -42,30 +50,42 @@ const taskRoutes: FastifyPluginCallback = (app, _, done): void => {
       taskId: string;
     };
     Body: TaskEntity;
-  }>('/boards/:boardId/tasks/:taskId', {
-    ...opts.putTask,
-    preValidation: [app.auth]
-  }, putTask);
+  }>(
+    '/boards/:boardId/tasks/:taskId',
+    {
+      ...opts.putTask,
+      preValidation: [app.auth],
+    },
+    putTask
+  );
 
   app.post<{
     Params: {
       boardId: string;
     };
     Body: TaskEntity;
-  }>('/boards/:boardId/tasks', {
-    ...opts.postTask,
-    preValidation: [app.auth]
-  }, postTask);
+  }>(
+    '/boards/:boardId/tasks',
+    {
+      ...opts.postTask,
+      preValidation: [app.auth],
+    },
+    postTask
+  );
 
   app.delete<{
     Params: {
       boardId: string;
       taskId: string;
     };
-  }>('/boards/:boardId/tasks/:taskId', {
-    ...opts.deleteTask,
-    preValidation: [app.auth],
-  }, deleteTask);
+  }>(
+    '/boards/:boardId/tasks/:taskId',
+    {
+      ...opts.deleteTask,
+      preValidation: [app.auth],
+    },
+    deleteTask
+  );
 
   done();
 };

@@ -26,45 +26,65 @@ const boardRoutes: FastifyPluginCallback = (app, _, done): void => {
   app.addSchema(columnSchemas.column);
   app.addSchema(columnSchemas.columnPost);
 
-  app.get('/boards', {
-    ...opts.getBoards,
-    preValidation: [app.auth]
-  }, getBoards);
+  app.get(
+    '/boards',
+    {
+      ...opts.getBoards,
+      preValidation: [app.auth],
+    },
+    getBoards
+  );
 
   app.get<{
     Params: {
       boardId: string;
     };
-  }>('/boards/:boardId', {
-    ...opts.getBoard,
-    preValidation: [app.auth]
-  }, getBoard);
+  }>(
+    '/boards/:boardId',
+    {
+      ...opts.getBoard,
+      preValidation: [app.auth],
+    },
+    getBoard
+  );
 
   app.put<{
     Params: {
       boardId: string;
     };
     Body: BoardEntity;
-  }>('/boards/:boardId', {
-    ...opts.putBoard,
-    preValidation: [app.auth]
-  }, putBoard);
+  }>(
+    '/boards/:boardId',
+    {
+      ...opts.putBoard,
+      preValidation: [app.auth],
+    },
+    putBoard
+  );
 
   app.post<{
     Body: BoardEntity;
-  }>('/boards', {
-    ...opts.postBoard,
-    preValidation: [app.auth]
-  }, postBoard);
-  
+  }>(
+    '/boards',
+    {
+      ...opts.postBoard,
+      preValidation: [app.auth],
+    },
+    postBoard
+  );
+
   app.delete<{
     Params: {
       boardId: string;
     };
-  }>('/boards/:boardId', {
-    ...opts.deleteBoard,
-    preValidation: [app.auth]
-  }, deleteBoard);
+  }>(
+    '/boards/:boardId',
+    {
+      ...opts.deleteBoard,
+      preValidation: [app.auth],
+    },
+    deleteBoard
+  );
 
   done();
 };

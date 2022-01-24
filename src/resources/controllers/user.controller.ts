@@ -1,6 +1,7 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import UserEntity from '../entities/user.entity';
 import { userService } from '../services';
+import { PartialRequired } from '../../types';
 
 /**
  * Get all users route controller
@@ -45,12 +46,17 @@ export async function getUser(
  * @returns Promise void
  */
 export async function postUser(
-  req: FastifyRequest<{ Body: UserEntity }>,
+  req: FastifyRequest<{
+    Body: PartialRequired<UserEntity, 'password' | 'name' | 'login'>;
+  }>,
   res: FastifyReply
 ): Promise<void> {
   const { body: user } = req;
 
-  const newUser = await userService.createUser(user, await req.bcryptHash(user.password!));
+  const newUser = await userService.createUser(
+    user,
+    await req.bcryptHash(user.password)
+  );
   res.code(201).send(newUser);
 }
 
@@ -61,12 +67,19 @@ export async function postUser(
  * @returns Promise void
  */
 export async function putUser(
-  req: FastifyRequest<{ Body: UserEntity; Params: { userId: string } }>,
+  req: FastifyRequest<{
+    Body: PartialRequired<UserEntity, 'password' | 'name' | 'login'>;
+    Params: { userId: string };
+  }>,
   res: FastifyReply
 ): Promise<void> {
   const { body: user } = req;
   const { userId } = req.params;
-  const updatedUser = await userService.updateUser(userId, user);
+  const updatedUser = await userService.updateUser(
+    userId,
+    user,
+    await req.bcryptHash(user.password)
+  );
 
   if (!updatedUser) {
     res.callNotFound();

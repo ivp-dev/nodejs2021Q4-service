@@ -26,8 +26,8 @@ export interface LoginModel {
 }
 
 export interface UserPayloadModel {
-  userId: string,
-  login: string
+  userId: string;
+  login: string;
 }
 
 export interface TokenDataModel {
@@ -88,3 +88,5 @@ export interface RootState {
   tasks: TaskModel[];
   users: UserModel[];
 }
+
+export type PartialRequired<T, K extends keyof T> = Omit<T, K> & Required<Pick<T, K>>;
