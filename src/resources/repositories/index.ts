@@ -1,3 +1,3 @@
-export { default as boardRepository } from './board.repository';
-export { default as userRepository } from './user.repository';
-export { default as taskRepository } from './task.repository';
+export { BoardsRepository } from './boards.repository';
+export { UsersRepository } from './users.repository';
+export { TasksRepository } from './tasks.repository';

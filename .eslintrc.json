@@ -45,7 +45,10 @@
   ],
   "rules": {
     "import/extensions": "off",
+    "import/prefer-default-export": "off",
     "linebreak-style": "off",
+    "no-useless-constructor": "off",
+    "no-empty-function": "off",
     "node/no-unsupported-features/es-syntax": "off",
     "tsdoc/syntax": "error",
     "@typescript-eslint/no-explicit-any": [

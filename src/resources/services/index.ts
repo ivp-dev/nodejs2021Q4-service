@@ -1,4 +1,4 @@
-export * as taskService from './task.service';
-export * as boardService from './board.service';
-export * as userService from './user.service';
-export * as loginService from './login.service';
+export { TasksService } from './tasks.service';
+export { BoardsService } from './boards.service';
+export { UsersService } from './users.service';
+// export * as loginService from './logins.service';

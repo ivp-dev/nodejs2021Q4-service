@@ -1,23 +1,12 @@
 import { EntityManager } from 'typeorm';
-import { LoggerPlugin } from '../plugins/logger';
-
-export interface FastifyInstanceLoggerEnable {
-  logger: LoggerPlugin;
-}
 
 export interface Repository<T> {
   new (transactionManager: EntityManager): T;
 }
 
-export interface UnitOfWork {
+export interface UnitOfWork<T> {
   start(): Promise<this>;
-  complete<T>(
-    work: (repository: Repository<T>) => Promise<void>,
-    R: new (transactionManager: EntityManager) => Repository<T>
-  ): Promise<void>;
-  getRepository<T>(
-    R: new (transactionManager: EntityManager) => Repository<T>
-  ): Repository<T>;
+  do(work: () => Promise<T>): Promise<T>;
 }
 
 export interface LoginModel {
@@ -89,4 +78,5 @@ export interface RootState {
   users: UserModel[];
 }
 
-export type PartialRequired<T, K extends keyof T> = Omit<T, K> & Required<Pick<T, K>>;
+export type PartialRequired<T, K extends keyof T> = Omit<T, K> &
+  Required<Pick<T, K>>;
