@@ -13,7 +13,7 @@ git clone https://github.com/ivp-dev/nodejs2021Q4-service.git
 
 cd ./nodejs2021Q4-service
 
-git switch postgres
+git switch auth
 
 npm install
 
@@ -37,7 +37,7 @@ git clone https://github.com/ivp-dev/nodejs2021Q4-service.git
 
 cd ./nodejs2021Q4-service
 
-git switch postgres
+git switch auth
 
 npm install
 

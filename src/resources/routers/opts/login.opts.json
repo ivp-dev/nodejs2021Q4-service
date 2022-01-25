@@ -1,0 +1,14 @@
+{
+  "postCredentials": {
+    "schema": {
+      "response": {
+        "201": {
+          "$ref": "login_get"
+        }
+      },
+      "body": {
+        "$ref": "login_post"
+      }
+    }
+  }
+}

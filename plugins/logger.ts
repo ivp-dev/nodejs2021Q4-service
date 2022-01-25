@@ -25,11 +25,11 @@ export type FastifyInstanceLoggingSupport = FastifyInstance &
  * @param options - plugin options
  * @param next - next callback
  */
-const loggerPlugin = async (
+const loggerPlugin = (
   fastify: FastifyInstance,
   options: FastifyPluginOptions,
   next: NextCallback
-): Promise<void> => {
+) => {
   const internalOptions = { level: 0, ...options };
   const filePath = path.dirname(options.filePath);
 
@@ -48,7 +48,7 @@ const loggerPlugin = async (
    * @param message - message string
    * @returns Promise void
    */
-  const logging = async (type: string, message: string): Promise<void> => {
+  const logging = (type: string, message: string): Promise<void> => {
     const targetMessage = appendTime(`type: ${type}, message: ${message} \n`);
 
     return new Promise((resolve, reject) => {
@@ -110,5 +110,5 @@ const loggerPlugin = async (
 };
 
 export default fp(loggerPlugin, {
-  name: 'custom-logger',
+  name: 'ivp-logger',
 });
