@@ -14,3 +14,32 @@ Content-Type: {{contentType}}
   "password": "admin"
 }
 
+###
+
+@token = {{login.response.body.token}}
+
+# @name postUser
+POST {{host}}/users HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: Bearer {{token}}
+
+{
+  "name": "vadim",
+  "login": "vadim1",
+  "password": "123"
+}
+
+###
+
+@userId = {{postUser.response.body.id}}
+
+# @name putUser
+PUT {{host}}/users/{{userId}} HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: Bearer {{token}}
+
+{
+  "name": "vadim",
+  "login": "vadim1",
+  "password": "12355"
+}
