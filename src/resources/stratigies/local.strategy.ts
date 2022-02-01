@@ -7,11 +7,12 @@ import { Identity } from '../../types';
 @Injectable()
 export class LocalAuthStrategy extends PassportStrategy(Strategy) {
   constructor(private authService: AuthService) {
-    super();
+    super({
+      usernameField: 'login'
+    });
   }
 
   async validate(login: string, password: string): Promise<Identity | null> {
-    console.log(login);
     const identity = await this.authService.validateUser(login, password);
     if (!identity) {
       throw new UnauthorizedException();

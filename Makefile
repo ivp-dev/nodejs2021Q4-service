@@ -24,6 +24,10 @@ build-no-cache:
 upd:
 	cd ./docker && docker-compose --env-file ../.env.docker up -d
 
+.PHONY: upb
+upb:
+	cd ./docker && docker-compose --env-file ../.env.docker up --build
+
 .PHONY: up
 up:
 	cd ./docker && docker-compose --env-file ../.env.docker up
