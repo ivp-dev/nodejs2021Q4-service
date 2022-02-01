@@ -80,3 +80,8 @@ export interface RootState {
 
 export type PartialRequired<T, K extends keyof T> = Omit<T, K> &
   Required<Pick<T, K>>;
+
+export interface Identity {
+  userId: string
+  login: string
+}

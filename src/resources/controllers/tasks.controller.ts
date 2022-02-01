@@ -1,6 +1,7 @@
 import {
   BadRequestException,
   Body,
+  ClassSerializerInterceptor,
   Controller,
   Delete,
   Get,
@@ -9,7 +10,10 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
+import { JwtAuthGuard } from '../guards';
 import { TaskEntity } from '../entities';
 import { TasksService } from '../services';
 
@@ -18,12 +22,17 @@ export class TasksController {
   constructor(private tasksService: TasksService) {}
 
   @Get('/boards/:boardId/tasks')
+  @UseGuards(JwtAuthGuard)
+  @UseInterceptors(ClassSerializerInterceptor)
   async getTasks(@Param('boardId') boardId: string): Promise<TaskEntity[]> {
     const tasks = await this.tasksService.getAll(boardId);
     return tasks;
   }
 
+  
   @Get('/boards/:boardId/tasks/:taskId')
+  @UseGuards(JwtAuthGuard)
+  @UseInterceptors(ClassSerializerInterceptor)
   async getUser(
     @Param('boardId') boardId: string,
     @Param('taskId') taskId: string
@@ -36,6 +45,8 @@ export class TasksController {
   }
 
   @Post('/boards/:boardId/tasks/')
+  @UseGuards(JwtAuthGuard)
+  @UseInterceptors(ClassSerializerInterceptor)
   async postUser(
     @Param('boardId') boardId: string,
     @Body() task: TaskEntity
@@ -45,6 +56,8 @@ export class TasksController {
   }
 
   @Put('/boards/:boardId/tasks/:taskId')
+  @UseGuards(JwtAuthGuard)
+  @UseInterceptors(ClassSerializerInterceptor)
   async putUser(
     @Param('boardId') boardId: string,
     @Param('taskId') taskId: string,
@@ -59,8 +72,9 @@ export class TasksController {
     return newTask;
   }
 
-  @HttpCode(204)
   @Delete('/boards/:boardId/tasks/:taskId')
+  @UseGuards(JwtAuthGuard)
+  @HttpCode(204)
   async deleteUser(
     @Param('boardId') boardId: string,
     @Param('taskId') taskId: string

@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import * as Modules from './resources/modules';
+import * as Modules from '.';
 
 @Module({
   imports: [
@@ -8,6 +8,7 @@ import * as Modules from './resources/modules';
     Modules.BoardsModule,
     Modules.TasksModule,
     Modules.UsersModule,
+    Modules.AuthModule,
   ],
 })
 export class AppModule {}

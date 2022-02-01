@@ -1,14 +1,22 @@
-import { BaseEntity, CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import {
+  BaseEntity as Entity,
+  CreateDateColumn,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+import { Exclude } from 'class-transformer'
 
-class BaseClassEntity extends BaseEntity {
+class BaseEntity extends Entity {
   @PrimaryGeneratedColumn('uuid')
   id?: string;
 
+  @Exclude()
   @CreateDateColumn()
-  createAt?: Date
+  createAt?: Date;
 
+  @Exclude()
   @UpdateDateColumn()
-  updateAt?: Date
+  updateAt?: Date;
 }
 
-export default BaseClassEntity
+export default BaseEntity;

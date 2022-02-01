@@ -1,4 +1,5 @@
 import { Column, Entity, OneToMany } from 'typeorm';
+import { Exclude } from 'class-transformer';
 import type TaskEntity from './task.entity';
 import BaseEntity from '../../common/base-entity';
 
@@ -11,6 +12,7 @@ class UserEntity extends BaseEntity {
   @Column({ type: 'text' })
   login?: string;
 
+  @Exclude()
   @Column({ type: 'text' })
   password?: string;
 

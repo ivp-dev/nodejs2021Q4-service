@@ -1,6 +1,7 @@
 import {
   BadRequestException,
   Body,
+  ClassSerializerInterceptor,
   Controller,
   Delete,
   Get,
@@ -9,7 +10,10 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
+import { JwtAuthGuard } from '../guards';
 import { BoardEntity } from '../entities';
 import { BoardsService } from '../services';
 
@@ -18,12 +22,16 @@ export class BoardsController {
   constructor(private boardsService: BoardsService) {}
 
   @Get('/boards')
+  @UseGuards(JwtAuthGuard)
+  @UseInterceptors(ClassSerializerInterceptor)
   async getBoards(): Promise<BoardEntity[]> {
     const tasks = await this.boardsService.getAll();
     return tasks;
   }
 
   @Get('/boards/:boardId')
+  @UseGuards(JwtAuthGuard)
+  @UseInterceptors(ClassSerializerInterceptor)
   async getBoard(
     @Param('boardId') boardId: string
   ): Promise<BoardEntity | undefined> {
@@ -35,12 +43,16 @@ export class BoardsController {
   }
 
   @Post('/boards')
+  @UseGuards(JwtAuthGuard)
+  @UseInterceptors(ClassSerializerInterceptor)
   async postBoard(@Body() board: BoardEntity): Promise<BoardEntity> {
     const newBoard = await this.boardsService.addBoard(board);
     return newBoard;
   }
 
   @Put('/boards/:boardId')
+  @UseGuards(JwtAuthGuard)
+  @UseInterceptors(ClassSerializerInterceptor)
   async putBoard(
     @Param('boardId') boardId: string,
     @Body() board: BoardEntity
@@ -56,6 +68,7 @@ export class BoardsController {
 
   @HttpCode(204)
   @Delete('/boards/:boardId')
+  @UseGuards(JwtAuthGuard)
   async deleteBoard(@Param('boardId') boardId: string): Promise<void> {
     await this.boardsService.deleteBoard(boardId);
   }
