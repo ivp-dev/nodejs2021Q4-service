@@ -4,17 +4,16 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Exclude } from 'class-transformer'
+import { AutoMap } from '@automapper/classes';
 
 class BaseEntity extends Entity {
+  @AutoMap()
   @PrimaryGeneratedColumn('uuid')
   id?: string;
 
-  @Exclude()
   @CreateDateColumn()
   createAt?: Date;
 
-  @Exclude()
   @UpdateDateColumn()
   updateAt?: Date;
 }

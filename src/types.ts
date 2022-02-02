@@ -24,11 +24,11 @@ export interface TokenDataModel {
 }
 
 export interface User {
-  id?: string;
-  name?: string;
-  login?: string;
-  password?: string;
-  tasks?: Task[];
+  id: string;
+  name: string;
+  login: string;
+  password: string;
+  tasks: Task[];
 }
 
 /**
