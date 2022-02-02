@@ -4,6 +4,8 @@ import { Connection, DeepPartial } from 'typeorm';
 import { TaskEntity } from '../entities';
 import { TasksRepository } from '../repositories';
 import { uow } from '../../common/unit-of-work';
+import { TaskDto } from '../../common/dto';
+import { mapper } from '../../common/automapper';
 
 @Injectable()
 export class TasksService {
@@ -13,8 +15,9 @@ export class TasksService {
     private connection: Connection
   ) {}
 
-  async getAll(boardId: string): Promise<TaskEntity[]> {
-    const result = await this.tasksRepository.getTasks(boardId);
+  async getAll(boardId: string): Promise<TaskDto[]> {
+    const tasks = await this.tasksRepository.getTasks(boardId);
+    const result = mapper.mapArray(tasks, TaskDto, TaskEntity);
     return result;
   }
 
@@ -25,11 +28,9 @@ export class TasksService {
    * @param taskId - Task identifier
    * @returns Promise Task with specified identifier
    */
-  async getById(
-    boardId: string,
-    taskId: string
-  ): Promise<TaskEntity | undefined> {
-    const result = await this.tasksRepository.getTaskById(boardId, taskId);
+  async getById(boardId: string, taskId: string): Promise<TaskDto | undefined> {
+    const task = await this.tasksRepository.getTaskById(boardId, taskId);
+    const result = mapper.map(task, TaskDto, TaskEntity);
     return result;
   }
 
@@ -42,8 +43,8 @@ export class TasksService {
   async addTask(
     boardId: string,
     task: DeepPartial<TaskEntity>
-  ): Promise<TaskEntity> {
-    const result = await uow(this.connection, async () => {
+  ): Promise<TaskDto> {
+    const addedTask = await uow(this.connection, async () => {
       const newTask = await this.tasksRepository.createTask({
         ...task,
         boardId,
@@ -51,7 +52,8 @@ export class TasksService {
       return newTask;
     });
 
-    return result;
+    const dto = await mapper.mapAsync(addedTask, TaskDto, TaskEntity);
+    return dto;
   }
 
   /**
@@ -65,17 +67,18 @@ export class TasksService {
     boardId: string,
     taskId: string,
     task: TaskEntity
-  ): Promise<TaskEntity | undefined> {
-    const result = await uow(this.connection, async () => {
-      const updatedTask = await this.tasksRepository.updateTaskById(
+  ): Promise<TaskDto | undefined> {
+    const updatedTask = await uow(this.connection, async () => {
+      const result = await this.tasksRepository.updateTaskById(
         boardId,
         taskId,
         task
       );
-      return updatedTask;
+      return result;
     });
 
-    return result;
+    const dto = mapper.map(updatedTask, TaskDto, TaskEntity);
+    return dto;
   }
 
   /**

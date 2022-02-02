@@ -9,7 +9,7 @@ export interface UnitOfWork<T> {
   do(work: () => Promise<T>): Promise<T>;
 }
 
-export interface LoginModel {
+export interface Login {
   password: string;
   login: string;
 }
@@ -23,40 +23,40 @@ export interface TokenDataModel {
   token: string;
 }
 
-export interface UserModel {
+export interface User {
   id?: string;
   name?: string;
   login?: string;
   password?: string;
-  tasks?: TaskModel[];
+  tasks?: Task[];
 }
 
 /**
  * Column model
  */
-export interface ColumnModel {
+export interface Column {
   id: string;
   boardId: string;
   title: string;
   order: number;
-  board: BoardModel;
-  tasks: TaskModel[];
+  board: Board;
+  tasks: Task[];
 }
 
 /**
  * Board model
  */
-export interface BoardModel {
+export interface Board {
   id: string;
   title: string;
-  columns: ColumnModel[];
-  tasks: TaskModel[];
+  columns: Column[];
+  tasks: Task[];
 }
 
 /**
  * Task model
  */
-export interface TaskModel {
+export interface Task {
   id: string;
   boardId: string;
   userId: string | null;
@@ -64,18 +64,9 @@ export interface TaskModel {
   title: string;
   order: number;
   description: string;
-  board: Partial<BoardModel>;
-  user: Partial<UserModel>;
-  column: Partial<ColumnModel>;
-}
-
-/**
- * Route state
- */
-export interface RootState {
-  boards: BoardModel[];
-  tasks: TaskModel[];
-  users: UserModel[];
+  board: Partial<Board>;
+  user: Partial<User>;
+  column: Partial<Column>;
 }
 
 export type PartialRequired<T, K extends keyof T> = Omit<T, K> &

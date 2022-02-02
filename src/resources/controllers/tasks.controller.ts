@@ -1,7 +1,5 @@
 import {
   BadRequestException,
-  Body,
-  ClassSerializerInterceptor,
   Controller,
   Delete,
   Get,
@@ -11,11 +9,12 @@ import {
   Post,
   Put,
   UseGuards,
-  UseInterceptors,
+  Body,
 } from '@nestjs/common';
 import { JwtAuthGuard } from '../guards';
 import { TaskEntity } from '../entities';
 import { TasksService } from '../services';
+import { TaskDto } from '../../common/dto';
 
 @Controller()
 export class TasksController {
@@ -23,8 +22,7 @@ export class TasksController {
 
   @Get('/boards/:boardId/tasks')
   @UseGuards(JwtAuthGuard)
-  @UseInterceptors(ClassSerializerInterceptor)
-  async getTasks(@Param('boardId') boardId: string): Promise<TaskEntity[]> {
+  async getTasks(@Param('boardId') boardId: string): Promise<TaskDto[]> {
     const tasks = await this.tasksService.getAll(boardId);
     return tasks;
   }
@@ -32,11 +30,10 @@ export class TasksController {
   
   @Get('/boards/:boardId/tasks/:taskId')
   @UseGuards(JwtAuthGuard)
-  @UseInterceptors(ClassSerializerInterceptor)
   async getUser(
     @Param('boardId') boardId: string,
     @Param('taskId') taskId: string
-  ): Promise<TaskEntity | undefined> {
+  ): Promise<TaskDto | undefined> {
     const user = await this.tasksService.getById(boardId, taskId);
     if (!user) {
       throw new NotFoundException('User not found');
@@ -46,23 +43,21 @@ export class TasksController {
 
   @Post('/boards/:boardId/tasks/')
   @UseGuards(JwtAuthGuard)
-  @UseInterceptors(ClassSerializerInterceptor)
   async postUser(
     @Param('boardId') boardId: string,
     @Body() task: TaskEntity
-  ): Promise<TaskEntity> {
+  ): Promise<TaskDto> {
     const newTask = await this.tasksService.addTask(boardId, task);
     return newTask;
   }
 
   @Put('/boards/:boardId/tasks/:taskId')
   @UseGuards(JwtAuthGuard)
-  @UseInterceptors(ClassSerializerInterceptor)
   async putUser(
     @Param('boardId') boardId: string,
     @Param('taskId') taskId: string,
     @Body() task: TaskEntity
-  ): Promise<TaskEntity> {
+  ): Promise<TaskDto> {
     const newTask = await this.tasksService.updateTask(boardId, taskId, task);
 
     if (!newTask) {

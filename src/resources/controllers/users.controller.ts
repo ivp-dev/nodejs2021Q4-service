@@ -1,7 +1,6 @@
 import {
   BadRequestException,
   Body,
-  ClassSerializerInterceptor,
   Controller,
   Delete,
   Get,
@@ -11,7 +10,6 @@ import {
   Post,
   Put,
   UseGuards,
-  UseInterceptors,
 } from '@nestjs/common';
 import { JwtAuthGuard } from '../guards';
 import { PartialRequired } from '../../types';
@@ -24,7 +22,6 @@ export class UsersController {
 
   @Get('users')
   @UseGuards(JwtAuthGuard)
-  @UseInterceptors(ClassSerializerInterceptor)
   async getUsers(): Promise<UserEntity[]> {
     const users = await this.usersService.getAll();
     return users;
@@ -32,7 +29,6 @@ export class UsersController {
 
   @Get('users/:userId')
   @UseGuards(JwtAuthGuard)
-  @UseInterceptors(ClassSerializerInterceptor)
   async getUser(
     @Param('userId') userId: string
   ): Promise<UserEntity | undefined> {
@@ -45,7 +41,6 @@ export class UsersController {
 
   @Post('users')
   @UseGuards(JwtAuthGuard)
-  @UseInterceptors(ClassSerializerInterceptor)
   async postUser(
     @Body() user: PartialRequired<UserEntity, 'password' | 'name' | 'login'>
   ): Promise<UserEntity> {
@@ -58,7 +53,6 @@ export class UsersController {
 
   @Put('users/:userId')
   @UseGuards(JwtAuthGuard)
-  @UseInterceptors(ClassSerializerInterceptor)
   async putUser(
     @Param('userId') userId: string,
     @Body() user: PartialRequired<UserEntity, 'password' | 'name' | 'login'>
