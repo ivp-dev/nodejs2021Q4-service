@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Connection } from 'typeorm';
+import { Mapper } from '@automapper/core';
+import { InjectMapper } from '@automapper/nestjs';
+import { UserDto } from '../dto';
 import { UsersRepository } from '../repositories';
 import { UserEntity } from '../entities';
 import { uow } from '../../common/unit-of-work';
@@ -10,6 +13,8 @@ export class UsersService {
   constructor(
     @InjectRepository(UsersRepository)
     private usersRepository: UsersRepository,
+    @InjectMapper()
+    private mapper: Mapper,
     private connection: Connection
   ) {}
 
@@ -17,9 +22,10 @@ export class UsersService {
    * Get all users
    * @returns Promise List of users
    */
-  async getAll(): Promise<UserEntity[]> {
+  async getAll(): Promise<UserDto[]> {
     const users = await this.usersRepository.getUsers();
-    return users;
+    const usersDto = await this.mapper.mapArrayAsync(users, UserDto, UserEntity)
+    return usersDto;
   }
 
   /**
@@ -28,18 +34,18 @@ export class UsersService {
    * @returns User
    */
   async createUser(
-    userData: UserEntity,
+    userData: UserDto,
     hashedPassword: string
-  ): Promise<UserEntity> {
+  ): Promise<UserDto> {
     const result = uow(this.connection, async () => {
-      const user = this.usersRepository.create({
+      const userEntity = await this.mapper.mapAsync({
         ...userData,
         password: hashedPassword,
-      });
-
-      await this.usersRepository.save(user);
-
-      return user;
+      }, UserEntity, UserDto)
+      const newUserEntity = this.usersRepository.create(userEntity);
+      await this.usersRepository.save(newUserEntity);
+      const userDto = await this.mapper.mapAsync(newUserEntity, UserDto, UserEntity)
+      return userDto;
     });
 
     return result;

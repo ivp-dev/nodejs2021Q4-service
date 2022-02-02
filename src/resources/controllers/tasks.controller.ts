@@ -14,7 +14,7 @@ import {
 import { JwtAuthGuard } from '../guards';
 import { TaskEntity } from '../entities';
 import { TasksService } from '../services';
-import { TaskDto } from '../../common/dto';
+import { TaskDto } from '../dto';
 
 @Controller()
 export class TasksController {

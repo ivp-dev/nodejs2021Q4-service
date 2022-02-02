@@ -1,3 +1,5 @@
+import { classes } from '@automapper/classes';
+import { AutomapperModule } from '@automapper/nestjs';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as Modules from '.';
@@ -9,6 +11,10 @@ import * as Modules from '.';
     Modules.TasksModule,
     Modules.UsersModule,
     Modules.AuthModule,
+    AutomapperModule.forRoot({
+      options: [{ name: 'mapper', pluginInitializer: classes }],
+      singular: true,
+    }),
   ],
 })
 export class AppModule {}

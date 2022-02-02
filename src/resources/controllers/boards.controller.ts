@@ -12,8 +12,8 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { JwtAuthGuard } from '../guards';
-import { BoardEntity } from '../entities';
 import { BoardsService } from '../services';
+import { BoardDto } from '../dto';
 
 @Controller()
 export class BoardsController {
@@ -21,16 +21,16 @@ export class BoardsController {
 
   @Get('/boards')
   @UseGuards(JwtAuthGuard)
-  async getBoards(): Promise<BoardEntity[]> {
-    const tasks = await this.boardsService.getAll();
-    return tasks;
+  async getBoards(): Promise<BoardDto[]> {
+    const boards = await this.boardsService.getAll();
+    return boards;
   }
 
   @Get('/boards/:boardId')
   @UseGuards(JwtAuthGuard)
   async getBoard(
     @Param('boardId') boardId: string
-  ): Promise<BoardEntity | undefined> {
+  ): Promise<BoardDto | undefined> {
     const board = await this.boardsService.getById(boardId);
     if (!board) {
       throw new NotFoundException('Board not found');
@@ -40,7 +40,7 @@ export class BoardsController {
 
   @Post('/boards')
   @UseGuards(JwtAuthGuard)
-  async postBoard(@Body() board: BoardEntity): Promise<BoardEntity> {
+  async postBoard(@Body() board: BoardDto): Promise<BoardDto> {
     const newBoard = await this.boardsService.addBoard(board);
     return newBoard;
   }
@@ -49,15 +49,15 @@ export class BoardsController {
   @UseGuards(JwtAuthGuard)
   async putBoard(
     @Param('boardId') boardId: string,
-    @Body() board: BoardEntity
-  ): Promise<BoardEntity> {
-    const newBoard = await this.boardsService.updateBoard(boardId, board);
+    @Body() boardData: BoardDto
+  ): Promise<BoardDto> {
+    const board = await this.boardsService.updateBoard(boardId, boardData);
 
-    if (!newBoard) {
+    if (!board) {
       throw new BadRequestException('Invalid board data');
     }
 
-    return newBoard;
+    return board;
   }
 
   @HttpCode(204)

@@ -1,23 +1,26 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Connection, DeepPartial } from 'typeorm';
+import { Connection } from 'typeorm';
+import { InjectMapper } from '@automapper/nestjs';
+import { Mapper } from '@automapper/core';
 import { TaskEntity } from '../entities';
 import { TasksRepository } from '../repositories';
 import { uow } from '../../common/unit-of-work';
-import { TaskDto } from '../../common/dto';
-import { mapper } from '../../common/automapper';
+import { TaskDto } from '../dto';
 
 @Injectable()
 export class TasksService {
   constructor(
     @InjectRepository(TasksRepository)
     private tasksRepository: TasksRepository,
+    @InjectMapper()
+    private mapper: Mapper,
     private connection: Connection
-  ) {}
+  ) { }
 
   async getAll(boardId: string): Promise<TaskDto[]> {
     const tasks = await this.tasksRepository.getTasks(boardId);
-    const result = mapper.mapArray(tasks, TaskDto, TaskEntity);
+    const result = this.mapper.mapArray(tasks, TaskDto, TaskEntity);
     return result;
   }
 
@@ -29,9 +32,9 @@ export class TasksService {
    * @returns Promise Task with specified identifier
    */
   async getById(boardId: string, taskId: string): Promise<TaskDto | undefined> {
-    const task = await this.tasksRepository.getTaskById(boardId, taskId);
-    const result = mapper.map(task, TaskDto, TaskEntity);
-    return result;
+    const taskEntity = await this.tasksRepository.getTaskById(boardId, taskId);
+    const taskDto = await this.mapper.mapAsync(taskEntity, TaskDto, TaskEntity);
+    return taskDto;
   }
 
   /**
@@ -42,18 +45,16 @@ export class TasksService {
    */
   async addTask(
     boardId: string,
-    task: DeepPartial<TaskEntity>
+    taskData: TaskDto
   ): Promise<TaskDto> {
-    const addedTask = await uow(this.connection, async () => {
-      const newTask = await this.tasksRepository.createTask({
-        ...task,
-        boardId,
-      });
-      return newTask;
+    const taskEntity = await uow(this.connection, async () => {
+      const mappedTaskEntity = this.mapper.map({ ...taskData, boardId }, TaskEntity, TaskDto);
+      const addedTaskEntity = await this.tasksRepository.createTask(mappedTaskEntity);
+      return addedTaskEntity;
     });
 
-    const dto = await mapper.mapAsync(addedTask, TaskDto, TaskEntity);
-    return dto;
+    const taskDto = await this.mapper.mapAsync(taskEntity, TaskDto, TaskEntity);
+    return taskDto;
   }
 
   /**
@@ -66,18 +67,19 @@ export class TasksService {
   async updateTask(
     boardId: string,
     taskId: string,
-    task: TaskEntity
+    taskData: TaskDto
   ): Promise<TaskDto | undefined> {
-    const updatedTask = await uow(this.connection, async () => {
-      const result = await this.tasksRepository.updateTaskById(
+    const taskEntity = await uow(this.connection, async () => {
+      const mappedTaskEntity = this.mapper.map({ ...taskData, id: taskId, boardId }, TaskEntity, TaskDto);
+      const updatedTaskEntity = await this.tasksRepository.updateTaskById(
         boardId,
         taskId,
-        task
+        mappedTaskEntity
       );
-      return result;
+      return updatedTaskEntity;
     });
 
-    const dto = mapper.map(updatedTask, TaskDto, TaskEntity);
+    const dto = this.mapper.map(taskEntity, TaskDto, TaskEntity);
     return dto;
   }
 
