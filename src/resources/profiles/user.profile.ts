@@ -2,7 +2,10 @@ import { AutomapperProfile, InjectMapper } from '@automapper/nestjs';
 import { mapFrom, Mapper } from '@automapper/core';
 import { Injectable } from '@nestjs/common';
 import { UserEntity } from '../entities';
-import { UserDto } from '../dto';
+import { BaseEntity } from '../../common/base-entity';
+import { BaseDto } from '../dto/base.dto';
+import { UserDto } from '../dto/user.dto';
+import { UserCreateDto } from '../dto/user-create.dto';
 
 @Injectable()
 export class UserProfile extends AutomapperProfile {
@@ -12,33 +15,27 @@ export class UserProfile extends AutomapperProfile {
 
   mapProfile() {
     return () => {
-      this.mapper.createMap(UserEntity, UserDto)
+      this.mapper.createMap(UserEntity, UserDto, {
+        extends: [this.mapper.getMapping(BaseEntity, BaseDto)],
+      });
+
+      this.mapper.createMap(UserDto, UserEntity, {
+        extends: [this.mapper.getMapping(BaseEntity, BaseDto)],
+      });
+
+      this.mapper
+        .createMap(UserEntity, UserCreateDto, {
+          extends: [this.mapper.getMapping(UserEntity, UserDto)],
+        })
         .forMember(
-          (destination) => destination.id,
-          mapFrom((source) => source.id)
-        )
-        .forMember(
-          (destination) => destination.login,
-          mapFrom((source) => source.login)
-        )
-        .forMember(
-          (destination) => destination.name,
-          mapFrom((source) => source.name)
+          (destination) => destination.password,
+          mapFrom((source) => source.password)
         );
 
-      this.mapper.createMap(UserDto, UserEntity)
-        .forMember(
-          (destination) => destination.id,
-          mapFrom((source) => source.id)
-        )
-        .forMember(
-          (destination) => destination.login,
-          mapFrom((source) => source.login)
-        )
-        .forMember(
-          (destination) => destination.name,
-          mapFrom((source) => source.name)
-        )
+      this.mapper
+        .createMap(UserCreateDto, UserEntity, {
+          extends: [this.mapper.getMapping(UserEntity, UserCreateDto)],
+        })
         .forMember(
           (destination) => destination.password,
           mapFrom((source) => source.password)

@@ -1,13 +1,15 @@
-import { Task } from '../../types';
+/* eslint-disable import/no-cycle */
+import { AutoMap } from '@automapper/classes';
+import { BaseDto } from './base.dto';
+import { TaskDto } from './task.dto';
 
-export class UserDto {
-  id?: string;
-
+export class UserDto extends BaseDto {
+  @AutoMap()
   name?: string;
 
+  @AutoMap()
   login?: string;
 
-  password?: string;
-
-  tasks?: Task[];
+  @AutoMap({ typeFn: () => TaskDto })
+  tasks?: TaskDto[];
 }

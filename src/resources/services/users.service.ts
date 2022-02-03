@@ -3,10 +3,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Connection } from 'typeorm';
 import { Mapper } from '@automapper/core';
 import { InjectMapper } from '@automapper/nestjs';
-import { UserDto } from '../dto';
+import { UserCreateDto } from '../dto/user-create.dto';
 import { UsersRepository } from '../repositories';
 import { UserEntity } from '../entities';
 import { uow } from '../../common/unit-of-work';
+import { UserDto } from '../dto/user.dto';
 
 @Injectable()
 export class UsersService {
@@ -24,7 +25,11 @@ export class UsersService {
    */
   async getAll(): Promise<UserDto[]> {
     const users = await this.usersRepository.getUsers();
-    const usersDto = await this.mapper.mapArrayAsync(users, UserDto, UserEntity)
+    const usersDto = await this.mapper.mapArrayAsync(
+      users,
+      UserDto,
+      UserEntity
+    );
     return usersDto;
   }
 
@@ -34,17 +39,25 @@ export class UsersService {
    * @returns User
    */
   async createUser(
-    userData: UserDto,
+    userData: UserCreateDto,
     hashedPassword: string
   ): Promise<UserDto> {
     const result = uow(this.connection, async () => {
-      const userEntity = await this.mapper.mapAsync({
-        ...userData,
-        password: hashedPassword,
-      }, UserEntity, UserDto)
+      const userEntity = await this.mapper.mapAsync(
+        {
+          ...userData,
+          password: hashedPassword,
+        },
+        UserEntity,
+        UserCreateDto
+      );
       const newUserEntity = this.usersRepository.create(userEntity);
       await this.usersRepository.save(newUserEntity);
-      const userDto = await this.mapper.mapAsync(newUserEntity, UserDto, UserEntity)
+      const userDto = await this.mapper.mapAsync(
+        newUserEntity,
+        UserDto,
+        UserEntity
+      );
       return userDto;
     });
 
@@ -79,18 +92,38 @@ export class UsersService {
    */
   async updateUser(
     userId: string,
-    user: UserEntity,
+    userData: UserCreateDto,
     hashedPassword: string
-  ): Promise<UserEntity | undefined> {
-    const updatedUser = await uow(this.connection, async () => {
-      const result = await this.usersRepository.updateUserById(userId, {
-        ...user,
-        password: hashedPassword,
-      });
-      return result;
+  ): Promise<UserDto | undefined> {
+    const result = uow(this.connection, async () => {
+      const userEntity = await this.mapper.mapAsync(
+        {
+          ...userData,
+          password: hashedPassword,
+        },
+        UserEntity,
+        UserCreateDto
+      );
+      
+      const updatedUserEntity = await this.usersRepository.updateUserById(
+        userId,
+        userEntity
+      );
+
+      if (updatedUserEntity) {
+        await this.usersRepository.save(updatedUserEntity);
+        const userDto = await this.mapper.mapAsync(
+          updatedUserEntity,
+          UserDto,
+          UserEntity
+        );
+        return userDto;
+      }
+
+      return updatedUserEntity;
     });
 
-    return updatedUser;
+    return result;
   }
 
   /**

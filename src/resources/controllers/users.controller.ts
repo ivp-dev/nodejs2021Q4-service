@@ -15,6 +15,8 @@ import { JwtAuthGuard } from '../guards';
 import { PartialRequired } from '../../types';
 import { UserEntity } from '../entities';
 import { UsersService } from '../services';
+import { UserDto } from '../dto/user.dto';
+import { UserCreateDto } from '../dto/user-create.dto';
 
 @Controller()
 export class UsersController {
@@ -22,7 +24,7 @@ export class UsersController {
 
   @Get('users')
   @UseGuards(JwtAuthGuard)
-  async getUsers(): Promise<UserEntity[]> {
+  async getUsers(): Promise<UserDto[]> {
     const users = await this.usersService.getAll();
     return users;
   }
@@ -42,8 +44,8 @@ export class UsersController {
   @Post('users')
   @UseGuards(JwtAuthGuard)
   async postUser(
-    @Body() user: PartialRequired<UserEntity, 'password' | 'name' | 'login'>
-  ): Promise<UserEntity> {
+    @Body() user: PartialRequired<UserCreateDto, 'password'>
+  ): Promise<UserDto> {
     const newUser = await this.usersService.createUser(
       user,
       user.password // TODO: hash password
@@ -55,19 +57,19 @@ export class UsersController {
   @UseGuards(JwtAuthGuard)
   async putUser(
     @Param('userId') userId: string,
-    @Body() user: PartialRequired<UserEntity, 'password' | 'name' | 'login'>
-  ): Promise<UserEntity> {
-    const newUser = await this.usersService.updateUser(
+    @Body() userData: PartialRequired<UserCreateDto, 'password' | 'name' | 'login'>
+  ): Promise<UserDto> {
+    const updatedUser = await this.usersService.updateUser(
       userId,
-      user,
-      user.password // TODO: hash password
+      userData,
+      userData.password // TODO: hash password
     );
 
-    if (!newUser) {
+    if (!updatedUser) {
       throw new BadRequestException('Invalid user data');
     }
 
-    return newUser;
+    return updatedUser;
   }
 
   @HttpCode(204)

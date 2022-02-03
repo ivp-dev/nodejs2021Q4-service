@@ -3,7 +3,7 @@ import { InjectMapper } from '@automapper/nestjs';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Connection } from 'typeorm';
-import { BoardDto } from '../dto';
+import { BoardDto } from '../dto/board.dto';
 import { uow } from '../../common/unit-of-work';
 import { BoardEntity } from '../entities';
 import { BoardsRepository } from '../repositories';
@@ -22,8 +22,8 @@ export class BoardsService {
    */
   async getAll(): Promise<BoardDto[]> {
     const boards = await this.boardsRepository.getBoards();
-    const dto = await this.mapper.mapArrayAsync(boards, BoardDto, BoardEntity)
-    return dto;
+    const boardDtos = await this.mapper.mapArrayAsync(boards, BoardDto, BoardEntity);
+    return boardDtos;
   }
 
   /**

@@ -1,11 +1,16 @@
-import { Column, Task } from '../../types';
+/* eslint-disable import/no-cycle */
+import { AutoMap } from '@automapper/classes';
+import { BaseDto } from './base.dto';
+import { ColumnDto } from './column.dto';
+import { TaskDto } from './task.dto';
 
-export class BoardDto {
-  id?: string;
-
+export class BoardDto extends BaseDto {
+  @AutoMap()
   title?: string;
 
-  columns?: Column[];
+  @AutoMap({ typeFn: () => ColumnDto })
+  columns?: ColumnDto[];
 
-  tasks?: Task[];
+  @AutoMap({ typeFn: () => TaskDto })
+  tasks?: TaskDto[];
 }

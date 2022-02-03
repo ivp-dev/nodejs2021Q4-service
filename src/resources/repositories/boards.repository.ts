@@ -33,9 +33,9 @@ export class BoardsRepository extends Repository<BoardEntity> {
    * @returns Promise Board
    */
   async createBoard(boardData: DeepPartial<BoardEntity>): Promise<BoardEntity> {
-    const newBoard = this.manager.create(BoardEntity, boardData);
-    await this.manager.save(newBoard);
-    return newBoard;
+    const boardEntity = this.manager.create(BoardEntity, boardData);
+    await this.manager.save(boardEntity);
+    return boardEntity;
   }
 
   /**

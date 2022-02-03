@@ -11,9 +11,9 @@ import {
   Put,
   UseGuards,
 } from '@nestjs/common';
+import { BoardDto } from '../dto/board.dto';
 import { JwtAuthGuard } from '../guards';
 import { BoardsService } from '../services';
-import { BoardDto } from '../dto';
 
 @Controller()
 export class BoardsController {

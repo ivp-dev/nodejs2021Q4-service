@@ -6,7 +6,7 @@ import {
 } from 'typeorm';
 import { AutoMap } from '@automapper/classes';
 
-class BaseEntity extends Entity {
+export class BaseEntity extends Entity {
   @AutoMap()
   @PrimaryGeneratedColumn('uuid')
   id?: string;
@@ -17,5 +17,3 @@ class BaseEntity extends Entity {
   @UpdateDateColumn()
   updateAt?: Date;
 }
-
-export default BaseEntity;

@@ -14,6 +14,13 @@ Content-Type: {{contentType}}
   "password": "admin"
 }
 
+### 
+
+# @name getUsers
+
+GET  {{host}}/users HTTP/1.1
+Authorization: Bearer {{token}}
+
 ###
 
 @token = {{login.response.body.token}}

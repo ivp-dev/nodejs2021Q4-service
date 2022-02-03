@@ -3,8 +3,7 @@ import { AutoMap } from '@automapper/classes';
 import type BoardEntity from './board.entity';
 import type ColumnEntity from './column.entity';
 import type UserEntity from './user.entity';
-import BaseEntity from '../../common/base-entity';
-
+import { BaseEntity } from '../../common/base-entity';
 
 @Entity({ name: 'tasks' })
 class TaskEntity extends BaseEntity {

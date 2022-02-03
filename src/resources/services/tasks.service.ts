@@ -6,7 +6,7 @@ import { Mapper } from '@automapper/core';
 import { TaskEntity } from '../entities';
 import { TasksRepository } from '../repositories';
 import { uow } from '../../common/unit-of-work';
-import { TaskDto } from '../dto';
+import { TaskDto } from '../dto/task.dto';
 
 @Injectable()
 export class TasksService {

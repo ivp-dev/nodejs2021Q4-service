@@ -11,6 +11,7 @@ import * as Modules from '.';
     Modules.TasksModule,
     Modules.UsersModule,
     Modules.AuthModule,
+    Modules.MapperModule,
     AutomapperModule.forRoot({
       options: [{ name: 'mapper', pluginInitializer: classes }],
       singular: true,

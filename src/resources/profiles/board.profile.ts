@@ -1,8 +1,10 @@
 import { AutomapperProfile, InjectMapper } from '@automapper/nestjs';
-import { mapFrom, Mapper } from '@automapper/core';
+import { Mapper } from '@automapper/core';
 import { Injectable } from '@nestjs/common';
 import { BoardEntity } from '../entities';
-import { BoardDto } from '../dto';
+import { BaseEntity } from '../../common/base-entity';
+import { BaseDto } from '../dto/base.dto';
+import { BoardDto } from '../dto/board.dto';
 
 @Injectable()
 export class BoardProfile extends AutomapperProfile {
@@ -12,25 +14,12 @@ export class BoardProfile extends AutomapperProfile {
 
   mapProfile() {
     return () => {
-      this.mapper.createMap(BoardEntity, BoardDto)
-        .forMember(
-          (destination) => destination.id,
-          mapFrom((source) => source.id)
-        )
-        .forMember(
-          (destination) => destination.title,
-          mapFrom((source) => source.title)
-        );
-
-      this.mapper.createMap(BoardDto, BoardEntity)
-        .forMember(
-          (destination) => destination.id,
-          mapFrom((source) => source.id)
-        )
-        .forMember(
-          (destination) => destination.title,
-          mapFrom((source) => source.title)
-        );;
+      this.mapper.createMap(BoardEntity, BoardDto, {
+        extends: [this.mapper.getMapping(BaseEntity, BaseDto)],
+      });
+      this.mapper.createMap(BoardDto, BoardEntity, {
+        extends: [this.mapper.getMapping(BaseDto, BaseEntity)],
+      });
     };
   }
 }
