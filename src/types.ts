@@ -76,3 +76,9 @@ export interface Identity {
   userId: string
   login: string
 }
+
+export interface CommonExceptionMessage {
+  statusCode: number, 
+  timestamp: string, 
+  path: string,
+}

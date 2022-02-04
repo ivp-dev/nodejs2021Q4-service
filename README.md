@@ -13,9 +13,9 @@ npm install
 
 cd ./docker
 
-docker-compose --env-file ../.env.docker build
+docker-compose --env-file ../.env build
 
-docker-compose --env-file ../.env.docker up -d
+docker-compose --env-file ../.env up -d
 
 docker exec -it ivp-rss-http-api npm run apply-migrations
 

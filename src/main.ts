@@ -1,13 +1,27 @@
 import { ValidationPipe } from '@nestjs/common';
-import { NestFactory } from '@nestjs/core';
-import { NestFastifyApplication } from '@nestjs/platform-fastify';
-import config from './common/config';
+import { HttpAdapterHost, NestFactory } from '@nestjs/core';
+import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
+import { ExpressAdapter, NestExpressApplication } from '@nestjs/platform-express';
 import { AppModule } from './resources/modules/app.module';
+import { CommonExceptionFilter } from './resources/filters';
+import config from './common/config';
+
+async function platformFactory(isFastify: boolean) {
+  return isFastify
+    ? NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter())
+    : NestFactory.create<NestExpressApplication>(AppModule, new ExpressAdapter());
+}
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestFastifyApplication>(AppModule);
+  const app: NestFastifyApplication | NestExpressApplication = await platformFactory(config.USE_FASTIFY);
+  const httpAdapterHost = app.get(HttpAdapterHost);
+
+  app.useGlobalFilters(new CommonExceptionFilter(httpAdapterHost));
   app.useGlobalPipes(new ValidationPipe());
-  await app.listen(config.PORT);
+
+  const { PORT, HOST } = config;
+
+  await app.listen(PORT, HOST);
 }
 
 bootstrap();
