@@ -15,9 +15,10 @@ services:
         '../src:/app/src',
         '../logs:/app/logs',
         '../types:/app/types',
+        './api/files:/app/files',
         '../plugins:/app/plugins',
         '../database:/app/database',
-        './api/stored_files:/app/stored_files',
+
       ]
     ports:
       - ${PORT}:${PORT}

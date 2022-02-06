@@ -1,13 +1,14 @@
 import { Module } from '@nestjs/common';
 import { MulterModule } from '@nestjs/platform-express';
-import { FileController } from '../controllers';
+import { FileExpressController, FileFastifyController } from '../controllers';
 import { FileService } from '../services';
+import config from '../../common/config';
 
 @Module({
-  controllers: [FileController],
-  providers: [FileService],
-  imports: [
-    MulterModule.register(),
+  controllers: [
+    config.USE_FASTIFY ? FileFastifyController : FileExpressController,
   ],
+  providers: [FileService],
+  imports: [MulterModule.register()],
 })
 export class FileModule {}

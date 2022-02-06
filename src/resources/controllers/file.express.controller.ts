@@ -4,6 +4,8 @@
 import {
   Controller,
   Get,
+  HttpStatus,
+  NotFoundException,
   Param,
   Post,
   StreamableFile,
@@ -12,29 +14,42 @@ import {
 } from '@nestjs/common';
 import { diskStorage } from 'multer';
 import { Express } from 'express';
+import { ApiConsumes, ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { FileInterceptor } from '@nestjs/platform-express';
-import { join } from 'path';
 import { FileService } from '../services';
+import config from '../../common/config';
 
 const storage = diskStorage({
   destination(req, file, cb) {
-    cb(null,  join(__dirname, './../../../stored_files'));
+    cb(null, config.FILE_STORE_PATH);
   },
   filename(req, file, cb) {
     cb(null, file.originalname);
   },
 });
 
+@ApiTags('File')
 @Controller()
 export class FileController {
   constructor(private fileService: FileService) {}
 
   @Get('/file/:filename')
-  async file(@Param('filename') filename: string): Promise<StreamableFile> {
-    return this.fileService.getFile(filename);
+  @ApiOperation({ summary: 'Get file by name' })
+  @ApiResponse({ status: HttpStatus.OK })
+  async getFile(@Param('filename') filename: string): Promise<StreamableFile> {
+    const result = this.fileService.getFile(filename);
+    
+    if (!result) {
+      throw new NotFoundException('File not found');
+    }
+
+    return result;
   }
 
   @Post('/file')
+  @ApiOperation({ summary: 'File upload' })
+  @ApiResponse({ status: HttpStatus.CREATED })
+  @ApiConsumes("multipart/form-data")
   @UseInterceptors(FileInterceptor('file', { storage }))
-  async uploadFile(@UploadedFile() file: Express.Multer.File) { }
+  async uploadFile(@UploadedFile() file: Express.Multer.File) {}
 }

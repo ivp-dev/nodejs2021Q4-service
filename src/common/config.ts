@@ -12,9 +12,17 @@ const config = {
   SALT_ROUNDS: process.env.SALT_ROUNDS ? +process.env.SALT_ROUNDS : 10,
   USE_FASTIFY: process.env.USE_FASTIFY?.toLowerCase() === 'true' ?? false,
   JWT_SECRET_KEY: process.env.JWT_SECRET_KEY || 'my secret',
-  LOGGIN_LEVEL: process.env.NODE_ENV !== 'production' ? (process.env.LOGGIN_LEVEL ?? 'debug') : 'info',
+  LOGGIN_LEVEL:
+    process.env.NODE_ENV !== 'production'
+      ? process.env.LOGGIN_LEVEL ?? 'debug'
+      : 'info',
   LOG_FILE_PATH: process.env.LOG_FILE_PATH || './logs/logs.log',
-  LOG_ERROR_FILE_PATH: process.env.LOG_ERROR_FILE_PATH || './logs/logs.error.log',
+  LOG_ERROR_FILE_PATH:
+    process.env.LOG_ERROR_FILE_PATH || './logs/logs.error.log',
+  FILE_STORE_PATH: path.resolve(
+    process.cwd(),
+    process.env.FILE_STORE_PATH || './files'
+  ),
   TYPEORM_CONNECTION: process.env.TYPEORM_CONNECTION,
   TYPEORM_HOST: process.env.TYPEORM_HOST,
   TYPEORM_USERNAME: process.env.TYPEORM_USERNAME,
