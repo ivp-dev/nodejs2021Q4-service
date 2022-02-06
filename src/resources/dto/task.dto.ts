@@ -1,5 +1,6 @@
 /* eslint-disable import/no-cycle */
 import { AutoMap } from '@automapper/classes';
+import { IsNotEmpty, IsNumber } from 'class-validator';
 import { BaseDto } from './base.dto';
 import { BoardDto } from './board.dto';
 import { ColumnDto } from './column.dto';
@@ -15,12 +16,16 @@ export class TaskDto extends BaseDto {
   @AutoMap()
   columnId?: string;
 
+  @IsNotEmpty()
   @AutoMap()
   title?: string;
 
+  @IsNotEmpty()
+  @IsNumber()
   @AutoMap()
   order?: number;
 
+  @IsNotEmpty()
   @AutoMap()
   description?: string;
 

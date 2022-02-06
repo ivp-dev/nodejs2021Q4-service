@@ -1,5 +1,6 @@
 import { classes } from '@automapper/classes';
 import { AutomapperModule } from '@automapper/nestjs';
+import { LoggerModule } from 'nestjs-pino';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as Modules from '.';
@@ -16,6 +17,11 @@ import * as Modules from '.';
       options: [{ name: 'mapper', pluginInitializer: classes }],
       singular: true,
     }),
+    LoggerModule.forRoot({
+      pinoHttp: {
+        
+      }
+    })
   ],
 })
 export class AppModule {}
