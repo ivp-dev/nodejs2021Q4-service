@@ -4,8 +4,9 @@ import type BoardEntity from './board.entity';
 import type TaskEntity from './task.entity';
 import { BaseEntity } from '../../common/base-entity';
 
-
-@Entity({ name: 'columns' })
+@Entity({
+  name: 'columns',
+})
 class ColumnEntity extends BaseEntity {
   @AutoMap()
   @Column({

@@ -8,6 +8,7 @@ import { UsersRepository } from '../repositories';
 import { UserEntity } from '../entities';
 import { uow } from '../../common/unit-of-work';
 import { UserDto } from '../dto/user.dto';
+import { hashString } from '../../common/bcript';
 
 @Injectable()
 export class UsersService {
@@ -40,13 +41,13 @@ export class UsersService {
    */
   async createUser(
     userData: UserCreateDto,
-    hashedPassword: string
+    password: string
   ): Promise<UserDto> {
     const result = uow(this.connection, async () => {
       const userEntity = await this.mapper.mapAsync(
         {
           ...userData,
-          password: hashedPassword,
+          password: await hashString(password),
         },
         UserEntity,
         UserCreateDto
@@ -93,13 +94,13 @@ export class UsersService {
   async updateUser(
     userId: string,
     userData: UserCreateDto,
-    hashedPassword: string
+    password: string
   ): Promise<UserDto | undefined> {
     const result = uow(this.connection, async () => {
       const userEntity = await this.mapper.mapAsync(
         {
           ...userData,
-          password: hashedPassword,
+          password: await hashString(password),
         },
         UserEntity,
         UserCreateDto

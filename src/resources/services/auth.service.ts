@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from './users.service';
 import { Identity } from '../../types';
+import { compareHashStrings } from '../../common/bcript';
 
 @Injectable()
 export class AuthService {
@@ -15,7 +16,13 @@ export class AuthService {
     password: string
   ): Promise<Identity | null> {
     const user = await this.usersService.getByName(username);
-    if (user && user.id && user.login && user.password === password) {
+    if (
+      user &&
+      user.id &&
+      user.login &&
+      user.password &&
+      await compareHashStrings(password, user.password)
+    ) {
       return { userId: user.id, login: user.login };
     }
     return null;
