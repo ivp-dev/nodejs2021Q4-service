@@ -1,61 +1,46 @@
-import { Connection, EntityManager, getConnection, QueryRunner } from 'typeorm';
-import { UnitOfWork } from '../types'
+import { Connection, QueryRunner } from 'typeorm';
+import { UnitOfWork } from '../types';
 
-class WorkAsUnit implements UnitOfWork {
+class WorkAsUnit<E> implements UnitOfWork<E> {
+  queryRunner?: QueryRunner;
 
-  private readonly asyncDatabaseConnection: Connection;
-
-  private readonly queryRunner: QueryRunner;
-
-  private transactionManager?: EntityManager;
-
-  constructor(connectionName?: string) {
-    this.asyncDatabaseConnection = getConnection(connectionName)
-    this.queryRunner = this.asyncDatabaseConnection.createQueryRunner();
-  }
-
-  setTransactionManager() {
-    this.transactionManager = this.queryRunner.manager;
-  }
+  constructor(private connection: Connection) {}
 
   async start(): Promise<this> {
+    this.queryRunner = this.connection.createQueryRunner();
     await this.queryRunner.startTransaction();
-    this.setTransactionManager();
     return this;
   }
 
-  getRepository<T>(R: new (transactionManager: EntityManager) => T): T {
-    if (!this.transactionManager) {
-      throw new Error('Unit of work is not started. Call the start() method');
-    }
-    return new R(this.transactionManager);
-  }
+  async do(work: () => Promise<E>): Promise<E> {
+    let result: E;
 
-  async complete<T, TR>(work: (repository: T) => Promise<TR>, R: new (transactionManager: EntityManager) => T) {
-    let result: TR
-    
     try {
-      result = await work(this.getRepository(R))
-      await this.queryRunner.commitTransaction();
+      result = await work();
+      await this.queryRunner?.commitTransaction();
     } catch (error) {
-      await this.queryRunner.rollbackTransaction();
+      await this.queryRunner?.rollbackTransaction();
       throw error;
     } finally {
-      await this.queryRunner.release();
+      await this.queryRunner?.release();
     }
 
     return result;
   }
 
-  static Create = () => new WorkAsUnit();
+  static Create<T>(connection: Connection) {
+    return new WorkAsUnit<T>(connection);
+  }
 }
 
-export async function uow<T, TR>(
-  R: new (transactionManager: EntityManager) => T, work: (repository: T) => Promise<TR>): Promise<TR> {
-  const worker = WorkAsUnit.Create();
-  const result = await (await worker.start()).complete(work, R);
+export async function uow<T>(
+  connection: Connection,
+  work: () => Promise<T>
+): Promise<T> {
+  const worker = WorkAsUnit.Create<T>(connection);
+  await worker.start();
+  const result: T = await worker.do(work);
   return result;
 }
-
 
 export default WorkAsUnit;

@@ -19,8 +19,6 @@ COPY --from=deps /app/tsconfig.json ./tsconfig.json
 
 # Copy source code
 COPY --from=builder /app/src ./src
-COPY --from=builder /app/types ./types
-COPY --from=builder /app/plugins ./plugins
 
 COPY --from=builder /app/test ./test
 COPY --from=builder /app/build ./build

@@ -1,55 +1,62 @@
-import { EntityManager } from "typeorm";
-import { LoggerPlugin } from "../plugins/logger";
-
-export interface FastifyInstanceLoggerEnable {
-  logger: LoggerPlugin;
-}
+import { EntityManager } from 'typeorm';
 
 export interface Repository<T> {
-  new (transactionManager: EntityManager): T
+  new (transactionManager: EntityManager): T;
 }
 
-export interface UnitOfWork {
+export interface UnitOfWork<T> {
   start(): Promise<this>;
-  complete<T>(work: (repository: Repository<T>) => Promise<void>, R: new (transactionManager: EntityManager) => Repository<T>): Promise<void>;
-  getRepository<T>(R: new (transactionManager: EntityManager) => Repository<T>): Repository<T>;
+  do(work: () => Promise<T>): Promise<T>;
 }
 
+export interface Login {
+  password: string;
+  login: string;
+}
 
-export interface UserModel {
+export interface UserPayloadModel {
+  userId: string;
+  login: string;
+}
+
+export interface TokenDataModel {
+  token: string;
+}
+
+export interface User {
   id: string;
   name: string;
   login: string;
   password: string;
-  tasks: TaskModel[];
+  tasks: Task[];
 }
 
 /**
  * Column model
  */
-export interface ColumnModel {
+export interface Column {
   id: string;
   boardId: string;
   title: string;
   order: number;
-  board: BoardModel;
-  tasks: TaskModel[];
+  board: Board;
+  tasks: Task[];
 }
 
 /**
  * Board model
  */
-export interface BoardModel {
+export interface Board {
   id: string;
   title: string;
-  columns: ColumnModel[];
-  tasks: TaskModel[]
+  columns: Column[];
+  tasks: Task[];
 }
 
 /**
  * Task model
  */
-export interface TaskModel {
+export interface Task {
   id: string;
   boardId: string;
   userId: string | null;
@@ -57,16 +64,21 @@ export interface TaskModel {
   title: string;
   order: number;
   description: string;
-  board: Partial<BoardModel>
-  user: Partial<UserModel>
-  column: Partial<ColumnModel>
+  board: Partial<Board>;
+  user: Partial<User>;
+  column: Partial<Column>;
 }
 
-/**
- * Route state
- */
-export interface RootState {
-  boards: BoardModel[];
-  tasks: TaskModel[];
-  users: UserModel[];
+export type PartialRequired<T, K extends keyof T> = Omit<T, K> &
+  Required<Pick<T, K>>;
+
+export interface Identity {
+  userId: string
+  login: string
+}
+
+export interface CommonExceptionMessage {
+  statusCode: number, 
+  timestamp: string, 
+  path: string,
 }

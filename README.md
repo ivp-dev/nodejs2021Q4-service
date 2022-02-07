@@ -19,9 +19,9 @@ npm install
 
 cd ./docker
 
-docker-compose --env-file ../.env.docker build
+docker-compose --env-file ../.env build
 
-docker-compose --env-file ../.env.docker up -d
+docker-compose --env-file ../.env up -d
 
 docker exec -it ivp-rss-http-api npm run apply-migrations
 
@@ -48,6 +48,42 @@ make migrate
 npm run test:auth
 
 ```
+
+## API description
+
+> localhost:4000/login - Auth
+- POST login - get JWT token
+> localhost:4000/users
+- POST users - add user
+- GET users - get users
+- GET users/:id - get user by id
+- PUT users/:id - update user by id
+- DELETE users/:id - delete user by id
+> localhost:4000/boards
+- POST boards - add board
+- GET boards - get boards
+- GET boards/:id - get board by id
+- PUT boards/:id - update board by id
+- DELETE boards/:id - delete board by id
+> localhost:4000/boards/:boardId/tasks
+- POST tasks - add task
+- GET tasks - get all tasks
+- GET tasks/:id - get task by id
+- PUT tasks/:id - update task by id
+- DELETE tasks/:id - delete task by id
+> localhost:4000/file
+- POST file - add file
+- GET file/:fileName - get file by name
+
+# Performance comparison of both platforms (Fastify vs Express)
+
+## Exress
+
+![express](https://user-images.githubusercontent.com/24565710/152748014-547f8a79-93e6-46f5-9178-95f6bdfb8415.png)
+
+## Fastify
+
+![fastify](https://user-images.githubusercontent.com/24565710/152748056-d379cdd9-7f06-4805-882e-e12f45068826.png)
 
 # RS School REST service
 

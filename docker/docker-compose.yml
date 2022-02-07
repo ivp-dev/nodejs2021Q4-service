@@ -15,8 +15,10 @@ services:
         '../src:/app/src',
         '../logs:/app/logs',
         '../types:/app/types',
+        './api/files:/app/files',
         '../plugins:/app/plugins',
-        '../database:/app/database'
+        '../database:/app/database',
+
       ]
     ports:
       - ${PORT}:${PORT}
@@ -24,7 +26,7 @@ services:
       - ivp-rss-postgres-web
     networks:
       - ivp-rss-network
-    env_file: ['../.env.docker']
+    env_file: ['../.env']
 
   ivp-rss-postgres-web:
     container_name: ivp-rss-postgres-web
@@ -47,5 +49,5 @@ services:
       - ./postgres/data:/var/lib/postgresql/data:delegated
     networks:
       - ivp-rss-network
-    env_file: [ '../.env.docker' ]
+    env_file: [ '../.env' ]
     command: -p ${TYPEORM_PORT}

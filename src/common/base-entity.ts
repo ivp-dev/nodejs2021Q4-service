@@ -1,14 +1,19 @@
-import { BaseEntity, CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import {
+  BaseEntity as Entity,
+  CreateDateColumn,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+import { AutoMap } from '@automapper/classes';
 
-class BaseClassEntity extends BaseEntity {
+export class BaseEntity extends Entity {
+  @AutoMap()
   @PrimaryGeneratedColumn('uuid')
   id?: string;
 
   @CreateDateColumn()
-  createAt?: Date
+  createAt?: Date;
 
   @UpdateDateColumn()
-  updateAt?: Date
+  updateAt?: Date;
 }
-
-export default BaseClassEntity

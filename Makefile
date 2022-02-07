@@ -12,21 +12,25 @@ apply-migration:
 	
 .PHONY: build
 build:
-	cd ./docker && docker-compose --env-file ../.env.docker build
-	cd ./docker && docker-compose --env-file ../.env.docker up -d
+	cd ./docker && docker-compose --env-file ../.env build
+	cd ./docker && docker-compose --env-file ../.env up -d
 
 .PHONY: build-no-cache
 build-no-cache:
-	cd ./docker && docker-compose --env-file ../.env.docker build --no-cache
-	cd ./docker && docker-compose --env-file ../.env.docker up -d
+	cd ./docker && docker-compose --env-file ../.env build --no-cache
+	cd ./docker && docker-compose --env-file ../.env up -d
 
 .PHONY: upd
 upd:
-	cd ./docker && docker-compose --env-file ../.env.docker up -d
+	cd ./docker && docker-compose --env-file ../.env up -d
+
+.PHONY: upb
+upb:
+	cd ./docker && docker-compose --env-file ../.env up --build
 
 .PHONY: up
 up:
-	cd ./docker && docker-compose --env-file ../.env.docker up
+	cd ./docker && docker-compose --env-file ../.env up
 
 .PHONY: migrate
 migrate: 
