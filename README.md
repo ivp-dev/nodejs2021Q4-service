@@ -75,7 +75,7 @@ npm run test:auth
 - POST file - add file
 - GET file/:fileName - get file by name
 
-# Test of performace both platforms (Fastify vs Express)
+# Performance comparison of both platforms (Fastify vs Express)
 
 ## Exress
 
